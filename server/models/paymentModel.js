@@ -1,61 +1,39 @@
-// var db = require('../db');
+var db = require('../db');
 
 module.exports = {
   // money the user owes
-  getPendingBills: function (callback) {
+  getPendingBills: function (userId, callback) {
 
-    var queryStr = "";
-    var testData = [
-      {
-        id: 1,
-        total: 200,
-        name: 'water',
-        dueDate: new Date(),
-        dueDate: new Date(),
-        datePaid: null
-      },
-      {
-        id: 4,
-        total: 175,
-        name: 'electric',
-        dueDate: new Date(),
-        dueDate: new Date(),
-        datePaid: null
-      }
-    ];
-    testData = JSON.stringify(testData);
-    // db.query(queryStr, function(err, results) {
-      callback(null, testData);
-    // });
-  },
-
-  // all 'completed' payments, to and from user
-  getPaymentHistory: function (callback) {
-
-    var queryStr = "";
-
+    var queryStr = "select * from Bill where userId=" + userId;
     db.query(queryStr, function(err, results) {
       callback(err, results);
     });
   },
 
-  // payments from other users
-  getCompletedPayments: function (callback) {
+   // payments from other users
+  getPaymentOwed: function (userId, callback) {
 
-    var queryStr = "";
-
+    var queryStr = "select * from Bill left outer join Payment on (bill.id = payment.billId) where bill.userId=" + userId + " and payment.paid=0";
     db.query(queryStr, function(err, results) {
       callback(err, results);
     });
   },
-
-  // Submit/POST payment
+  //user makes a payment
   postPayment: function (params, callback) {
 
-    var queryStr = "";
-
+    var queryStr = "insert into Payment(billId, userId, amount, paid, datePaid) \
+                  value (?, ?, ?, ?, ?)";
     db.query(queryStr, params, function(err, results) {
       callback(err, results);
     });
   },
+
+  // all 'completed' payments, to and from user
+  getPaymentHistory: function (userId, callback) {
+
+    var queryStr = "select * from Payment where userId=" + userId + " and paid=1";
+    db.query(queryStr, function(err, results) {
+      callback(err, results);
+    });
+  }
 };
