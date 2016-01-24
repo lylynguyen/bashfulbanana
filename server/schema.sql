@@ -1,3 +1,5 @@
+
+DROP DATABASE IF EXISTS bananas;
 CREATE DATABASE bananas;
 
 USE bananas;
@@ -17,10 +19,10 @@ USE bananas;
 DROP TABLE IF EXISTS `Users`;
     
 CREATE TABLE `Users` (
-  `id` INTEGER NOT NULL AUTO_INCREMENT DEFAULT NULL,
-  `name` VARCHAR NOT NULL DEFAULT 'NULL',
-  `password` VARCHAR NOT NULL DEFAULT 'NULL',
-  `houseId` INTEGER NOT NULL DEFAULT NULL,
+  `id` INT AUTO_INCREMENT,
+  `name` VARCHAR(20) NOT NULL,
+  `password` VARCHAR(40) NOT NULL,
+  `houseId` INT NOT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -32,8 +34,8 @@ CREATE TABLE `Users` (
 DROP TABLE IF EXISTS `House`;
     
 CREATE TABLE `House` (
-  `id` INTEGER NOT NULL AUTO_INCREMENT DEFAULT NULL,
-  `name` VARCHAR NOT NULL DEFAULT 'NULL',
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(30) NOT NULL DEFAULT 'NULL',
   PRIMARY KEY (`id`)
 );
 
@@ -45,13 +47,13 @@ CREATE TABLE `House` (
 DROP TABLE IF EXISTS `Chores`;
     
 CREATE TABLE `Chores` (
-  `id` INTEGER NOT NULL AUTO_INCREMENT DEFAULT NULL,
-  `userId` INTEGER NOT NULL DEFAULT NULL,
-  `name` VARCHAR NOT NULL DEFAULT 'NULL',
-  `category` VARCHAR NOT NULL DEFAULT 'NULL',
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `userId` INT NOT NULL,
+  `name` VARCHAR(20) NOT NULL,
+  `category` VARCHAR(20) NOT NULL,
   `completed` TINYINT NOT NULL DEFAULT 0,
-  `dueDate` DATE NULL DEFAULT NULL,
-  `houseId` INT NOT NULL DEFAULT NULL,
+  `dueDate` DATE NULL,
+  `houseId` INT NOT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -63,10 +65,10 @@ CREATE TABLE `Chores` (
 DROP TABLE IF EXISTS `Messages`;
     
 CREATE TABLE `Messages` (
-  `id` INTEGER NOT NULL AUTO_INCREMENT DEFAULT NULL,
-  `userId` INTEGER NOT NULL DEFAULT NULL,
-  `text` MEDIUMTEXT NOT NULL DEFAULT 'NULL',
-  `houseId` INTEGER NOT NULL DEFAULT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `userId` INT NOT NULL,
+  `text` MEDIUMTEXT NOT NULL,
+  `houseId` INT NOT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -78,11 +80,11 @@ CREATE TABLE `Messages` (
 DROP TABLE IF EXISTS `Bill`;
     
 CREATE TABLE `Bill` (
-  `id` INTEGER NOT NULL AUTO_INCREMENT DEFAULT NULL,
-  `userId` INTEGER NOT NULL DEFAULT NULL,
-  `total` INT NOT NULL DEFAULT NULL,
-  `name` VARCHAR NULL DEFAULT NULL,
-  `dueDate` DATE NOT NULL DEFAULT 'NULL',
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `userId` INT NOT NULL,
+  `total` INT NOT NULL,
+  `name` VARCHAR(30) NULL,
+  `dueDate` DATE NOT NULL,
   `datePaid` DATE NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
@@ -95,11 +97,11 @@ CREATE TABLE `Bill` (
 DROP TABLE IF EXISTS `Payment`;
     
 CREATE TABLE `Payment` (
-  `id` INTEGER NOT NULL AUTO_INCREMENT DEFAULT NULL,
-  `billId` INTEGER NOT NULL DEFAULT NULL,
-  `userId` INTEGER NOT NULL DEFAULT NULL,
-  `amount` INT NOT NULL DEFAULT NULL,
-  `paid` TINYINT NOT NULL DEFAULT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `billId` INT NOT NULL,
+  `userId` INT NOT NULL,
+  `amount` INT NOT NULL,
+  `paid` TINYINT NOT NULL,
   `datePaid` DATE NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
@@ -131,15 +133,41 @@ ALTER TABLE `Payment` ADD FOREIGN KEY (userId) REFERENCES `Users` (`id`);
 -- Test Data
 -- ---
 
+INSERT INTO `House` (`id`,`name`) VALUES
+(1,'fun house');
+
 -- INSERT INTO `Users` (`id`,`name`,`password`,`houseId`) VALUES
 -- ('','','','');
+INSERT INTO `Users` (`id`,`name`,`password`,`houseId`) VALUES
+(1, 'Joey','higuys', 1);
+
+INSERT INTO `Users` (`id`,`name`,`password`,`houseId`) VALUES
+(2, 'Nick','nice', 1);
 -- INSERT INTO `House` (`id`,`name`) VALUES
 -- ('','');
+
+
 -- INSERT INTO `Chores` (`id`,`userId`,`name`,`category`,`completed`,`dueDate`,`houseId`) VALUES
 -- ('','','','','','','');
+
+INSERT INTO `Chores` (`userId`,`name`,`category`,`completed`,`dueDate`,`houseId`) VALUES
+(1,'feed dog','pets',0,'2016-01-29', 1);
+
 -- INSERT INTO `Messages` (`id`,`userId`,`text`,`houseId`) VALUES
 -- ('','','','');
+
+INSERT INTO `Messages` (`id`,`userId`,`text`,`houseId`) VALUES
+(1, 1,'helllo',1);
+
+
 -- INSERT INTO `Bill` (`id`,`userId`,`total`,`name`,`dueDate`,`datePaid`) VALUES
 -- ('','','','','','');
+INSERT INTO `Bill` (`id`,`userId`,`total`,`name`,`dueDate`,`datePaid`) VALUES
+(1,1,200,'water bill','2016-01-29', null);
 -- INSERT INTO `Payment` (`id`,`billId`,`userId`,`amount`,`paid`,`datePaid`) VALUES
 -- ('','','','','','');
+
+INSERT INTO `Payment` (`id`,`billId`,`userId`,`amount`,`paid`,`datePaid`) VALUES
+(1,1,2,200,0,null);
+
+
