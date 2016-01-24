@@ -170,4 +170,7 @@ INSERT INTO `Bill` (`id`,`userId`,`total`,`name`,`dueDate`,`datePaid`) VALUES
 INSERT INTO `Payment` (`id`,`billId`,`userId`,`amount`,`paid`,`datePaid`) VALUES
 (1,1,2,200,0,null);
 
+INSERT INTO `Payment` (`id`,`billId`,`userId`,`amount`,`paid`,`datePaid`) VALUES
+(2,1,2,400,1,null);
+
 

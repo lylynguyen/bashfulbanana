@@ -20,17 +20,11 @@ module.exports = function(app, express) {
 
   });
 
-  app.get('/payments/pay/:userId', paymentController.getPendingBills);
+  app.get('/payment/pay/:userId', paymentController.getPendingBills);
 
-  app.post('/payments', function(req, res) {
+  app.post('/payment', paymentController.postPayment);
 
-  });
+  app.get('/payment/owed/:userId', paymentController.getPaymentOwed);
 
-  app.get('/payments/owed/:userId', function(req, res) {
-
-  });
-
-  app.get('payments/completed/userId', function(req, res) {
-
-  });
+  app.get('payment/completed/userId', paymentController.getPaymentHistory);
 }
