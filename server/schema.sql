@@ -69,6 +69,7 @@ CREATE TABLE `Messages` (
   `userId` INT NOT NULL,
   `text` MEDIUMTEXT NOT NULL,
   `houseId` INT NOT NULL,
+  `time` DATETIME NOT NULL,
   PRIMARY KEY (`id`)
 );
 
@@ -162,11 +163,11 @@ INSERT INTO `Chores` (`userId`,`name`,`category`,`completed`,`dueDate`,`houseId`
 -- INSERT INTO `Messages` (`id`,`userId`,`text`,`houseId`) VALUES
 -- ('','','','');
 
-INSERT INTO `Messages` (`id`,`userId`,`text`,`houseId`) VALUES
-(1, 1,'helllo',1);
+INSERT INTO `Messages` (`id`,`userId`,`text`,`houseId`,`time`) VALUES
+(1, 1,'helllo',1, NOW());
 
-INSERT INTO `Messages` (`id`,`userId`,`text`,`houseId`) VALUES
-(2, 3,'hey guys',2);
+INSERT INTO `Messages` (`id`,`userId`,`text`,`houseId`,`time`) VALUES
+(2, 3,'hey guys',2, NOW());
 
 
 -- INSERT INTO `Bill` (`id`,`userId`,`total`,`name`,`dueDate`,`datePaid`) VALUES
