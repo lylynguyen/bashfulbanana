@@ -2,7 +2,7 @@ var db = require('../db');
 
 module.exports = {
   get: function (params, callback) {
-    var queryStr = "SELECT * FROM Messages WHERE houseId=?";
+    var queryStr = "SELECT * FROM Messages WHERE houseId=? LIMIT 50";
     db.query(queryStr, params, function (err, results) {
       callback(err, results);
     });
