@@ -1,4 +1,5 @@
 var paymentController = require('../controllers/paymentController.js');
+var choreController = require('../controllers/choreController.js');
 
 module.exports = function(app, express) {
   app.get('/messages/:houseId', function(req, res) {
@@ -8,17 +9,11 @@ module.exports = function(app, express) {
 
   });
 
-  app.get('/chores/:houseId', function(req, res) {
+  app.get('/chores/:houseId', choreController.get);
 
-  });
+  app.post('/chores', choreController.post);
 
-  app.post('/chores', function(req, res) {
-
-  });
-
-  app.put('/chores/:choreId', function(req, res) {
-
-  });
+  app.put('/chores/:choreId', choreController.put);
 
   app.get('/payment/pay/:userId', paymentController.getPendingBills);
 
