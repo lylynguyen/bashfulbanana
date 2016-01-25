@@ -1,25 +1,20 @@
+var messageController = require('../controllers/messageController.js')
 var paymentController = require('../controllers/paymentController.js');
 var choreController = require('../controllers/choreController.js');
 
 module.exports = function(app, express) {
-  app.get('/messages/:houseId', function(req, res) {
-  });
-
-  app.post('/messages', function(req, res) {
-
-  });
-
+  //Messages
+  app.get('/messages/:houseId', messageController.get);
+  app.post('/messages', messageController.post);
   app.get('/chores/:houseId', choreController.get);
 
+  //Chores
   app.post('/chores', choreController.post);
-
   app.put('/chores/:choreId', choreController.put);
 
+  //Payments
   app.get('/payment/pay/:userId', paymentController.getPendingBills);
-
   app.post('/payment', paymentController.postPayment);
-
   app.get('/payment/owed/:userId', paymentController.getPaymentOwed);
-
   app.get('payment/completed/userId', paymentController.getPaymentHistory);
 }

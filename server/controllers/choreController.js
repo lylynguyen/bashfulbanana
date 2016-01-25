@@ -5,6 +5,9 @@ module.exports = {
     var params = [req.params.houseId];
 
     choreModel.get(params, function (err, results) {
+      if (err) {
+        res.sendStatus(500);
+      }
       res.json(results);
     });
   },
