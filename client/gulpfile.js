@@ -24,14 +24,14 @@ var historyApiFallback = require('connect-history-api-fallback')
 gulp.task('styles',function() {
   // move over fonts
 
-  gulp.src('client/css/fonts/**.*')
-    .pipe(gulp.dest('client/build/css/fonts'))
+  gulp.src('css/fonts/**.*')
+    .pipe(gulp.dest('build/css/fonts'))
 
   // Compiles CSS
-  gulp.src('client/css/style.styl')
+  gulp.src('css/style.styl')
     .pipe(stylus())
     .pipe(autoprefixer())
-    .pipe(gulp.dest('./client/build/css/'))
+    .pipe(gulp.dest('./build/css/'))
     .pipe(reload({stream:true}))
 });
 
@@ -39,8 +39,8 @@ gulp.task('styles',function() {
   Images
 */
 gulp.task('images',function(){
-  gulp.src('client/css/images/**')
-    .pipe(gulp.dest('./client/build/css/images'))
+  gulp.src('css/images/**')
+    .pipe(gulp.dest('./build/css/images'))
 });
 
 /*
@@ -67,7 +67,7 @@ function handleErrors() {
 function buildScript(file, watch) {
   
   var props = {
-    entries: ['./client/scripts/' + file],
+    entries: ['./scripts/' + file],
     debug : true,
     transform:  [babelify.configure({stage : 0 })]
   };
@@ -80,7 +80,7 @@ function buildScript(file, watch) {
     return stream
       .on('error', handleErrors)
       .pipe(source(file))
-      .pipe(gulp.dest('./client/build/'))
+      .pipe(gulp.dest('./build/'))
       // If you also want to uglify it
       // .pipe(buffer())
       // .pipe(uglify())
@@ -105,6 +105,6 @@ gulp.task('scripts', function() {
 
 // run 'scripts' task first, then watch for future changes
 gulp.task('default', ['images','styles','scripts','browser-sync'], function() {
-  gulp.watch('client/css/**/*', ['styles']); // gulp watch for stylus changes
+  gulp.watch('css/**/*', ['styles']); // gulp watch for stylus changes
   return buildScript('main.js', true); // browserify watch for JS changes
 });
