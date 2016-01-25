@@ -2,7 +2,7 @@ var db = require('../db');
 
 module.exports = {
   get: function (params, callback) {
-    var queryStr = "SELECT users.name, messages.text, messages.time FROM messages LEFT OUTER JOIN users ON (messages.userid=users.id) WHERE messages.houseId=? ORDER BY messages.time LIMIT 50";
+    var queryStr = "SELECT users.name, messages.text, messages.time FROM messages LEFT OUTER JOIN users ON (messages.userid=users.id) WHERE messages.houseId=? ORDER BY messages.time DESC LIMIT 50";
     db.query(queryStr, params, function (err, results) {
       callback(err, results);
     });
