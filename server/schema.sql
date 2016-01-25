@@ -136,6 +136,9 @@ ALTER TABLE `Payment` ADD FOREIGN KEY (userId) REFERENCES `Users` (`id`);
 INSERT INTO `House` (`id`,`name`) VALUES
 (1,'fun house');
 
+INSERT INTO `House` (`id`,`name`) VALUES
+(2,'less fun house');
+
 -- INSERT INTO `Users` (`id`,`name`,`password`,`houseId`) VALUES
 -- ('','','','');
 INSERT INTO `Users` (`id`,`name`,`password`,`houseId`) VALUES
@@ -143,6 +146,9 @@ INSERT INTO `Users` (`id`,`name`,`password`,`houseId`) VALUES
 
 INSERT INTO `Users` (`id`,`name`,`password`,`houseId`) VALUES
 (2, 'Nick','nice', 1);
+
+INSERT INTO `Users` (`id`,`name`,`password`,`houseId`) VALUES
+(3, 'Lyly','password', 2);
 -- INSERT INTO `House` (`id`,`name`) VALUES
 -- ('','');
 
@@ -158,6 +164,9 @@ INSERT INTO `Chores` (`userId`,`name`,`category`,`completed`,`dueDate`,`houseId`
 
 INSERT INTO `Messages` (`id`,`userId`,`text`,`houseId`) VALUES
 (1, 1,'helllo',1);
+
+INSERT INTO `Messages` (`id`,`userId`,`text`,`houseId`) VALUES
+(2, 3,'hey guys',2);
 
 
 -- INSERT INTO `Bill` (`id`,`userId`,`total`,`name`,`dueDate`,`datePaid`) VALUES

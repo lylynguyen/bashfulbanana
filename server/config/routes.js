@@ -6,9 +6,9 @@ module.exports = function(app, express) {
   //Messages
   app.get('/messages/:houseId', messageController.get);
   app.post('/messages', messageController.post);
-  app.get('/chores/:houseId', choreController.get);
 
   //Chores
+  app.get('/chores/:houseId', choreController.get);
   app.post('/chores', choreController.post);
   app.put('/chores/:choreId', choreController.put);
 
