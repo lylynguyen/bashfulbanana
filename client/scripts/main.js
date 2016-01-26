@@ -313,32 +313,12 @@ var FinanceContainer = React.createClass({
     }
   },
 
-<<<<<<< b2906a927778f462dded9f56742495d447f2d741
   // name
   // total
   // dueDate
   // payee_username
   // payee_userId
-=======
-  //addBill is a function that will create a new bill and post it
-  //to the database. However, we don't have that route set up yet,
-  //and need to verify schema as well. 
-  
-  // addBill: function(bill) { 
-  //   console.log('MESSAGE', bill);
-  //   $.ajax({
-  //     url: 'http://localhost:8080/payments/bills',
-  //     type: 'POST',
-  //     data: JSON.stringify(bill),
-  //     contentType: 'application/json',
-  //     success: function(data) {
-  //       console.log('got here'); 
-  //       this.loadBills();
-  //     }.bind(this)
-  //   });
-  // },
 
->>>>>>> updates bill input form
   loadBills: function() {
     $.ajax({
       url: 'http://localhost:8080/payment/pay/1',
@@ -486,5 +466,23 @@ var HistoryEntry = React.createClass({
 //     )
 //   }
 // })
+
+//addBill is a function that will create a new bill and post it
+  //to the database. However, we don't have that route set up yet,
+  //and need to verify schema as well. 
+  
+  // addBill: function(bill) { 
+  //   console.log('MESSAGE', bill);
+  //   $.ajax({
+  //     url: 'http://localhost:8080/payments/bills',
+  //     type: 'POST',
+  //     data: JSON.stringify(bill),
+  //     contentType: 'application/json',
+  //     success: function(data) {
+  //       console.log('got here'); 
+  //       this.loadBills();
+  //     }.bind(this)
+  //   });
+  // },
 
 ReactDOM.render(<App />, document.querySelector('#app'));
