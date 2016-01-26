@@ -2,7 +2,6 @@ var models = require('../models/paymentModel.js');
 
 module.exports = {
   getPendingBills: function (req, res) {
-    console.log('REQ.BODY IS', req.body);
     var userId = req.params.userId;
     models.getPendingBills(userId, function(err, bills) {
       if (err) {
@@ -30,6 +29,7 @@ module.exports = {
       if (err) {
         res.status(500);
       } else {
+        console.log("payment is here", payment)
         res.json(payment);
       }
     });
@@ -44,5 +44,16 @@ module.exports = {
         res.json(paymentHistory);
       }
     })
+  },
+
+  addBill: function (req, res) {
+    var params = [req.body.userId, req.body.total, req.body.name, req.body.dueDate];
+    models.addBill(params, function(err, newBill) {
+      if (err) {
+        res.status(500);
+      } else {
+        res.json(newBill);
+      }
+    });
   }
-};
+}

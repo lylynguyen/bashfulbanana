@@ -21,8 +21,7 @@ module.exports = {
   //user makes a payment
   postPayment: function (params, callback) {
 
-    var queryStr = "insert into Payment(billId, userId, amount, paid, datePaid) \
-                  value (?, ?, ?, ?, ?)";
+    var queryStr = "insert into Payment(billId, userId, amount, paid, datePaid) values (?, ?, ?, ?, ?)";
     db.query(queryStr, params, function(err, results) {
       callback(err, results);
     });
@@ -35,5 +34,12 @@ module.exports = {
     db.query(queryStr, function(err, results) {
       callback(err, results);
     });
+  },
+
+  addBill: function (params, callback) {
+    var queryStr = "insert into Bill(userId, total, name, dueDate) values (?, ?, ?, ?)";
+    db.query(queryStr, params, function(err, results) {
+      callback(err, results);
+    })
   }
 };

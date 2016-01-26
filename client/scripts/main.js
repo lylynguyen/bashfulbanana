@@ -82,7 +82,6 @@ var MessageContainer = React.createClass({
       type: 'GET',
       contentType: 'application/json',
       success: function(messages) {
-        console.log(messages);
         this.setState({messages: messages});
       }.bind(this),
       error: function(err) {
@@ -198,13 +197,18 @@ var ChoreContainer = React.createClass({
       contentType: 'application/json',
       success: function (data) {
         this.loadChores();
-      }.bind(this)
+      }.bind(this),
+      error: function(err){
+        console.log("error");
+      }
+
     });
   },
 
   render: function() {
+    var context = this;
     var choreList = this.state.chores.map(function(item, i) {
-      return <ChoreEntry key={i} chore={item} />
+      return <ChoreEntry loadChores={context.loadChores} key={i} chore={item} />
     })
     return (
       <div>
@@ -219,14 +223,32 @@ var ChoreContainer = React.createClass({
 });
 
 var ChoreEntry = React.createClass({
+  updateChoreStatus: function () {
+    $.ajax({
+    url: 'http://localhost:8080/chores/' + this.props.chore.id,
+    type: 'PUT',
+    contentType: 'application/json',
+    success: function() {
+      this.props.loadChores();
+    }.bind(this),
+    error: function(err) {
+      console.log(err);
+    }
+  })
+},
+
   render: function () {
+    // console.log('this.props', this.props.chore);
     return (
     <div>
+
       {this.props.chore.userId}
       {this.props.chore.name}
       {this.props.chore.category}
       {this.props.chore.dueDate}
-      <button>Completed</button>
+      <form onSubmit={this.updateChoreStatus}>
+        <button type="submit">Completed</button>
+      </form>
     </div>
     )
   }
