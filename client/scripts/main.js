@@ -14,11 +14,11 @@ var App = React.createClass({
   render: function() {
     return (
       <div className="app-container">
-        <div className="col-xs-5 col-md-4 col-lg-3 interface-container-right">
+        <div className="col-xs-5 col-md-4 col-lg-3 interface-container side-bar-container">
           <ImageContainer />
           <NavigationContainer changeView={this.renderView} />
         </div>
-        <div className="col-xs-7 col-md-8 col-lg-9 interface-container-right">
+        <div className="col-xs-7 col-md-8 col-lg-9 interface-container">
           <ContentContainer view={this.state.view} />
         </div>
       </div>
@@ -114,8 +114,8 @@ var MessageContainer = React.createClass({
     })
     return (
       <div className="message-container">
-        <div>
-          <h2 className="text-center">Messages</h2>
+        <h2 className="text-center">Messages</h2>
+        <div className="message-list">
           {messageList}
         </div>
         <MessageForm formSubmit={this.formSubmit}/>
@@ -127,10 +127,20 @@ var MessageContainer = React.createClass({
 var MessageEntry = React.createClass({
   render: function() {
     return (
-      <div>
-        {this.props.message.userId}
-        {this.props.message.text}
-        {this.props.message.houseId}
+      <div className="message-entry">
+        <div className="row">
+          <div className="col-xs-6 message-username">
+            <p>{this.props.message.name}</p>
+          </div>
+          <div className="col-xs-6 message-timestamp">
+            <p>{this.props.message.time.split('T')[0]}</p>
+          </div>
+        </div>
+        <div className="row">
+          <div className="message-text">
+            <p>{this.props.message.text}</p>
+          </div>
+        </div>
       </div>
     )
   }
@@ -149,7 +159,11 @@ var MessageForm = React.createClass({
     this.props.formSubmit(messageObj);
     this.refs.messageForm.reset()
   },
-
+  randomPlaceholder: function() {
+    var placeholders = ["You guys are the worst", "Someone get me the pigeon stick..", "Wash your dishes", "Great Party!", "Who ordered the stripper?", "Where's my dog?", "Someone bring in the mail for me", "Joey at all the pizza", "Obie's dog shit on the floor", "Clean the shit off the floor, Obie"];
+    var randomIndex = Math.floor(Math.random()*placeholders.length);
+    return placeholders[randomIndex];
+  },
   render: function() {
     return (
       <div>
@@ -157,9 +171,8 @@ var MessageForm = React.createClass({
           <label htmlFor="username-input">UserId</label>
           <input id="username-input" className="form-control" type='text' name='username' ref='username'/>
           <label htmlFor="message-input">Message</label>
-          <textarea name="comment" className="form-control" id="message-input" rows="3" ref='message'>
-          </textarea>
-          <button type="submit" className="btn btn-info">Submit</button>
+          <input name="comment" placeholder={this.randomPlaceholder()} className="form-control" id="message-input" ref='message' />
+          <button type="submit" className="btn btn-info submit-message-button text-center">Submit</button>
         </form>
       </div>
     )
