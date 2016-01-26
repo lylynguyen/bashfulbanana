@@ -5,7 +5,7 @@ module.exports = {
     var params = [req.params.houseId];
     userModel.getUsersInHouse(params, function(err, results) {
       if (err) {
-        res.status(500);
+        res.sendStatus(500);
       } else {
         res.json(results);
       }

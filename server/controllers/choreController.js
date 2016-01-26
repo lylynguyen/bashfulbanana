@@ -32,5 +32,16 @@ module.exports = {
       }
       res.status(200).json(results);
     });
+  },
+  delete: function (req, res) {
+    var params = [req.params.choreId];
+
+    choreModel.delete(params, function(err, results) {
+      if (err) {
+        res.sendStatus(500);
+      } else {
+        res.sendStatus(200);
+      }
+    })
   }
 }

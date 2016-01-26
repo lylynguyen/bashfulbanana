@@ -19,5 +19,11 @@ module.exports = {
     db.query(queryStr, params, function(err, results) {
       callback(err, results);
     });
+  },
+  delete: function (params, callback) {
+    var queryStr = "DELETE FROM Chores WHERE id=?";
+    db.query(queryStr, params, function(err, results) {
+      callback(err, results);
+    })
   }
 }

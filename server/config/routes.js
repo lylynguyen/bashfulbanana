@@ -15,6 +15,7 @@ module.exports = function(app, express) {
   app.get('/chores/:houseId', choreController.get);
   app.post('/chores', choreController.post);
   app.put('/chores/:choreId', choreController.put);
+  app.delete('/chores/:choreId', choreController.delete);
 
   //Payments
   app.get('/payment/pay/:userId', paymentController.getWhatYouOwe);
