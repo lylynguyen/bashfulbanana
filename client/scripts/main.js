@@ -7,16 +7,41 @@ var App = React.createClass({
     return {
       view: 'Message'
     }
-  }, 
+  },
+  renderView: function(view) {
+    this.setState({view: view});
+  },
   render: function() {
     return (
       <div className="app-container">
-        <div className="col-sm-5">Hi</div>
+        <div className="col-sm-5">
+          <NavigationContainer changeView={this.renderView} />
+        </div>
         <div className="col-sm-7">
           <ContentContainer view={this.state.view} />
         </div>
       </div>
     )
+  }
+});
+
+var NavigationContainer = React.createClass({
+  render: function() {
+    return (<div>
+        <a href="#"><h3 onClick={this.renderMessage}>Messages</h3></a>
+         <a href="#"><h3 onClick={this.renderFinance}>Finance</h3></a>
+         <a href="#"><h3 onClick={this.renderChore}>Chores</h3></a>
+      </div>
+    )
+  },
+  renderMessage() {
+    this.props.changeView('Message');
+  },
+  renderFinance() {
+    this.props.changeView('Finance');
+  },
+  renderChore() {
+    this.props.changeView('Chore');
   }
 });
 
