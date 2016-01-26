@@ -34,9 +34,26 @@ var ContentContainer = React.createClass({
 
 var MessageContainer = React.createClass({
   getInitialState: function() {
+    this.loadMessages(); 
     return {
       messages: []
     }
+  }, 
+
+  loadMessages: function() {
+    $.ajax({
+      //eventually need to pass in :houseId instead of 1
+      url: 'http://localhost:8080/messages/1',
+      type: 'GET',
+      contentType: 'application/json',
+      success: function(messages) {
+        console.log(messages);
+        this.setState({messages: messages});
+      }.bind(this),
+      error: function(err) {
+        console.log(err);
+      }
+    })
   }, 
 
   formSubmit: function(message) { 
@@ -48,14 +65,16 @@ var MessageContainer = React.createClass({
       contentType: 'application/json',
       success: function(data) {
         console.log('got here'); 
-        this.state.messages.push(message);
-        this.setState({messages: this.state.messages});
+        this.loadMessages();
+        // this.state.messages.push(message);
+        // this.setState({messages: this.state.messages});
       }.bind(this)
     });
   },
 
   render: function() {
-    console.log('this', this); 
+    //this.loadMessages(); 
+    console.log('this.state.messages', this.state.messages); 
     var messageList = this.state.messages.map(function(item, i) {
       return <MessageEntry key={i} message={item} />
     })
