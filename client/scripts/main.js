@@ -7,16 +7,41 @@ var App = React.createClass({
     return {
       view: 'Message'
     }
-  }, 
+  },
+  renderView: function(view) {
+    this.setState({view: view});
+  },
   render: function() {
     return (
       <div className="app-container">
-        <div className="col-sm-5">Hi</div>
+        <div className="col-sm-5">
+          <NavigationContainer changeView={this.renderView} />
+        </div>
         <div className="col-sm-7">
           <ContentContainer view={this.state.view} />
         </div>
       </div>
     )
+  }
+});
+
+var NavigationContainer = React.createClass({
+  render: function() {
+    return (<div>
+        <a href="#"><h3 onClick={this.renderMessage}>Messages</h3></a>
+         <a href="#"><h3 onClick={this.renderFinance}>Finance</h3></a>
+         <a href="#"><h3 onClick={this.renderChore}>Chores</h3></a>
+      </div>
+    )
+  },
+  renderMessage() {
+    this.props.changeView('Message');
+  },
+  renderFinance() {
+    this.props.changeView('Finance');
+  },
+  renderChore() {
+    this.props.changeView('Chore');
   }
 });
 
@@ -34,9 +59,26 @@ var ContentContainer = React.createClass({
 
 var MessageContainer = React.createClass({
   getInitialState: function() {
+    this.loadMessages(); 
     return {
       messages: []
     }
+  }, 
+
+  loadMessages: function() {
+    $.ajax({
+      //eventually need to pass in :houseId instead of 1
+      url: 'http://localhost:8080/messages/1',
+      type: 'GET',
+      contentType: 'application/json',
+      success: function(messages) {
+        console.log(messages);
+        this.setState({messages: messages});
+      }.bind(this),
+      error: function(err) {
+        console.log(err);
+      }
+    })
   }, 
 
   formSubmit: function(message) { 
@@ -48,14 +90,16 @@ var MessageContainer = React.createClass({
       contentType: 'application/json',
       success: function(data) {
         console.log('got here'); 
-        this.state.messages.push(message);
-        this.setState({messages: this.state.messages});
+        this.loadMessages();
+        // this.state.messages.push(message);
+        // this.setState({messages: this.state.messages});
       }.bind(this)
     });
   },
 
   render: function() {
-    console.log('this', this); 
+    //this.loadMessages(); 
+    console.log('this.state.messages', this.state.messages); 
     var messageList = this.state.messages.map(function(item, i) {
       return <MessageEntry key={i} message={item} />
     })
@@ -133,5 +177,54 @@ var FinanceContainer = React.createClass({
     )
   }
 });
+
+var BillEntry = React.createClass({
+  render: function() {
+    return (
+      <div>
+      </div>
+    )
+  }
+)}
+
+var PaymentOwedEntry = React.createClass({
+  render: function() {
+    return (
+      
+    )
+  }
+)}
+
+var HistoryEntry = React.createClass({
+  render: function() {
+    return (
+      
+    )
+  }
+)}
+
+var BillList = React.createClass({
+  render: function() {
+    return (
+      
+    )
+  }
+)}
+
+var PaymentOwedList = React.createClass({
+  render: function() {
+    return (
+      
+    )
+  }
+)}
+
+var HistoryList = React.createClass({
+  render: function() {
+    return (
+      
+    )
+  }
+)}
 
 ReactDOM.render(<App />, document.querySelector('#app'));

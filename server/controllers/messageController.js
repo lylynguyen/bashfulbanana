@@ -2,6 +2,7 @@ var messageModel = require('../models/messageModel.js');
 
 module.exports = {
   get: function(req, res) {
+    console.log('got here');
     var params = [req.params.houseId];
 
     messageModel.get(params, function (err, results) {
