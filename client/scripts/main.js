@@ -14,10 +14,10 @@ var App = React.createClass({
   render: function() {
     return (
       <div className="app-container">
-        <div className="col-sm-5">
+        <div className="col-xs-5">
           <NavigationContainer changeView={this.renderView} />
         </div>
-        <div className="col-sm-7">
+        <div className="col-xs-7">
           <ContentContainer view={this.state.view} />
         </div>
       </div>
@@ -168,11 +168,62 @@ var ChoreContainer = React.createClass({
 });
 
 var FinanceContainer = React.createClass({
+  getInitialState: function() {
+    this.loadBills();
+    return {
+      bills: [{name: 'water', total: 200, dueDate: 'string'}],
+      paymentsOwed: [{paid: false, amount: 300}], 
+      history: [{name: 'rent', total: 1250}]
+    }
+  },
+
+  loadBills: function() {
+    $.ajax({
+      url: 'http://localhost:8080/payment/pay/1',
+      type: 'GET',
+      contentType: 'application/json',
+      success: function(bills) {
+        console.log('BILLS', bills);
+        this.setState({bills: bills});
+      }.bind(this),
+      error: function(err) {
+        console.log(err);
+      }
+    })
+  },
+
   render: function() {
+    var billList = this.state.bills.map(function(item, i) {
+      return <BillEntry key={i} bill={item} />
+    }); 
+    var paymentsOwedList = this.state.paymentsOwed.map(function(item, i) {
+      return <PaymentOwedEntry key={i} paymentOwed={item} />
+    });
+    var historyList = this.state.history.map(function(item, i) {
+      return <HistoryEntry key={i} history={item} />
+    });
     return (
       <div className="finance-container">
         <h2 className="text-center">Finance</h2>
-
+        <div className='bill-list'>
+          <h4 className="text-center">Bills</h4>
+          {billList}
+        </div>
+        <div className='payments-owed-list'>
+          <h4 className="text-center">Payments Owed</h4>
+          {paymentsOwedList}
+        </div>
+        <div className='history-list'>
+          <h4 className="text-center">History</h4>
+          {historyList}
+        </div>
+        <div className='bill-form'>
+          <form action="submit" onSubmit=''>
+            Bill Name: <input type="text" refs='name'/>
+            Bill Amount: <input type="number" refs='amount'/>
+            Bill Due Date: <input type="date" refs='dueDate'/>
+          </form>
+        </div>
       </div>
     )
   }
@@ -182,49 +233,57 @@ var BillEntry = React.createClass({
   render: function() {
     return (
       <div>
+        {this.props.bill.name}
+        {this.props.bill.total}
+        {this.props.bill.dueDate}
       </div>
     )
   }
-)}
+}); 
 
 var PaymentOwedEntry = React.createClass({
   render: function() {
     return (
-      
+      <div>
+        {this.props.paymentOwed.amount}
+      </div>
     )
   }
-)}
+})
 
 var HistoryEntry = React.createClass({
   render: function() {
     return (
-      
+      <div>
+        {this.props.history.name}
+        {this.props.history.total}
+      </div>
     )
   }
-)}
+})
 
-var BillList = React.createClass({
-  render: function() {
-    return (
+// var BillList = React.createClass({
+//   render: function() {
+//     return (
       
-    )
-  }
-)}
+//     )
+//   }
+// })
 
-var PaymentOwedList = React.createClass({
-  render: function() {
-    return (
+// var PaymentOwedList = React.createClass({
+//   render: function() {
+//     return (
       
-    )
-  }
-)}
+//     )
+//   }
+// })
 
-var HistoryList = React.createClass({
-  render: function() {
-    return (
+// var HistoryList = React.createClass({
+//   render: function() {
+//     return (
       
-    )
-  }
-)}
+//     )
+//   }
+// })
 
 ReactDOM.render(<App />, document.querySelector('#app'));
