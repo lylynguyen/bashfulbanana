@@ -14,14 +14,21 @@ var App = React.createClass({
   render: function() {
     return (
       <div className="app-container">
-        <div className="col-xs-5">
+        <div className="col-xs-5 col-md-4 col-lg-3 interface-container-right">
+          <ImageContainer />
           <NavigationContainer changeView={this.renderView} />
         </div>
-        <div className="col-xs-7">
+        <div className="col-xs-7 col-md-8 col-lg-9 interface-container-right">
           <ContentContainer view={this.state.view} />
         </div>
       </div>
     )
+  }
+});
+
+var ImageContainer = React.createClass({
+  render: function() {
+    return <img src="http://placehold.it/150x150" />
   }
 });
 
@@ -64,7 +71,10 @@ var MessageContainer = React.createClass({
       messages: []
     }
   }, 
-
+  // need to receive 
+  // username *** need to query using userId to get username
+  // messageText
+  // timestamp
   loadMessages: function() {
     $.ajax({
       //eventually need to pass in :houseId instead of 1
@@ -81,6 +91,8 @@ var MessageContainer = React.createClass({
     })
   }, 
 
+  // userId
+  // text
   formSubmit: function(message) { 
     console.log('MESSAGE', message);
     $.ajax({
@@ -91,8 +103,6 @@ var MessageContainer = React.createClass({
       success: function(data) {
         console.log('got here'); 
         this.loadMessages();
-        // this.state.messages.push(message);
-        // this.setState({messages: this.state.messages});
       }.bind(this)
     });
   },
@@ -104,8 +114,8 @@ var MessageContainer = React.createClass({
       return <MessageEntry key={i} message={item} />
     })
     return (
-      <div>
-        <div className="message-container">
+      <div className="message-container">
+        <div>
           <h2 className="text-center">Messages</h2>
           {messageList}
         </div>
@@ -130,7 +140,6 @@ var MessageEntry = React.createClass({
 var MessageForm = React.createClass({
   localSubmit: function(event) {
     event.preventDefault();
-    console.log('test');
     var username = this.refs.username.value;
     var messageText = this.refs.message.value;
     var messageObj = {
@@ -145,11 +154,13 @@ var MessageForm = React.createClass({
   render: function() {
     return (
       <div>
-        <form ref='messageForm' onSubmit={this.localSubmit}>
-          UserId: <input type='text' name='username' ref='username'/>
-          <textarea name="comment" id="messageInput" cols="30" rows="10" ref='message'>
+        <form className="message-form form-group" ref='messageForm' onSubmit={this.localSubmit}>
+          <label htmlFor="username-input">UserId</label>
+          <input id="username-input" className="form-control" type='text' name='username' ref='username'/>
+          <label htmlFor="message-input">Message</label>
+          <textarea name="comment" className="form-control" id="message-input" rows="3" ref='message'>
           </textarea>
-          <input type="submit" value='submit'/>
+          <button type="submit" className="btn btn-info">Submit</button>
         </form>
       </div>
     )
@@ -172,11 +183,16 @@ var FinanceContainer = React.createClass({
     this.loadBills();
     return {
       bills: [{name: 'water', total: 200, dueDate: 'string'}],
-      paymentsOwed: [{paid: false, amount: 300}], 
+      paymentsOwed: [{paid: false, total: 300}], 
       history: [{name: 'rent', total: 1250}]
     }
   },
 
+  // name
+  // total
+  // dueDate
+  // payee_username
+  // payee_userId
   loadBills: function() {
     $.ajax({
       url: 'http://localhost:8080/payment/pay/1',
