@@ -358,6 +358,17 @@ var FinanceContainer = React.createClass({
           <h4 className="text-center">History</h4>
           {historyList}
         </div>
+        <BillForm />
+      </div>
+    )
+  }
+});
+
+var BillForm = React.createClass({
+  render: function() {
+    return (
+      <div>
+        <h4 className="text-center">Create A New Bill</h4>
         <div className='bill-form'>
           <form action="submit" onSubmit=''>
             Bill Name: <input type="text" refs='name'/>
@@ -368,7 +379,7 @@ var FinanceContainer = React.createClass({
       </div>
     )
   }
-});
+})
 
 var BillEntry = React.createClass({
   render: function() {
