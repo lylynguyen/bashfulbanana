@@ -420,11 +420,11 @@ var BillForm = React.createClass({
               <ul className='roommates'>
                 <li><label><input type="checkbox" name="chk1" id="chk1"/>Justin</label>
                 <input type='text'/></li>
-                <li><label><input type="checkbox" name="chk1" id="chk2"/>Lyly</label>
+                <li><label><input type="checkbox" name="chk2" id="chk2"/>Lyly</label>
                 <input type='text'/></li>
-                <li><label><input type="checkbox" name="chk1" id="chk3"/>Nick</label>
+                <li><label><input type="checkbox" name="chk3" id="chk3"/>Nick</label>
                 <input type='text'/></li>
-                <li><label><input type="checkbox" name="chk1" id="chk4"/>Joey</label>
+                <li><label><input type="checkbox" name="chk4" id="chk4"/>Joey</label>
                 <input type='text'/></li>
               </ul>
             </div>
