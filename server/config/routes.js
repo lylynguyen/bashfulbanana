@@ -17,4 +17,5 @@ module.exports = function(app, express) {
   app.post('/payment', paymentController.postPayment);
   app.get('/payment/owed/:userId', paymentController.getPaymentOwed);
   app.get('payment/completed/userId', paymentController.getPaymentHistory);
+  app.post('/payment/bills', paymentController.addBill);
 }

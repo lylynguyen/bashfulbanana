@@ -2,7 +2,7 @@ var db = require('../db');
 
 module.exports = {
   get: function (params, callback) {
-    var queryStr = "SELECT * from Chores WHERE houseId=?";
+    var queryStr = "SELECT * from Chores WHERE houseId=? and completed=0";
     db.query(queryStr, params, function(err, results) {
       callback(err, results);
     });
