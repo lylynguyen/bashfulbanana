@@ -24,6 +24,10 @@ html, body {
   padding-top: 50px;
 }
 
+.form-control {
+  width: 100%;
+  display: block;
+}
 /*
   Message Container Styles  
 */
@@ -46,6 +50,7 @@ html, body {
   bottom: 20px;
   width: 100%;
 }
+
 .message-entry {
   width: 100%;
 }
@@ -77,3 +82,4 @@ div.message-entry:hover {
   margin-top: 10px; 
   width: 100%;
 }
+
