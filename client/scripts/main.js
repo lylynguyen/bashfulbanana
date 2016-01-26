@@ -18,11 +18,11 @@ var App = React.createClass({
   render: function() {
     return (
       <div className="app-container">
-        <div className="col-xs-5 col-md-4 col-lg-3 interface-container side-bar-container">
+        <div className="col-xs-5 col-md-4 col-lg-4 interface-container side-bar-container">
           <ImageContainer />
           <NavigationContainer changeView={this.renderView} />
         </div>
-        <div className="col-xs-7 col-md-8 col-lg-9 interface-container">
+        <div className="col-xs-7 col-md-8 col-lg-8 interface-container">
           <ContentContainer view={this.state.view} />
         </div>
       </div>
