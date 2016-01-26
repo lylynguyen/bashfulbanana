@@ -2,23 +2,26 @@
   margin: 0;
   padding: 0;
 }
+h2 {
+  margin: 0;
+  padding: 0;
+}
 html, body {
   height: 100%;
 }
 #app {
-  background-color: lightgreen;
   height: 100%;
 }
 .app-container {
   margin-top: 40px;
 }
-.interface-container-right {
+.interface-container {
+  padding-top: 20px;
   height: 90vh;
-  border: 1px solid grey;
+  min-height: 330px;
 }
-.content-container {
-  background-color: lightblue;
-  height: 300px;
+.side-bar-container {
+  padding-top: 50px;
 }
 
 /*
@@ -28,8 +31,49 @@ html, body {
   position: relative;
   height: 100%;
 }
+
+.message-list {
+  overflow: auto;
+   /*
+     subtract height of the message form
+     could use jQuery for more dynamic if necessary
+   */
+  height: calc(100% - 240px);
+}
 .message-form {
+  background-color: white;
   position: absolute;
   bottom: 20px;
+  width: 100%;
+}
+.message-entry {
+  width: 100%;
+}
+div.message-entry:hover {
+  background-color: rgba(138, 138, 138, 0.1);
+}
+.message-username {
+  font-weight: bold;
+  float: left;
+}
+.message-username > p {
+  font-weight: bold;
+  font-size: 1.3em;
+}
+.message-timestamp {
+  position: relative;
+}
+.message-timestamp > p {
+  position: absolute;
+  right: 15px;
+}
+.message-text {
+  width: 100%;
+}
+.message-text > p{
+  margin: 0 15px 0 15px;
+}
+.submit-message-button {
+  margin-top: 10px; 
   width: 100%;
 }
