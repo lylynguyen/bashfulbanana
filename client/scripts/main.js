@@ -32,7 +32,7 @@ var App = React.createClass({
 
 var ImageContainer = React.createClass({
   render: function() {
-    return <img src="http://placehold.it/150x150" />
+    return <img height="150" src="https://s-media-cache-ak0.pinimg.com/736x/fb/e1/cd/fbe1cdbc1b728fbb5e157375905d576f.jpg" />
   }
 });
 
