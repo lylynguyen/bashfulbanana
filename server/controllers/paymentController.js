@@ -2,6 +2,7 @@ var models = require('../models/paymentModel.js');
 
 module.exports = {
   getPendingBills: function (req, res) {
+    console.log('REQ.BODY IS', req.body);
     var userId = req.params.userId;
     models.getPendingBills(userId, function(err, bills) {
       if (err) {
