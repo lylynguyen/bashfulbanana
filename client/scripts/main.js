@@ -178,4 +178,53 @@ var FinanceContainer = React.createClass({
   }
 });
 
+var BillEntry = React.createClass({
+  render: function() {
+    return (
+      <div>
+      </div>
+    )
+  }
+)}
+
+var PaymentOwedEntry = React.createClass({
+  render: function() {
+    return (
+      
+    )
+  }
+)}
+
+var HistoryEntry = React.createClass({
+  render: function() {
+    return (
+      
+    )
+  }
+)}
+
+var BillList = React.createClass({
+  render: function() {
+    return (
+      
+    )
+  }
+)}
+
+var PaymentOwedList = React.createClass({
+  render: function() {
+    return (
+      
+    )
+  }
+)}
+
+var HistoryList = React.createClass({
+  render: function() {
+    return (
+      
+    )
+  }
+)}
+
 ReactDOM.render(<App />, document.querySelector('#app'));
