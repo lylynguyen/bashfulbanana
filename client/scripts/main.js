@@ -313,6 +313,24 @@ var FinanceContainer = React.createClass({
     }
   },
 
+  //addBill is a function that will take a new created bill and post it
+  //to the database. However, we don't have that route set up yet,
+  //and need to verify schema as well. This should go in finance container. 
+  
+  addBill: function(bill) { 
+    console.log('MESSAGE', bill);
+    $.ajax({
+      url: 'http://localhost:8080/payments/bills',
+      type: 'POST',
+      data: JSON.stringify(bill),
+      contentType: 'application/json',
+      success: function(data) {
+        console.log('got here'); 
+        this.loadBills();
+      }.bind(this)
+    });
+  },
+
   // name
   // total
   // dueDate
@@ -387,7 +405,6 @@ var BillForm = React.createClass({
     this.refs.billForm.reset();
   },
 
-
   render: function() {
     return (
       <div>
@@ -399,9 +416,20 @@ var BillForm = React.createClass({
               Bill Amount: <input type="number" ref='amount'/>
               Bill Due Date: <input type="date" ref='dueDate'/>
               <button onClick={this.splitEvenly}>Split Evenly</button>
+              <p> - OR - </p>
+              <ul className='roommates'>
+                <li><label><input type="checkbox" name="chk1" id="chk1"/>Justin</label>
+                <input type='text'/></li>
+                <li><label><input type="checkbox" name="chk1" id="chk2"/>Lyly</label>
+                <input type='text'/></li>
+                <li><label><input type="checkbox" name="chk1" id="chk3"/>Nick</label>
+                <input type='text'/></li>
+                <li><label><input type="checkbox" name="chk1" id="chk4"/>Joey</label>
+                <input type='text'/></li>
+              </ul>
             </div>
             <div className='submission'>
-              <button onClick=''>Submit Bill</button>
+              <button onClick={this.createBill}>Submit Bill</button>
             </div>
           </form>
         </div>
@@ -466,23 +494,5 @@ var HistoryEntry = React.createClass({
 //     )
 //   }
 // })
-
-//addBill is a function that will create a new bill and post it
-  //to the database. However, we don't have that route set up yet,
-  //and need to verify schema as well. 
-  
-  // addBill: function(bill) { 
-  //   console.log('MESSAGE', bill);
-  //   $.ajax({
-  //     url: 'http://localhost:8080/payments/bills',
-  //     type: 'POST',
-  //     data: JSON.stringify(bill),
-  //     contentType: 'application/json',
-  //     success: function(data) {
-  //       console.log('got here'); 
-  //       this.loadBills();
-  //     }.bind(this)
-  //   });
-  // },
 
 ReactDOM.render(<App />, document.querySelector('#app'));
