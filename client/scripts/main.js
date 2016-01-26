@@ -184,6 +184,8 @@ var ChoreContainer = React.createClass({
     this.loadChores();
     return {
       chores: []
+
+
     }
   },
 
@@ -316,6 +318,12 @@ var FinanceContainer = React.createClass({
   //addBill is a function that will take a new created bill and post it
   //to the database. However, we don't have that route set up yet,
   //and need to verify schema as well. This should go in finance container. 
+
+  //userId will be the user who created the bill
+  //total 
+  //name
+  //dueDate
+  //also need info on who owes what for the bill (checklist)
   
   addBill: function(bill) { 
     console.log('MESSAGE', bill);
@@ -395,6 +403,11 @@ var BillForm = React.createClass({
     event.preventDefault();
     //create bill object based on user input
     var bill = {
+      //on top of these, need access to the userId of
+      //the person who created and access to all of the
+      //users checked on the form and what they owe.
+      //think about creating separate payment objects
+      //in a different payment function for these. 
       total: this.refs.amount.value,
       name: this.refs.name.value,
       dueDate: this.refs.dueDate.value
