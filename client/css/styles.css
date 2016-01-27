@@ -23,6 +23,13 @@ html, body {
 .side-bar-container {
   padding-top: 50px;
 }
+.navigation-link > h3 {
+  color: #337AB7;
+  cursor: pointer;
+}
+.navigation-link > h3:hover {
+  color: #23527C;
+}
 
 /*
   Message Container Styles  
