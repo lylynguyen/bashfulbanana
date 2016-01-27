@@ -22,6 +22,7 @@ var App = React.createClass({
       <div className="app-container">
         <div className="col-xs-5 col-md-4 col-lg-4 interface-container side-bar-container">
           <ImageContainer />
+          <h3>Samuel</h3>
           <NavigationContainer changeView={this.renderView} />
           <Logout />
         </div>
@@ -41,10 +42,10 @@ var ImageContainer = React.createClass({
 
 var NavigationContainer = React.createClass({
   render: function() {
-    return (<div>
-        <a href="#"><h3 onClick={this.renderMessage}>Messages</h3></a>
-         <a href="#"><h3 onClick={this.renderFinance}>Finance</h3></a>
-         <a href="#"><h3 onClick={this.renderChore}>Chores</h3></a>
+    return (<div className="navigation-link">
+        <h3 onClick={this.renderMessage}>Messages</h3>
+        <h3 onClick={this.renderFinance}>Finance</h3>
+        <h3 onClick={this.renderChore}>Chores</h3>
       </div>
     )
   },
@@ -84,7 +85,7 @@ var ContentContainer = React.createClass({
 
 var Login = React.createClass({
   login: function() {
-    window.localStorage.setItem('userId', this.refs.userId);
+    window.localStorage.setItem('userId', this.refs.userId.value);
   },
   render: function() {
     return (
