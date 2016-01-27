@@ -89,9 +89,8 @@ var MessageForm = React.createClass({
     event.preventDefault();
     var messageText = this.refs.message.value;
     var userId = localStorage.getItem('userId');
-    console.log(userId);
     var messageObj = {
-      userId: 1,
+      userId: userId,
       text: messageText,
       houseId: 1
     }

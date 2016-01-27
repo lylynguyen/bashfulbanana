@@ -46,7 +46,7 @@ html, body {
      subtract height of the message form
      could use jQuery for more dynamic if necessary
    */
-  height: calc(100% - 240px);
+  height: calc(100% - 150px);
 }
 .message-form {
   background-color: white;
