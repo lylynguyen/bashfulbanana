@@ -13,11 +13,11 @@ USE bananas;
 
 -- ---
 -- Table 'Users'
--- 
+--
 -- ---
 
 DROP TABLE IF EXISTS `Users`;
-    
+
 CREATE TABLE `Users` (
   `id` INT AUTO_INCREMENT,
   `name` VARCHAR(20) NOT NULL,
@@ -28,11 +28,11 @@ CREATE TABLE `Users` (
 
 -- ---
 -- Table 'House'
--- 
+--
 -- ---
 
 DROP TABLE IF EXISTS `House`;
-    
+
 CREATE TABLE `House` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(30) NOT NULL DEFAULT 'NULL',

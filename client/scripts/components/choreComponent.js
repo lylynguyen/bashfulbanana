@@ -102,8 +102,8 @@ var ChoreForm = React.createClass({
     event.preventDefault();
     var userId = 1;
     var dueDate = this.refs.dueDate.value;
-    var name = this.refs.name.value;
-    var category = "other";
+    var name = 'name';
+    var category = 'other';
     var houseId = 1;
     var choreObject = {
       userId: userId,
@@ -118,23 +118,23 @@ var ChoreForm = React.createClass({
 
   render: function () {
     return (
-      <div className="chore-form">
-        <form className='form-group' ref='choreForm' onSubmit={this.localSubmit}>
-          <div className="row">
-          <input className="form-control" type='text' name='chore' ref='name' placeholder='Chore'/>
+
+      <div>
+        <form  className="message-form form-group" ref='choreForm' onSubmit={this.localSubmit}>
+          <label htmlFor="chore-input">Chore Details</label>
+          <input type="text" name='chore' className="form-control" ref='name' placeholder="Chore"/>
+          <div className="chore-div chore-input-left">
+          <label htmlFor="user-id">Username</label>
+            <select className="form-control username-input" ref='userId'>
+              <option value="username1">username1</option>
+            </select>
           </div>
-          <div className="row">
-            <div className="col-xs-6">
-              <input className="form-control" type="date" ref="dueDate"/>
-            </div>
-            <div className="col-xs-6">
-              <select className="form-control" ref="username">
-                <option value="user1"> user1 </option>
-              </select>
-            </div>
-            <div className="row">
-              <button className="btn btn-info" type="submit">Submit</button>
-            </div>
+          <div className="chore-div chore-input-right">
+            <label htmlFor="due-date">Due Date</label>
+            <input type="date" className="form-control" ref='dueDate' />
+          </div>
+          <div>
+            <button className="btn btn-info submit-message-button text-center" type="submit">Submit</button>
           </div>
         </form>
       </div>
