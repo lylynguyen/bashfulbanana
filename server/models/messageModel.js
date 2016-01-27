@@ -12,7 +12,7 @@ module.exports = {
     var queryStr = "INSERT INTO Messages (userId, text, houseId, time) VALUES (?,?,?, NOW())";
     db.query(queryStr, params, function(err, results) {
       callback(err, results);
-    })
+    });
   } 
 
 }

@@ -102,7 +102,7 @@ CREATE TABLE `Payment` (
   `billId` INT NOT NULL,
   `userId` INT NOT NULL,
   `amount` INT NOT NULL,
-  `paid` TINYINT NOT NULL,
+  `paid` TINYINT NOT NULL DEFAULT 0,
   `datePaid` DATE NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 );
@@ -143,13 +143,16 @@ INSERT INTO `House` (`id`,`name`) VALUES
 -- INSERT INTO `Users` (`id`,`name`,`password`,`houseId`) VALUES
 -- ('','','','');
 INSERT INTO `Users` (`id`,`name`,`password`,`houseId`) VALUES
-(1, 'Joey','higuys', 1);
+(1, 'Joey Holland','higuys', 1);
 
 INSERT INTO `Users` (`id`,`name`,`password`,`houseId`) VALUES
-(2, 'Nick','nice', 1);
+(2, 'Nick Kneafsey','nice', 1);
 
 INSERT INTO `Users` (`id`,`name`,`password`,`houseId`) VALUES
-(3, 'Lyly','password', 2);
+(3, 'Lyly Nguyen','password', 2);
+
+INSERT INTO `Users` (`id`,`name`,`password`,`houseId`) VALUES
+(4, 'Justin Mancherje','123', 2);
 -- INSERT INTO `House` (`id`,`name`) VALUES
 -- ('','');
 
