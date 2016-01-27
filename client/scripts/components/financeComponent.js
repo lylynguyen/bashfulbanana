@@ -6,10 +6,12 @@ var FinanceContainer = React.createClass({
   getInitialState: function() {
     this.loadBills();
     this.getUsers(); 
+    this.loadPayments();
     var userId = localStorage.getItem('userId');
     return {
       bills: [],
-      paymentsOwed: [{paid: false, total: 300}], 
+      // payments: [],
+      paymentsOwed: [], 
       history: [{name: 'rent', total: 1250}],
       users: [],
       //eventually need to get real houseId/userId - use Justin's login to query
@@ -42,15 +44,15 @@ var FinanceContainer = React.createClass({
   //dueDate
   //also need info on who owes what for the bill (checklist)
   
-  addBill: function(bill) { 
-    console.log('MESSAGE', bill);
+  addBill: function(bill) {
     $.ajax({
       url: 'http://localhost:8080/payment/bill',
       type: 'POST',
       data: JSON.stringify(bill),
       contentType: 'application/json',
-      success: function(data) {
-        console.log(data);
+      success: function(id) {
+        // console.log(data);
+        this.createPayments(id)
         this.loadBills();
       }.bind(this)
     });
@@ -65,8 +67,30 @@ var FinanceContainer = React.createClass({
       success: function(data) {
         // this.loadPayments()
         console.log("payment added");
+        // this.loadBills();
       }
     });
+  },
+
+  createPayments: function(billId) {
+    // event.preventDefault();
+    var users = this.state.users;
+    //iterate through users
+    for(var i = 0; i < users.length; i++) {
+      //find the ones selected
+      if(users[i].selected === true) {
+        //create payment object
+        var payment = {
+          billId: billId, //need to figure this out
+          userId: users[i].id,
+          amount: users[i].total
+        }
+        this.addPayment(payment);
+        this.getUsers();
+        // console.log(users[i]);
+        // console.log('PAYMENT', payment)
+      }
+    }
   },
 
   // name
@@ -76,11 +100,13 @@ var FinanceContainer = React.createClass({
   // payee_userId
 
   loadBills: function() {
+    var userId = localStorage.getItem('userId');
     $.ajax({
-      url: 'http://localhost:8080/payment/owed/1',
+      url: 'http://localhost:8080/payment/pay/' + userId,
       type: 'GET',
       contentType: 'application/json',
       success: function(bills) {
+        console.log("bills", bills)
         this.state.bills = bills; 
         this.setState({bills: this.state.bills});
       }.bind(this),
@@ -89,6 +115,24 @@ var FinanceContainer = React.createClass({
       }
     })
   },
+  
+  loadPayments: function () {
+    var userId = localStorage.getItem('userId');
+    $.ajax({
+      url: 'http://localhost:8080/payment/owed/'+ userId,
+      type: 'GET',
+      contentType: 'application/json',
+      success: function(payments) {
+        console.log("payments", payments)
+        this.state.paymentsOwed = payments; 
+        this.setState({paymentsOwed: this.state.paymentsOwed});
+      }.bind(this),
+      error: function(err) {
+        console.log(err);
+      }
+    })
+  },
+
 
   render: function() {
     var billList = this.state.bills.map(function(item, i) {
@@ -115,20 +159,27 @@ var FinanceContainer = React.createClass({
           <h4 className="text-center">History</h4>
           {historyList}
         </div>
-        <BillForm addPayment={this.addPayment} addBill={this.addBill} users={this.state.users}/>
+        <BillForm createPayments={this.createPayments} addPayment={this.addPayment} addBill={this.addBill} users={this.state.users}/>
       </div>
     )
   }
 });
 
 var BillForm = React.createClass({
-  splitEvenly: function() {
+  splitEvenly: function(event) {
+    event.preventDefault();
     //access this.refs.amount.value
-    var total = this.refs.amount.value;
+    var amount = this.refs.total.value;
     //divide total by number of roommates 
-    var costPerUser = total/this.props.user.length; 
-    //return the cost per user
-    return costPerUser; 
+    var costPerUser = amount/this.props.users.length; 
+    //iterate through users
+    for(var i = 0; i < this.props.users.length; i++) {
+      //set the user total to costPerUser
+      this.props.users[i].total = costPerUser;
+      //invert selected property
+      this.props.users[i].selected = true;
+    };
+    console.log('USERS', this.props.users);
   },
 
   createBill: function(event) {
@@ -153,26 +204,6 @@ var BillForm = React.createClass({
     this.refs.billForm.reset();
   },
 
-  createPayments: function(event) {
-    event.preventDefault();
-    var users = this.props.users;
-    //iterate through users
-    for(var i = 0; i < users.length; i++) {
-      //find the ones selected
-      if(users[i].selected === true) {
-        //create payment object
-        var payment = {
-          billId: 1, //need to figure this out
-          userId: users[i].id,
-          amount: users[i].total
-        }
-        this.props.addPayment(payment);
-        console.log(users[i]);
-        console.log('PAYMENT', payment)
-      }
-    }
-  },
-
   render: function() {
     var userList = this.props.users.map(function(item, i) {
       item.selected = false; 
@@ -194,7 +225,7 @@ var BillForm = React.createClass({
               </ul>
             </div>
             <div className='submission'>
-              <button onClick={this.createPayments}>Submit Bill</button>
+              <button onClick={this.createBill}>Submit Bill</button>
             </div>
           </form>
         </div>
@@ -237,15 +268,16 @@ var UserEntry = React.createClass({
 
 var PaymentOwedEntry = React.createClass({
   render: function() {
+    console.log('PROPS', this.props.paymentOwed)
     return (
       <div>
-        {this.props.paymentOwed.amount}
+        {this.props.paymentOwed.ower} owes you {this.props.paymentOwed.amount}
       </div>
     )
   }
 })
 
-var HistoryEntry = React.createClass({
+var HistoryBill = React.createClass({
   render: function() {
     return (
       <div>

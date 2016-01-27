@@ -83,7 +83,7 @@ DROP TABLE IF EXISTS `Bill`;
 CREATE TABLE `Bill` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `userId` INT NOT NULL,
-  `total` INT NOT NULL,
+  `total` FLOAT NOT NULL,
   `name` VARCHAR(30) NULL,
   `dueDate` DATE NOT NULL,
   `datePaid` DATE NULL DEFAULT NULL,
@@ -101,7 +101,7 @@ CREATE TABLE `Payment` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `billId` INT NOT NULL,
   `userId` INT NOT NULL,
-  `amount` INT NOT NULL,
+  `amount` FLOAT NOT NULL,
   `paid` TINYINT NOT NULL DEFAULT 0,
   `datePaid` DATE NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
