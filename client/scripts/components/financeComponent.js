@@ -6,6 +6,7 @@ var FinanceContainer = React.createClass({
   getInitialState: function() {
     this.loadBills();
     this.getUsers(); 
+    var userId = localStorage.getItem('userId');
     return {
       bills: [],
       paymentsOwed: [{paid: false, total: 300}], 
@@ -14,7 +15,7 @@ var FinanceContainer = React.createClass({
       //eventually need to get real houseId/userId - use Justin's login to query
       //database with userId to get that user's houseId
       houseId: 1,
-      userId: 1
+      userId: userId
     }
   },
 
@@ -49,8 +50,22 @@ var FinanceContainer = React.createClass({
       data: JSON.stringify(bill),
       contentType: 'application/json',
       success: function(data) {
+        console.log(data);
         this.loadBills();
       }.bind(this)
+    });
+  },
+
+  addPayment: function(payment) {
+    $.ajax({
+      url: 'http://localhost:8080/payment',
+      type: 'POST',
+      data: JSON.stringify(payment),
+      contentType: 'application/json',
+      success: function(data) {
+        // this.loadPayments()
+        console.log("payment added");
+      }
     });
   },
 
@@ -100,7 +115,7 @@ var FinanceContainer = React.createClass({
           <h4 className="text-center">History</h4>
           {historyList}
         </div>
-        <BillForm addBill={this.addBill} users={this.state.users}/>
+        <BillForm addPayment={this.addPayment} addBill={this.addBill} users={this.state.users}/>
       </div>
     )
   }
@@ -119,6 +134,7 @@ var BillForm = React.createClass({
   createBill: function(event) {
     //prevent default event action
     event.preventDefault();
+    var userId = localStorage.getItem('userId');
     //create bill object based on user input
     var bill = {
       //on top of these, need access to the userId of
@@ -126,7 +142,7 @@ var BillForm = React.createClass({
       //users checked on the form and what they owe.
       //think about creating separate payment objects
       //in a different payment function for these. 
-      userId: 1,
+      userId: userId,
       total: this.refs.total.value,
       name: this.refs.name.value,
       dueDate: this.refs.dueDate.value
@@ -135,6 +151,26 @@ var BillForm = React.createClass({
     this.props.addBill(bill); 
     //reset input fields
     this.refs.billForm.reset();
+  },
+
+  createPayments: function(event) {
+    event.preventDefault();
+    var users = this.props.users;
+    //iterate through users
+    for(var i = 0; i < users.length; i++) {
+      //find the ones selected
+      if(users[i].selected === true) {
+        //create payment object
+        var payment = {
+          billId: 1, //need to figure this out
+          userId: users[i].id,
+          amount: users[i].total
+        }
+        this.props.addPayment(payment);
+        console.log(users[i]);
+        console.log('PAYMENT', payment)
+      }
+    }
   },
 
   render: function() {
@@ -158,7 +194,7 @@ var BillForm = React.createClass({
               </ul>
             </div>
             <div className='submission'>
-              <button onClick={this.createBill}>Submit Bill</button>
+              <button onClick={this.createPayments}>Submit Bill</button>
             </div>
           </form>
         </div>
@@ -182,13 +218,19 @@ var BillEntry = React.createClass({
 var UserEntry = React.createClass({
   toggleSelected: function(id) {
     this.props.user.selected = !this.props.user.selected;
+    // this.props.user.total = this.refs[id].value; 
+  },
+
+  setValue: function(id) {
+
+    console.log(this.refs[id].value);
     this.props.user.total = this.refs[id].value; 
   },
 
   render: function() {
     return (
       <li><label><input onChange={this.toggleSelected.bind(this, this.props.user.id)} type="checkbox" name={this.props.user.id} id={this.props.user.id}/>
-      {this.props.user.name}</label><input ref={this.props.user.id} type='text'/></li>
+      {this.props.user.name}</label><input onKeyUp={this.setValue.bind(this, this.props.user.id)} ref={this.props.user.id} type='text'/></li>
     )
   }
 })
