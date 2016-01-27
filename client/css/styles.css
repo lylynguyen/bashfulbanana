@@ -177,4 +177,20 @@ div.chore-entry:hover {
   width: 100%;
 }
 
+/*
+  Finance
+*/
+
+.split-bill-user-list {
+  list-style: none;
+}
+.btn-right, .btn-left {
+  margin-top: 5px;
+}
+.btn-right {
+  float: right;
+}
+.full-width-input {
+  width: 100%;
+}
 

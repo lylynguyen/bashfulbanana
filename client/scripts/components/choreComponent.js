@@ -7,8 +7,6 @@ var ChoreContainer = React.createClass({
     this.loadChores();
     return {
       chores: []
-
-
     }
   },
 
@@ -39,7 +37,6 @@ var ChoreContainer = React.createClass({
       error: function(err){
         console.log("error");
       }
-
     });
   },
 
@@ -76,7 +73,6 @@ var ChoreEntry = React.createClass({
 },
 
   render: function () {
-    // console.log('this.props', this.props.chore);
     return (
       <div className="chore-entry">
         <div className="row">

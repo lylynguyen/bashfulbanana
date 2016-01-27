@@ -7,18 +7,46 @@ var FinanceContainer = React.createClass({
     this.loadBills();
     this.getUsers(); 
     this.loadPayments();
+    this.loadBillHistory();
+    this.loadPaymentHistory();
     var userId = localStorage.getItem('userId');
+    this.userId = userId;
     return {
       bills: [],
       // payments: [],
       paymentsOwed: [], 
-      history: [{name: 'rent', total: 1250}],
+      billHistory: [],
+      paymentHistory: [],
       users: [],
       //eventually need to get real houseId/userId - use Justin's login to query
       //database with userId to get that user's houseId
       houseId: 1,
       userId: userId
     }
+  },
+
+  loadBillHistory: function() {
+    $.ajax({
+      url: 'http://localhost:8080/payment/completed/' + this.userId,
+      type: 'GET',
+      contentType: 'application/json',
+      success: function(bills) {
+        this.state.billHistory = bills;
+        this.setState({billHistory: this.state.billHistory});
+      }.bind(this)
+    });
+  },
+
+  loadPaymentHistory: function() {
+    $.ajax({
+      url: 'http://localhost:8080/payment/completed/owed/' + this.userId,
+      type: 'GET',
+      contentType: 'application/json',
+      success: function(payments) {
+        this.state.paymentHistory = payments; 
+        this.setState({paymentHistory: this.state.paymentHistory}); 
+      }.bind(this)
+    });
   },
 
   getUsers: function() {
@@ -141,8 +169,11 @@ var FinanceContainer = React.createClass({
     var paymentsOwedList = this.state.paymentsOwed.map(function(item, i) {
       return <PaymentOwedEntry key={i} paymentOwed={item} />
     });
-    var historyList = this.state.history.map(function(item, i) {
-      return <HistoryEntry key={i} history={item} />
+    var billHistoryList = this.state.billHistory.map(function(item, i) {
+      return <BillHistory key={i} history={item} />
+    });
+    var paymentHistoryList = this.state.paymentHistory.map(function(item, i) {
+      return <PaymentHistory key={i} history={item} />
     });
     return (
       <div className="finance-container">
@@ -155,9 +186,13 @@ var FinanceContainer = React.createClass({
           <h4 className="text-center">Payments Owed</h4>
           {paymentsOwedList}
         </div>
-        <div className='history-list'>
-          <h4 className="text-center">History</h4>
-          {historyList}
+        <div className='bill-history-list'>
+          <h4 className="text-center">Bill History</h4>
+          {billHistoryList}
+        </div>
+        <div className='payment-history-list'>
+          <h4 className="text-center">Payment History</h4>
+          {paymentHistoryList}
         </div>
         <BillForm createPayments={this.createPayments} addPayment={this.addPayment} addBill={this.addBill} users={this.state.users}/>
       </div>
@@ -165,7 +200,57 @@ var FinanceContainer = React.createClass({
   }
 });
 
+var BillEntry = React.createClass({
+  render: function() {
+    return (
+      <div>
+        {this.props.bill.billName}
+        {this.props.bill.amount}
+        {this.props.bill.dueDate}
+      </div>
+    )
+  }
+}); 
+
+var PaymentOwedEntry = React.createClass({
+  render: function() {
+    console.log('PROPS', this.props.paymentOwed)
+    return (
+      <div>
+        {this.props.paymentOwed.ower} owes you {this.props.paymentOwed.amount}
+      </div>
+    )
+  }
+})
+
+var BillHistory = React.createClass({
+  render: function() {
+    return (
+      <div>
+        {this.props.history.billName}
+        {this.props.history.amount}
+      </div>
+    )
+  }
+})
+
+var PaymentHistory = React.createClass({
+  render: function() {
+    return (
+      <div>
+        {this.props.history.paymentName}
+        {this.props.history.amount}
+      </div>
+    )
+  }
+})
+
 var BillForm = React.createClass({
+  getInitialState: function() {
+    return {
+      splitEvenly: false
+    }
+  },
   splitEvenly: function(event) {
     event.preventDefault();
     //access this.refs.amount.value
@@ -180,11 +265,20 @@ var BillForm = React.createClass({
       this.props.users[i].selected = true;
     };
     console.log('USERS', this.props.users);
+    this.createBill();
   },
-
+  customSplit: function(event) {
+    event.preventDefault();
+    var updateSplitEvenly = this.state.splitEvenly ? false : true;
+    this.setState({
+      splitEvenly: updateSplitEvenly
+    });
+  },
   createBill: function(event) {
     //prevent default event action
-    event.preventDefault();
+    if (event) {
+      event.preventDefault();
+    }
     var userId = localStorage.getItem('userId');
     //create bill object based on user input
     var bill = {
@@ -210,41 +304,50 @@ var BillForm = React.createClass({
       return <UserEntry key={i} user={item} />
     }); 
     return (
-      <div>
-        <h4 className="text-center">Create A New Bill</h4>
-        <div className='bill-form'>
-          <form action="submit" ref='billForm' onSubmit=''>
-            <div className='input'>
-              Bill Name: <input type="text" ref='name'/>
-              Bill Amount: <input type="number" ref='total'/>
-              Bill Due Date: <input type="date" ref='dueDate'/>
-              <button onClick={this.splitEvenly}>Split Evenly</button>
-              <p> - OR - </p>
-              <ul className='roommates'>
-                {userList}
-              </ul>
+      <div className='bill-form'>
+        <form action="submit" ref='billForm' className="form-group" onSubmit=''>
+          <div className='input'>
+            <div className="input-group full-width-input">
+              <label htmlFor="bill-name">Bill Name</label>
+              <input type="text" id="bill-name" ref='name' className="form-control" />
             </div>
-            <div className='submission'>
-              <button onClick={this.createBill}>Submit Bill</button>
+            <div className="row">
+              <div className="col-sm-6">
+                <label htmlFor="bill-amount">Total</label> 
+                <div className="input-group">
+                  <div className="input-group-addon">$</div>
+                  <input type="number" id="bill-amount" ref='total' className="form-control" />
+                </div>
+              </div>
+              <div className="col-sm-6">
+                <div className="input-group">
+                  <label htmlFor="bill-due-date">Due Date</label>
+                  <input type="date" id="bill-due-date" ref='dueDate' className="form-control" />
+                </div>
+              </div>
             </div>
-          </form>
-        </div>
+            <button className="btn btn-success btn-left" onClick={this.splitEvenly}>Split Evenly</button>
+            <button className="btn btn-success btn-right" onClick={this.customSplit}>Custom Split</button>
+            {this.state.splitEvenly ? <CustomSplitForm createBill={this.createBill} userList={userList} /> : null}
+          </div>
+        </form>
+      </div>
+    )
+  }
+});
+
+var CustomSplitForm = React.createClass({
+  render: function() {
+    return (
+      <div className="custom-split-container">
+        <ul className='split-bill-user-list'>
+          {this.props.userList}
+        </ul>
+        <button className="btn btn-info" onClick={this.props.createBill}>Submit Bill</button>
       </div>
     )
   }
 })
-
-var BillEntry = React.createClass({
-  render: function() {
-    return (
-      <div>
-        {this.props.bill.billName}
-        {this.props.bill.amount}
-        {this.props.bill.dueDate}
-      </div>
-    )
-  }
-}); 
 
 var UserEntry = React.createClass({
   toggleSelected: function(id) {
@@ -253,41 +356,26 @@ var UserEntry = React.createClass({
   },
 
   setValue: function(id) {
-
     console.log(this.refs[id].value);
     this.props.user.total = this.refs[id].value; 
   },
 
   render: function() {
     return (
-      <li><label><input onChange={this.toggleSelected.bind(this, this.props.user.id)} type="checkbox" name={this.props.user.id} id={this.props.user.id}/>
-      {this.props.user.name}</label><input onKeyUp={this.setValue.bind(this, this.props.user.id)} ref={this.props.user.id} type='text'/></li>
-    )
-  }
-})
-
-var PaymentOwedEntry = React.createClass({
-  render: function() {
-    console.log('PROPS', this.props.paymentOwed)
-    return (
-      <div>
-        {this.props.paymentOwed.ower} owes you {this.props.paymentOwed.amount}
-      </div>
-    )
-  }
-})
-
-var HistoryBill = React.createClass({
-  render: function() {
-    return (
-      <div>
-        {this.props.history.name}
-        {this.props.history.total}
-      </div>
+      <li className="split-bill-user-entry">
+        <div className="form-group">
+          <label htmlFor="user-entry-checkbox">
+            <input id="user-entry-checkbox" onChange={this.toggleSelected.bind(this, this.props.user.id)} type="checkbox" name={this.props.user.id} id={this.props.user.id}/>
+            {this.props.user.name}
+          </label>
+          <div className="input-group">
+            <div className="input-group-addon">$</div>
+            <input className="form-control" onKeyUp={this.setValue.bind(this, this.props.user.id)} ref={this.props.user.id} type='number'/>
+          </div>
+        </div>
+      </li>
     )
   }
 })
 
 export default FinanceContainer;
-
-

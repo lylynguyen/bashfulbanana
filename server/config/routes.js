@@ -4,6 +4,8 @@ var choreController = require('../controllers/choreController.js');
 var userController = require('../controllers/userController.js');
 
 module.exports = function(app, express) {
+  app.use('/', express.static('client'));
+
   //Users
   app.get('/users/:houseId', userController.getUsersInHouse);
 

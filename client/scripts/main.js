@@ -64,6 +64,7 @@ var Logout = React.createClass({
   mixins : [Router.Navigation],
   logout: function() {
     window.localStorage.removeItem('userId');
+    window.localStorage.removeItem('houseId');
     window.location.href = "http://localhost:3000/";
   },
   render: function() {
@@ -91,6 +92,8 @@ var Login = React.createClass({
     return (
       <form onSubmit={this.login} className="form-group">
         <label htmlFor="userId-input">userId</label>
+        <input ref="userId" id="userId-input" className="form-control" type="text" />
+        <label htmlFor="userId-input">houseId</label>
         <input ref="userId" id="userId-input" className="form-control" type="text" />
         <button className="btn btn-success">Login</button>
       </form>
