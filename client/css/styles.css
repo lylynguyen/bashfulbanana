@@ -87,7 +87,71 @@ div.message-entry:hover {
   margin: 0 15px 0 15px;
 }
 .submit-message-button {
-  margin-top: 10px; 
+  margin-top: 10px;
   width: 100%;
 }
+
+/*
+  Chore Container Styles
+*/
+
+.chore-header {
+  padding-bottom: 30px;
+}
+
+.chore-container {
+  height: 100%;
+  position: relative;
+}
+
+.chore-form {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+
+.chore-entry {
+  width: 100%;
+}
+
+.chore-list {
+  overflow: auto;
+   /*
+     subtract height of the message form
+     could use jQuery for more dynamic if necessary
+   */
+  height: calc(100% - 240px);
+}
+
+div.chore-entry:hover {
+  background-color: rgba(138, 138, 138, 0.1);
+}
+
+.chore-id {
+  font-weight: bold;
+  float: left;
+}
+
+.chore-id > p {
+  font-weight: bold;
+  font-size: 1.3em;
+}
+
+.chore-duedate {
+   position: relative;
+}
+
+.chore-duedate > p {
+  position: absolute;
+  right: 15px;
+}
+.chore-text {
+  width: : 100%;
+}
+
+.chore-text {
+  margin: 0 15px 0 15px;
+}
+
+
 
