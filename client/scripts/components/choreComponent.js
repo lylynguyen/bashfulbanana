@@ -49,9 +49,9 @@ var ChoreContainer = React.createClass({
       return <ChoreEntry loadChores={context.loadChores} key={i} chore={item} />
     })
     return (
-      <div>
-        <div className="chore-container">
-          <h2 className="text-center">Chores</h2>
+      <div className="chore-container">
+        <h2 className="text-center chore-header">Chores</h2>
+        <div className="chore-list">
           {choreList}
         </div>
         <ChoreForm formSubmit={this.formSubmit}/>
@@ -78,16 +78,21 @@ var ChoreEntry = React.createClass({
   render: function () {
     // console.log('this.props', this.props.chore);
     return (
-    <div>
-
-      {this.props.chore.userId}
-      {this.props.chore.name}
-      {this.props.chore.category}
-      {this.props.chore.dueDate}
-      <form onSubmit={this.updateChoreStatus}>
-        <button type="submit">Completed</button>
-      </form>
-    </div>
+      <div className="chore-entry">
+        <div className="row">
+          <div className="col-xs-6 chore-id">
+            <p>{this.props.chore.userId}</p>
+          </div>
+          <div className="col-xs-6 chore-duedate">
+            <p>{this.props.chore.dueDate}</p>
+          </div>
+        </div>
+        <div className="row">
+          <div className="chore-text">
+            <p>{this.props.chore.name}</p>
+          </div>
+        </div>
+      </div>
     )
   }
 });
@@ -95,11 +100,11 @@ var ChoreEntry = React.createClass({
 var ChoreForm = React.createClass({
   localSubmit: function (event) {
     event.preventDefault();
-    var userId = this.refs.userId.value;
+    var userId = 1;
     var dueDate = this.refs.dueDate.value;
     var name = this.refs.name.value;
-    var category = this.refs.category.value;
-    var houseId = this.refs.houseId.value;
+    var category = "other";
+    var houseId = 1;
     var choreObject = {
       userId: userId,
       dueDate: dueDate,
@@ -113,14 +118,24 @@ var ChoreForm = React.createClass({
 
   render: function () {
     return (
-      <div>
-        <form ref='choreForm' onSubmit={this.localSubmit}>
-          UserId: <input type='text' name='userId' ref='userId' placeholder='user id'/>
-          <input type='text' name='name' ref='name' placeholder='chore Name'/>
-          <input type='date' name='dueDate' ref='dueDate' /> 
-          <input type='text' name='category' ref='category' placeholder='category' />
-          <input type='number' name='houseId' ref='houseId' placeholder='House Id'/> 
-          <input type='submit' value='submit'/>
+      <div className="chore-form">
+        <form className='form-group' ref='choreForm' onSubmit={this.localSubmit}>
+          <div className="row">
+          <input className="form-control" type='text' name='chore' ref='name' placeholder='Chore'/>
+          </div>
+          <div className="row">
+            <div className="col-xs-6">
+              <input className="form-control" type="date" ref="dueDate"/>
+            </div>
+            <div className="col-xs-6">
+              <select className="form-control" ref="username">
+                <option value="user1"> user1 </option>
+              </select>
+            </div>
+            <div className="row">
+              <button className="btn btn-info" type="submit">Submit</button>
+            </div>
+          </div>
         </form>
       </div>
     )
