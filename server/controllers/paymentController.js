@@ -52,7 +52,7 @@ module.exports = {
         res.sendStatus(500);
       } else {
         console.log("payment is here", payment)
-        res.json(payment);
+        res.json(payment.insertId);
       }
     });
   },
@@ -63,7 +63,7 @@ module.exports = {
       if (err) {
         res.sendStatus(500);
       } else {
-        res.json(payment);
+        res.json(payment.insertId);
       }
 
     });

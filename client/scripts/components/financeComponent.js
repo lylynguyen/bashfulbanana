@@ -5,11 +5,31 @@ import $ from 'jquery';
 var FinanceContainer = React.createClass({
   getInitialState: function() {
     this.loadBills();
+    this.getUsers(); 
+    var userId = localStorage.getItem('userId');
     return {
-      bills: [{name: 'water', total: 200, dueDate: 'string'}],
+      bills: [],
       paymentsOwed: [{paid: false, total: 300}], 
-      history: [{name: 'rent', total: 1250}]
+      history: [{name: 'rent', total: 1250}],
+      users: [],
+      //eventually need to get real houseId/userId - use Justin's login to query
+      //database with userId to get that user's houseId
+      houseId: 1,
+      userId: userId
     }
+  },
+
+  getUsers: function() {
+    $.ajax({
+      //eventually need to replace 1 with houseId. 
+      url: 'http://localhost:8080/users/1',
+      type: 'GET',
+      contentType: 'application/json',
+      success: function(users) {
+        this.state.users = users; 
+        this.setState({users: this.state.users}); 
+      }.bind(this)
+    });
   },
 
   //addBill is a function that will take a new created bill and post it
@@ -25,14 +45,27 @@ var FinanceContainer = React.createClass({
   addBill: function(bill) { 
     console.log('MESSAGE', bill);
     $.ajax({
-      url: 'http://localhost:8080/payments/bills',
+      url: 'http://localhost:8080/payment/bill',
       type: 'POST',
       data: JSON.stringify(bill),
       contentType: 'application/json',
       success: function(data) {
-        console.log('got here'); 
+        console.log(data);
         this.loadBills();
       }.bind(this)
+    });
+  },
+
+  addPayment: function(payment) {
+    $.ajax({
+      url: 'http://localhost:8080/payment',
+      type: 'POST',
+      data: JSON.stringify(payment),
+      contentType: 'application/json',
+      success: function(data) {
+        // this.loadPayments()
+        console.log("payment added");
+      }
     });
   },
 
@@ -44,12 +77,12 @@ var FinanceContainer = React.createClass({
 
   loadBills: function() {
     $.ajax({
-      url: 'http://localhost:8080/payment/pay/1',
+      url: 'http://localhost:8080/payment/owed/1',
       type: 'GET',
       contentType: 'application/json',
       success: function(bills) {
-        console.log('BILLS', bills);
-        this.setState({bills: bills});
+        this.state.bills = bills; 
+        this.setState({bills: this.state.bills});
       }.bind(this),
       error: function(err) {
         console.log(err);
@@ -82,7 +115,7 @@ var FinanceContainer = React.createClass({
           <h4 className="text-center">History</h4>
           {historyList}
         </div>
-        <BillForm addBill={this.addBill}/>
+        <BillForm addPayment={this.addPayment} addBill={this.addBill} users={this.state.users}/>
       </div>
     )
   }
@@ -93,11 +126,15 @@ var BillForm = React.createClass({
     //access this.refs.amount.value
     var total = this.refs.amount.value;
     //divide total by number of roommates 
+    var costPerUser = total/this.props.user.length; 
+    //return the cost per user
+    return costPerUser; 
   },
 
   createBill: function(event) {
     //prevent default event action
     event.preventDefault();
+    var userId = localStorage.getItem('userId');
     //create bill object based on user input
     var bill = {
       //on top of these, need access to the userId of
@@ -105,7 +142,8 @@ var BillForm = React.createClass({
       //users checked on the form and what they owe.
       //think about creating separate payment objects
       //in a different payment function for these. 
-      total: this.refs.amount.value,
+      userId: userId,
+      total: this.refs.total.value,
       name: this.refs.name.value,
       dueDate: this.refs.dueDate.value
     };
@@ -115,7 +153,31 @@ var BillForm = React.createClass({
     this.refs.billForm.reset();
   },
 
+  createPayments: function(event) {
+    event.preventDefault();
+    var users = this.props.users;
+    //iterate through users
+    for(var i = 0; i < users.length; i++) {
+      //find the ones selected
+      if(users[i].selected === true) {
+        //create payment object
+        var payment = {
+          billId: 1, //need to figure this out
+          userId: users[i].id,
+          amount: users[i].total
+        }
+        this.props.addPayment(payment);
+        console.log(users[i]);
+        console.log('PAYMENT', payment)
+      }
+    }
+  },
+
   render: function() {
+    var userList = this.props.users.map(function(item, i) {
+      item.selected = false; 
+      return <UserEntry key={i} user={item} />
+    }); 
     return (
       <div>
         <h4 className="text-center">Create A New Bill</h4>
@@ -123,23 +185,16 @@ var BillForm = React.createClass({
           <form action="submit" ref='billForm' onSubmit=''>
             <div className='input'>
               Bill Name: <input type="text" ref='name'/>
-              Bill Amount: <input type="number" ref='amount'/>
+              Bill Amount: <input type="number" ref='total'/>
               Bill Due Date: <input type="date" ref='dueDate'/>
               <button onClick={this.splitEvenly}>Split Evenly</button>
               <p> - OR - </p>
               <ul className='roommates'>
-                <li><label><input type="checkbox" name="chk1" id="chk1"/>Justin</label>
-                <input type='text'/></li>
-                <li><label><input type="checkbox" name="chk2" id="chk2"/>Lyly</label>
-                <input type='text'/></li>
-                <li><label><input type="checkbox" name="chk3" id="chk3"/>Nick</label>
-                <input type='text'/></li>
-                <li><label><input type="checkbox" name="chk4" id="chk4"/>Joey</label>
-                <input type='text'/></li>
+                {userList}
               </ul>
             </div>
             <div className='submission'>
-              <button onClick={this.createBill}>Submit Bill</button>
+              <button onClick={this.createPayments}>Submit Bill</button>
             </div>
           </form>
         </div>
@@ -152,13 +207,33 @@ var BillEntry = React.createClass({
   render: function() {
     return (
       <div>
-        {this.props.bill.name}
-        {this.props.bill.total}
+        {this.props.bill.billName}
+        {this.props.bill.amount}
         {this.props.bill.dueDate}
       </div>
     )
   }
 }); 
+
+var UserEntry = React.createClass({
+  toggleSelected: function(id) {
+    this.props.user.selected = !this.props.user.selected;
+    // this.props.user.total = this.refs[id].value; 
+  },
+
+  setValue: function(id) {
+
+    console.log(this.refs[id].value);
+    this.props.user.total = this.refs[id].value; 
+  },
+
+  render: function() {
+    return (
+      <li><label><input onChange={this.toggleSelected.bind(this, this.props.user.id)} type="checkbox" name={this.props.user.id} id={this.props.user.id}/>
+      {this.props.user.name}</label><input onKeyUp={this.setValue.bind(this, this.props.user.id)} ref={this.props.user.id} type='text'/></li>
+    )
+  }
+})
 
 var PaymentOwedEntry = React.createClass({
   render: function() {

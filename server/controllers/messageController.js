@@ -20,7 +20,7 @@ module.exports = {
       if (err) {
         res.sendStatus(500);
       }
-      res.json(results);
+      res.json(results.insertId);
     });
   }
 }

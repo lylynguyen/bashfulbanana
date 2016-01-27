@@ -19,7 +19,7 @@ module.exports = {
       if (err) {
         res.sendStatus(500);
       }
-      res.status(201).json(results);
+      res.status(201).json(results.insertId);
     }); 
   },
 
