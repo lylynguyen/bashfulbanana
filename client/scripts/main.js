@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import { Router, Route } from 'react-router';
+import { createHistory } from 'history';
 import MessageContainer from './components/messageComponent'
 import ChoreContainer from './components/choreComponent'
 import FinanceContainer from './components/financeComponent'
@@ -21,6 +23,7 @@ var App = React.createClass({
         <div className="col-xs-5 col-md-4 col-lg-4 interface-container side-bar-container">
           <ImageContainer />
           <NavigationContainer changeView={this.renderView} />
+          <Logout />
         </div>
         <div className="col-xs-7 col-md-8 col-lg-8 interface-container">
           <ContentContainer view={this.state.view} />
@@ -56,6 +59,17 @@ var NavigationContainer = React.createClass({
   }
 });
 
+var Logout = React.createClass({
+  mixins : [Router.Navigation],
+  logout: function() {
+    window.localStorage.removeItem('userId');
+    window.location.href = "http://localhost:3000/";
+  },
+  render: function() {
+    return <button onClick={this.logout} className="btn btn-danger">Logout</button>
+  }
+});
+
 var ContentContainer = React.createClass({
   render: function() {
     if (this.props.view === 'Message') {
@@ -68,4 +82,33 @@ var ContentContainer = React.createClass({
   }
 });
 
-ReactDOM.render(<App />, document.querySelector('#app'));
+var Login = React.createClass({
+  login: function() {
+    window.localStorage.setItem('userId', this.refs.userId);
+  },
+  render: function() {
+    return (
+      <form onSubmit={this.login} className="form-group">
+        <label htmlFor="userId-input">userId</label>
+        <input ref="userId" id="userId-input" className="form-control" type="text" />
+        <button className="btn btn-success">Login</button>
+      </form>
+    )
+  }
+});
+
+var routes = (
+  <Router history={createHistory()}>
+    <Route path="/" component={Login}/>
+    <Route path="/house" component={App}/>
+  </Router>
+)
+
+if (window.localStorage.getItem('userId')) {
+  ReactDOM.render(<App />, document.querySelector('#app'));
+} else {
+  ReactDOM.render(routes, document.querySelector('#app'));
+}
+
+
+// ReactDOM.render(<App />, document.querySelector('#app'));
