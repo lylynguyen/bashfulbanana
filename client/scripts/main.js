@@ -111,5 +111,3 @@ if (window.localStorage.getItem('userId')) {
   ReactDOM.render(routes, document.querySelector('#app'));
 }
 
-
-// ReactDOM.render(<App />, document.querySelector('#app'));
