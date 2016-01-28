@@ -70,12 +70,12 @@ var RegistrationContainer = React.createClass ({
         <h4>Create House</h4>
         <form ref='createHouseForm'>
           Nickname: <input type='text' ref='nickname'/>
-          <button>Create</button>
+          <button onClick={this.createHouse}>Create</button>
         </form>
         <p> --OR-- </p>
         <form ref='joinHouseForm'>
           Enter House Code: <input type='text' ref='houseCode'/>
-          <button>Join</button>
+          <button onClick={this.findHouse}>Join</button>
         </form>
         <button onClick={this.redirectToHouse}>House</button>
       </div>

@@ -46,4 +46,9 @@ module.exports = function(app, express) {
   app.post('/payment', paymentController.postPayment);
   app.post('/payment/bill', paymentController.postBill);
   app.put('/payment/:paymentId', paymentController.markPaymentAsPaid);
+
+  //Houses
+  app.post('/houses');
+  app.get('/houses/:token');
+  app.put('/users/:userId'); 
 }
