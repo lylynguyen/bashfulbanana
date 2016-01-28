@@ -6,27 +6,31 @@ import { Router, Route, History } from 'react-router';
 var RegistrationContainer = React.createClass ({
   mixins: [History],
 
+  //fully working front to back
   createHouse: function(event) {
     event.preventDefault();
+    console.log('creating house');
     var house = {
       name: this.refs.nickname.value
     };
-    this.props.addHouse(house);
+    this.addHouse(house);
     this.refs.createHouseForm.reset(); 
   },
 
+  //full working front to back
   addHouse: function(house) {
     $.ajax({
       url: 'http://localhost:8080/houses',
       type: 'POST',
       data: JSON.stringify(house),
       contentType: 'application/json',
-      success: function(houseId) {
-        console.log(houseId); 
+      success: function(data) {
+        console.log('id of newly added house', data.insertId); 
       }.bind(this)
     })
   },
 
+  //need to add token to schema before can test
   findHouse: function(event) {
     event.preventDefault(); 
     //get request for house with provided houseCode
@@ -45,8 +49,7 @@ var RegistrationContainer = React.createClass ({
     this.refs.joinHouseForm.reset(); 
   },
 
-
-
+  //need findHouse to work before can test 
   updateUserHouseId: function(houseId) {
     var userId = window.localStorage.getItem('userId');
     $.ajax({

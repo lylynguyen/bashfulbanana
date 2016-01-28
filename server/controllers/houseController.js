@@ -10,6 +10,7 @@ module.exports = {
       if(err) {
         res.sendStatus(500);
       } else {
+        console.log('postHouse sending back results')
         res.json(results);
       }
     });
@@ -32,7 +33,7 @@ module.exports = {
     //from the route, maybe we can send the houseId as data
     //and extract it from req.body. First set params to userId
     var houseId = req.body.houseId;
-    var params = [req.params.userId, houseId];
+    var params = [houseId, req.params.userId];
     houseModel.getHouse(params, function(err, results) {
       if(err) {
         res.sendStatus(500);

@@ -50,6 +50,6 @@ module.exports = function(app, express) {
 
   //Houses
   app.post('/houses', houseController.postHouse);
-  app.get('/houses/:token', houseController.getHouseByHouseId);
+  app.get('/houses/:token', houseController.getHousebyHouseId);
   app.put('/users/:userId', houseController.updateUserHouseId); 
 }
