@@ -22,7 +22,6 @@ module.exports = {
     })
   },
   postUser: function (req, res) {
-    console.log("BODEEEE", req.body);
     var name = req.body.name
     var houseId = parseInt(req.body.houseId);
     var venmoName = req.body.venmoName;
@@ -33,16 +32,26 @@ module.exports = {
     var balance = parseFloat(req.body.balance);
     var access_token = req.body.access_token;
     var refresh_token = req.body.refresh_token;
-    var venmoid = parseInt(req.body.venmoid);
+    var venmoid = req.body.venmoid;
 
     var params = [name, houseId, venmoName, username, email, provider, venmo, balance, access_token, refresh_token, venmoid];
-    console.log(params);
 
     userModel.postUser(params, function(err, results) {
       if (err) {
         res.sendStatus(500);
       } else {
         res.json(results.insertId);
+      }
+    })
+  },
+  putUser: function (req, res) {
+    var params = [req.body.balance, req.body.access_token, req.body.venmo, req.body.venmoid];
+    
+    userModel.putUser(params, function (err, results) {
+      if (err) {
+        res.sendStatus(500);
+      } else {
+        res.json(results);
       }
     })
   }

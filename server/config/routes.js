@@ -16,16 +16,17 @@ module.exports = function(app, express) {
   });
 
   app.get('/auth/venmo/callback', passport.authenticate('venmo', {
-      failureRedirect: '/'
+      failureRedirect: '/' //redirect to login eventually
   }), function(req, res) {
-    // res.render("yo");
-    console.log(res);
+    // console.log("REZZ",res)
+    res.redirect("/");
   });
 
   //Users
   app.get('/users/:houseId', userController.getUsersInHouse);
   app.get('/users/venmo/:venmoId', userController.findUserByVenmoId);
   app.post('/users', userController.postUser);
+  app.put('/users', userController.putUser);
 
   //Messages
   app.get('/messages/:houseId', messageController.get);

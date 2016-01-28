@@ -52,71 +52,43 @@ passport.use(new VenmoStrategy({
     obj.access_token = accessToken;
     obj.refresh_token = refreshToken;
     obj.venmoid = venmo.id;
-
     
     request.get('http://localhost:8080/users/venmo/'+ venmo.id, function(err, resp, body) {
-      if (!err && resp.statusCode == 200) {
-        console.log("get worked!") // Show the HTML for the Google homepage. 
+      if (!err && resp.statusCode == 200) { 
         if (JSON.parse(body).length === 0){
-          console.log('in');
 
-        request({
+          request({
             url: 'http://localhost:8080/users', //URL to hit
             method: 'POST',
             json: obj //Set the body as a string
-        }, function(error, response, body){
-            if(error) {
-                console.log(error);
+          }, function(error, response, body){
+              if(error) {
+                return done(error);
+              } else {
+                return done(null, obj);
+              }
+          });  
+        }
+        else {
+          request({
+            url: 'http://localhost:8080/users', //URL to hit
+            method: 'PUT',
+            json: obj 
+          }, function (error, response, body) {
+            if (error) {
+              return done(error);
             } else {
-                console.log(response.statusCode, body);
+              return done(null, obj);
             }
-        });
-          
+          });
         }
       } else {
-        console.log("get failed!");
-
+        console.log('error');
         return done(err);
       }
     })
-
-    done();
-    // console.log("accessToken", accessToken);
-    // User.findOne({
-    //     'venmo.id': venmo.id
-    // }, function(err, user) {
-    //     if (err) {
-    //         return done(err);
-    //     }
-    //     // checks if the user has been already been created, if not
-    //     // we create a new instance of the User model
-    //     if (!user) {
-    //         user = new User({
-    //             name: venmo.displayName,
-    //             username: venmo.username,
-    //             email: venmo.email,
-    //             provider: 'venmo',
-    //             venmo: venmo._json,
-    //             balance: venmo.balance,
-    //             access_token: accessToken,
-    //             refresh_token: refreshToken
-    //         });
-    //         user.save(function(err) {
-    //             if (err) console.log(err);
-    //             return done(err, user);
-    //         });
-    //     } else {
-    //         user.balance = venmo.balance;
-    //         user.access_token = accessToken;
-    //         user.save();
-    //         user.venmo = venmo._json
-    //         return done(err, user);
-    //     }
-    // });
   }
 ));
-
-
 
 require('./config/routes.js')(app, express);
 
