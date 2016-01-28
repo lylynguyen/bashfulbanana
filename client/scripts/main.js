@@ -7,7 +7,6 @@ import MessageContainer from './components/messageComponent'
 import ChoreContainer from './components/choreComponent'
 import FinanceContainer from './components/financeComponent'
 
-
 var App = React.createClass({
   getInitialState: function() {
     return {
@@ -65,7 +64,7 @@ var Logout = React.createClass({
   logout: function() {
     window.localStorage.removeItem('userId');
     window.localStorage.removeItem('houseId');
-    window.location.href = "http://localhost:3000/";
+    window.location.href = "http://localhost:8080/";
   },
   render: function() {
     return <button onClick={this.logout} className="btn btn-danger">Logout</button>
