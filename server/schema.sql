@@ -27,11 +27,11 @@ CREATE TABLE `Users` (
   `username` VARCHAR(40),
   `email` VARCHAR(100),
   `provider` VARCHAR(100),
-  `venmo` VARCHAR(500),
+  `venmo` VARCHAR(1000),
   `balance` FLOAT,
   `access_token` VARCHAR(500),
   `refresh_token` VARCHAR(500),
-  `venmoid` INT,
+  `venmoid` BIGINT,
   PRIMARY KEY (`id`)
 );
 

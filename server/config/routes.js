@@ -2,9 +2,25 @@ var messageController = require('../controllers/messageController.js')
 var paymentController = require('../controllers/paymentController.js');
 var choreController = require('../controllers/choreController.js');
 var userController = require('../controllers/userController.js');
+var passport = require('passport');
 
 module.exports = function(app, express) {
   app.use('/', express.static('client'));
+
+  //Passport
+  app.get('/auth/venmo', passport.authenticate('venmo', {
+      scope: ['make_payments', 'access_feed', 'access_profile', 'access_email', 'access_phone', 'access_balance', 'access_friends'],
+      failureRedirect: '/'
+  }), function(req, res) {
+    res.render("hi");
+  });
+
+  app.get('/auth/venmo/callback', passport.authenticate('venmo', {
+      failureRedirect: '/'
+  }), function(req, res) {
+    // res.render("yo");
+    console.log(res);
+  });
 
   //Users
   app.get('/users/:houseId', userController.getUsersInHouse);
