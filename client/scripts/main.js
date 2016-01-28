@@ -87,14 +87,16 @@ var ContentContainer = React.createClass({
 var Login = React.createClass({
   login: function() {
     window.localStorage.setItem('userId', this.refs.userId.value);
+    window.localStorage.setItem('houseId', this.refs.houseId.value);
   },
+
   render: function() {
     return (
       <form onSubmit={this.login} className="form-group">
         <label htmlFor="userId-input">userId</label>
         <input ref="userId" id="userId-input" className="form-control" type="text" />
         <label htmlFor="userId-input">houseId</label>
-        <input ref="userId" id="userId-input" className="form-control" type="text" />
+        <input ref="houseId" id="userId-input" className="form-control" type="text" />
         <button className="btn btn-success">Login</button>
       </form>
     )

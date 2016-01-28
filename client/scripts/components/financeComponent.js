@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import h from '../helpers';
 
 var FinanceContainer = React.createClass({
   getInitialState: function() {
@@ -200,10 +201,16 @@ var FinanceContainer = React.createClass({
 });
 
 var BillEntry = React.createClass({
+  getDate: function() {
+    var date = h.getDate(this.props.bill.dueDate);
+    console.log(date);
+    return `${date.day}/${date.month}/${date.year}`;
+  },
   render: function() {
     return (
       <div>
-        {this.props.bill.billName} $ {this.props.bill.amount} by {this.props.bill.dueDate}
+        {this.props.bill.billName} ${this.props.bill.amount} by {this.getDate()}
+        <button className=''>Pay Bill</button>
       </div>
     )
   }
