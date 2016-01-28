@@ -63,10 +63,8 @@ passport.use(new VenmoStrategy({
             json: obj //Set the body as a string
           }, function(error, response, body){
               if(error) {
-                console.log("error")
                 return done(error);
               } else {
-                console.log('yay1');
                 return done(null, obj);
               }
           });  
@@ -78,9 +76,8 @@ passport.use(new VenmoStrategy({
             json: obj 
           }, function (error, response, body) {
             if (error) {
-              // return done(error);
+              return done(error);
             } else {
-              console.log('yay2');
               return done(null, obj);
             }
           });
@@ -90,8 +87,6 @@ passport.use(new VenmoStrategy({
         return done(err);
       }
     })
-    // console.log('failed horribly')
-    // done();
   }
 ));
 
