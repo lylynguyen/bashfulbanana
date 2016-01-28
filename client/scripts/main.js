@@ -7,7 +7,6 @@ import MessageContainer from './components/messageComponent'
 import ChoreContainer from './components/choreComponent'
 import FinanceContainer from './components/financeComponent'
 
-
 var App = React.createClass({
   getInitialState: function() {
     return {
