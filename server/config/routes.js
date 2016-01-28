@@ -8,6 +8,8 @@ module.exports = function(app, express) {
 
   //Users
   app.get('/users/:houseId', userController.getUsersInHouse);
+  app.get('/users/venmo/:venmoId', userController.findUserByVenmoId);
+  app.post('/users', userController.postUser);
 
   //Messages
   app.get('/messages/:houseId', messageController.get);
