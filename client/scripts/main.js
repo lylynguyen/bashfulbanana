@@ -6,6 +6,7 @@ import { createHistory } from 'history';
 import MessageContainer from './components/messageComponent'
 import ChoreContainer from './components/choreComponent'
 import FinanceContainer from './components/financeComponent'
+import RegistrationContainer from './components/registrationComponent'
 
 var App = React.createClass({
   getInitialState: function() {
@@ -106,6 +107,7 @@ var routes = (
   <Router history={createHistory()}>
     <Route path="/" component={Login}/>
     <Route path="/house" component={App}/>
+    <Route path="/registration" component={RegistrationContainer}/>
   </Router>
 )
 
