@@ -71,7 +71,7 @@ var MessageEntry = React.createClass({
             <p>{this.props.message.name}</p>
           </div>
           <div className="col-xs-6 message-timestamp">
-            <p>{this.props.message.time.split('T')[0]}</p>
+            <p>{this.props.message.time}</p>
           </div>
         </div>
         <div className="row">

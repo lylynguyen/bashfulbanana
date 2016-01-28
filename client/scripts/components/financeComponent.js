@@ -151,7 +151,6 @@ var FinanceContainer = React.createClass({
       type: 'GET',
       contentType: 'application/json',
       success: function(payments) {
-        console.log("payments", payments)
         this.state.paymentsOwed = payments; 
         this.setState({paymentsOwed: this.state.paymentsOwed});
       }.bind(this),
@@ -204,9 +203,7 @@ var BillEntry = React.createClass({
   render: function() {
     return (
       <div>
-        {this.props.bill.billName}
-        {this.props.bill.amount}
-        {this.props.bill.dueDate}
+        {this.props.bill.billName} $ {this.props.bill.amount} by {this.props.bill.dueDate}
       </div>
     )
   }
@@ -214,10 +211,9 @@ var BillEntry = React.createClass({
 
 var PaymentOwedEntry = React.createClass({
   render: function() {
-    console.log('PROPS', this.props.paymentOwed)
     return (
       <div>
-        {this.props.paymentOwed.ower} owes you {this.props.paymentOwed.amount}
+        {this.props.paymentOwed.ower} owes you {this.props.paymentOwed.amount} for {this.props.paymentOwed.billName}
       </div>
     )
   }
@@ -328,7 +324,7 @@ var BillForm = React.createClass({
             </div>
             <button className="btn btn-success btn-left" onClick={this.splitEvenly}>Split Evenly</button>
             <button className="btn btn-success btn-right" onClick={this.customSplit}>Custom Split</button>
-            {this.state.splitEvenly ? <CustomSplitForm createBill={this.createBill} userList={userList} /> : null}
+            {this.state.splitEvenly ? <CustomSplitForm createBill={this.createBill} userList={userList} users={this.props.users} /> : null}
           </div>
         </form>
       </div>
@@ -337,6 +333,15 @@ var BillForm = React.createClass({
 });
 
 var CustomSplitForm = React.createClass({
+  // startBill: function(event) {
+  //   event.preventDefault();
+  //   var userProps = this.props.users;
+  //   var usersPaying = {};
+  //   for (var i = 0; i<userProps.length; i++) {
+  //     if (this.refs[userProps[user.id]])
+  //   }
+  //   this.props.createBill();
+  // },
   render: function() {
     return (
       <div className="custom-split-container">
@@ -350,27 +355,23 @@ var CustomSplitForm = React.createClass({
 })
 
 var UserEntry = React.createClass({
-  toggleSelected: function(id) {
-    this.props.user.selected = !this.props.user.selected;
-    // this.props.user.total = this.refs[id].value; 
-  },
-
   setValue: function(id) {
-    console.log(this.refs[id].value);
-    this.props.user.total = this.refs[id].value; 
+    this.props.user.selected = true;
+    this.props.user.total = this.refs[id].value;
+    console.log('this.refs[id].value', !this.refs[id].value);
+    if (!this.refs[id].value) {
+      this.props.user.selected = false;
+    }
   },
 
   render: function() {
     return (
       <li className="split-bill-user-entry">
         <div className="form-group">
-          <label htmlFor="user-entry-checkbox">
-            <input id="user-entry-checkbox" onChange={this.toggleSelected.bind(this, this.props.user.id)} type="checkbox" name={this.props.user.id} id={this.props.user.id}/>
-            {this.props.user.name}
-          </label>
           <div className="input-group">
+          <label htmlFor="user-split-input">{this.props.user.name}</label>
             <div className="input-group-addon">$</div>
-            <input className="form-control" onKeyUp={this.setValue.bind(this, this.props.user.id)} ref={this.props.user.id} type='number'/>
+            <input className="form-control" id="user-split-input" onKeyUp={this.setValue.bind(this, this.props.user.id)} ref={this.props.user.id} type='number'/>
           </div>
         </div>
       </li>
