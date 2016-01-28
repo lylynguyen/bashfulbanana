@@ -103,6 +103,7 @@ div.message-entry:hover {
 
 .chore-container {
   height: 100%;
+  min-height: 440px;
   position: relative;
 }
 
@@ -117,7 +118,8 @@ div.message-entry:hover {
 }
 
 .chore-list {
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
    /*
      subtract height of the message form
      could use jQuery for more dynamic if necessary
@@ -129,7 +131,6 @@ div.message-entry:hover {
   text-align: left;
   margin: 15px 15px 15px 15px;
 }
-
 
 div.chore-entry:hover {
   background-color: rgba(138, 138, 138, 0.1);
@@ -161,18 +162,27 @@ div.chore-entry:hover {
   margin: 0 15px 0 15px;
 }
 
-.chore-div {
-  display:  inline-block
+.full-width {
+  padding: 0;
 }
 
-.chore-input-left {
+.chore-div {
+/*  display:  inline-block*/
+  padding: 0;
+}
+
+.chore-div-middle {
+  padding: 0 5px 0 5px;
+}
+
+/*.chore-input-left {
   float:left;
 }
 
 .chore-input-right {
   float: right;
 }
-
+*/
 .username-input {
   width: 100%;
 }
@@ -185,7 +195,14 @@ div.chore-entry:hover {
   position: relative;
   height: 100%;
 }
-
+.custom-split-container {
+  margin-top: 10px;
+}
+.custom-split-user > p {
+  font-size: 1em;
+  margin-bottom: 0;
+  font-weight: 600;
+}
 .split-bill-user-list {
   list-style: none;
 }
