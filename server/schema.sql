@@ -22,7 +22,7 @@ CREATE TABLE `Users` (
   `id` INT AUTO_INCREMENT,
   `name` VARCHAR(20) NOT NULL,
   `password` VARCHAR(40),
-  `houseId` INT NOT NULL,
+  `houseId` INT,
   `venmoName` VARCHAR(40),
   `username` VARCHAR(40),
   `email` VARCHAR(100),
