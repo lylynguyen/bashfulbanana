@@ -9,9 +9,10 @@ var app = express();
 var db = require('./db/index');
 var cors = require('cors');
 var user = require('./controllers/userController');
+require('dotenv').load();
 
-var Venmo_Client_ID = ""; //POPULATE THESE TOMORROW
-var Venmo_Client_SECRET = '';
+var Venmo_Client_ID = process.env.venmo_client_ID; 
+var Venmo_Client_SECRET = process.env.venmo_client_secret;
 var Venmo_Callback_URL = 'http://localhost:8080/auth/venmo/callback';
 
 app.set('port', (process.env.PORT || 8080));
