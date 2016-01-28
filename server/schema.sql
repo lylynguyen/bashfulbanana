@@ -21,8 +21,17 @@ DROP TABLE IF EXISTS `Users`;
 CREATE TABLE `Users` (
   `id` INT AUTO_INCREMENT,
   `name` VARCHAR(20) NOT NULL,
-  `password` VARCHAR(40) NOT NULL,
+  `password` VARCHAR(40),
   `houseId` INT NOT NULL,
+  `venmoName` VARCHAR(40),
+  `username` VARCHAR(40),
+  `email` VARCHAR(100),
+  `provider` VARCHAR(100),
+  `venmo` VARCHAR(1000),
+  `balance` FLOAT,
+  `access_token` VARCHAR(500),
+  `refresh_token` VARCHAR(500),
+  `venmoid` BIGINT,
   PRIMARY KEY (`id`)
 );
 
@@ -142,17 +151,19 @@ INSERT INTO `House` (`id`,`name`) VALUES
 
 -- INSERT INTO `Users` (`id`,`name`,`password`,`houseId`) VALUES
 -- ('','','','');
-INSERT INTO `Users` (`id`,`name`,`password`,`houseId`) VALUES
-(1, 'Joey Holland','higuys', 1);
+INSERT INTO `Users` (name, houseId, venmoName, username, email, provider, venmo, balance, access_token, refresh_token, venmoid ) VALUES
+('Joey Holland', 1,'Joey', 'jballz', 'joey@yahoo.com', 'venmo', '{}', 45.33, 'sdafdsfads234', 'ertwretwre214', 444444 );
 
-INSERT INTO `Users` (`id`,`name`,`password`,`houseId`) VALUES
-(2, 'Nick Kneafsey','nice', 1);
+-- INSERT INTO `Users` (`id`,`name`,`password`,`houseId`) VALUES
+-- (2, 'Nick Kneafsey','nice', 1);
 
-INSERT INTO `Users` (`id`,`name`,`password`,`houseId`) VALUES
-(3, 'Lyly Nguyen','password', 2);
+-- INSERT INTO `Users` (`id`,`name`,`password`,`houseId`) VALUES
+-- (3, 'Lyly Nguyen','password', 2);
 
-INSERT INTO `Users` (`id`,`name`,`password`,`houseId`) VALUES
-(4, 'Justin Mancherje','123', 2);
+-- INSERT INTO `Users` (`id`,`name`,`password`,`houseId`) VALUES
+-- (4, 'Justin Mancherje','123', 2);
+
+
 -- INSERT INTO `House` (`id`,`name`) VALUES
 -- ('','');
 
