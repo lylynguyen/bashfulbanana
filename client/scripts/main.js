@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
-import { Router, Route } from 'react-router';
+import { Router, Route, History } from 'react-router';
 import { createHistory } from 'history';
 import MessageContainer from './components/messageComponent'
 import ChoreContainer from './components/choreComponent'
@@ -85,9 +85,13 @@ var ContentContainer = React.createClass({
 });
 
 var Login = React.createClass({
-  login: function() {
+  mixins: [History], 
+
+  login: function(event) {
+    event.preventDefault();
     window.localStorage.setItem('userId', this.refs.userId.value);
     window.localStorage.setItem('houseId', this.refs.houseId.value);
+    this.history.pushState(null, '/registration');
   },
 
   render: function() {
@@ -111,9 +115,24 @@ var routes = (
   </Router>
 )
 
-if (window.localStorage.getItem('userId')) {
-  ReactDOM.render(<App />, document.querySelector('#app'));
-} else {
-  ReactDOM.render(routes, document.querySelector('#app'));
-}
+// var routes = (
+//   <Router history={createBrowserHistory()}>
+//     <Route path="/" component={StorePicker}/>
+//     <Route path="/store/:storeId" component={App}/>
+//     <Route path="*" component={NotFound}/>
+//   </Router>
+// )
+
+// ReactDOM.render(routes, document.querySelector('#main'));
+
+// if (window.localStorage.getItem('userId')) {
+//   ReactDOM.render(<App />, document.querySelector('#app'));
+// } else {
+//   ReactDOM.render(routes, document.querySelector('#app'));
+// }
+
+ReactDOM.render(routes, document.querySelector('#app'))
+
+
+
 
