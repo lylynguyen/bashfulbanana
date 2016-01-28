@@ -31,7 +31,7 @@ CREATE TABLE `Users` (
   `balance` FLOAT,
   `access_token` VARCHAR(500),
   `refresh_token` VARCHAR(500),
-  `venmoid` BIGINT,
+  `venmoid` VARCHAR(500),
   PRIMARY KEY (`id`)
 );
 
