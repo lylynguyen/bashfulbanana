@@ -52,7 +52,7 @@ html, body {
    */
   height: calc(100% - 150px);
 }
-.message-form {
+.message-form, .form-bottom, .bill-form {
   background-color: white;
   position: absolute;
   bottom: 20px;
@@ -180,6 +180,11 @@ div.chore-entry:hover {
 /*
   Finance
 */
+
+.finance-container {
+  position: relative;
+  height: 100%;
+}
 
 .split-bill-user-list {
   list-style: none;

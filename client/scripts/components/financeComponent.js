@@ -308,7 +308,7 @@ var BillForm = React.createClass({
     }); 
     return (
       <div className='bill-form'>
-        <form action="submit" ref='billForm' className="form-group" onSubmit=''>
+        <form action="submit" ref='billForm' className="form-group form-bottom" onSubmit=''>
           <div className='input'>
             <div className="input-group full-width-input">
               <label htmlFor="bill-name">Bill Name</label>
