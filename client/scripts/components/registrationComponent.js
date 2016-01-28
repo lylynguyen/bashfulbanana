@@ -1,8 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import { Router, Route, History } from 'react-router';
 
 var RegistrationContainer = React.createClass ({
+  mixins: [History],
+
   createHouse: function(event) {
     event.preventDefault();
     var house = {
@@ -57,6 +60,10 @@ var RegistrationContainer = React.createClass ({
     })
   },
 
+  redirectToHouse: function() {
+    this.history.pushState(null, '/house');
+  },
+
   render: function() {
     return (
       <div className='create-house'>
@@ -70,6 +77,7 @@ var RegistrationContainer = React.createClass ({
           Enter House Code: <input type='text' ref='houseCode'/>
           <button>Join</button>
         </form>
+        <button onClick={this.redirectToHouse}>House</button>
       </div>
     )
   }
