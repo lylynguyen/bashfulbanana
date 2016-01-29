@@ -42,7 +42,6 @@ passport.use(new VenmoStrategy({
     // User.findUserByVenmoID(venmo.id, callback);
     var obj= {}
     obj.name = venmo.displayName;
-    obj.houseId = 1; //hard coded Change later
     obj.venmoName = venmo.displayName;
     obj.username = venmo.username;
     obj.email = venmo.email;
