@@ -25,6 +25,12 @@ module.exports = {
      db.query(queryStr, params, function(err, results) {
       callback(err, results);
     });
+  },
+  getHouseOfUser: function(params, callback) {
+    var queryStr = "SELECT id, houseId FROM users WHERE username = ? LIMIT 1";
+    db.query(queryStr, params, function(err, results) {
+      callback(err, results);
+    });
   }
 }
 

@@ -18,9 +18,24 @@ navbar.links = [
 
 var App = React.createClass({
   getInitialState: function() {
+    this.getSession()
     return {
       view: 'Messages'
     }
+  },
+  getSession: function() {
+    $.ajax({
+      url: 'http://localhost:8080/obie/',
+      type: 'GET',
+      contentType: 'application/json',
+      success: function(session) {
+        console.log('got session: ', session);
+        localStorage.setItem('obie', session);
+      }.bind(this),
+      error: function() {
+        console.log('error getting session');
+      }
+    });
   },
   renderView: function(view) {
     console.log("view: ", view);

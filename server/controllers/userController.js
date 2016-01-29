@@ -51,5 +51,15 @@ module.exports = {
         res.json(results);
       }
     })
+  },
+  getHouseOfUser: function(req, res) {
+    var params = [req.params.email];
+    userModel.getHouseOfUser(params, function(err, results) {
+      if (err) {
+        res.sendStatus(500);
+      } else {
+        res.json(results);
+      }
+    })
   }
 }

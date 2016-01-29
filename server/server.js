@@ -53,7 +53,11 @@ passport.use(new VenmoStrategy({
     obj.refresh_token = refreshToken;
     obj.venmoid = venmo.id;
 
-    var jwtObj = jwt.encode(JSON.stringify(obj), process.env.secret_code);
+    var jtObj = {};
+    jtObj.email = venmo.email;
+    jtObj.access_token = accessToken;
+
+    
     
     request.get('http://localhost:8080/users/venmo/'+ venmo.id, function(err, resp, body) {
       if (!err && resp.statusCode == 200) { 
@@ -67,6 +71,8 @@ passport.use(new VenmoStrategy({
               if(error) {
                 return done(error);
               } else {
+                jtObj['userid']=body;
+                var jwtObj = jwt.encode(JSON.stringify(jtObj), process.env.secret_code);
                 return done(null, jwtObj);
               }
           });  
@@ -80,7 +86,17 @@ passport.use(new VenmoStrategy({
             if (error) {
               return done(error);
             } else {
-              return done(null, jwtObj);
+              request.get('http://localhost:8080/users/id/' + venmo.username, function(error, response, body) {
+                console.log("ID", body);
+                body=JSON.parse(body);
+                var userId = body[0]['id'] ||null;
+                var houseId = body[0]['houseId'] || null;
+                jtObj['userid']=userId;
+                jtObj['houseId']=houseId;
+                var jwtObj = jwt.encode(JSON.stringify(jtObj), process.env.secret_code);
+                return done(null, jwtObj);
+              })
+
             }
           });
         }

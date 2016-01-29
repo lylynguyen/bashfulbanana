@@ -35,18 +35,16 @@ module.exports = function(app, express) {
   app.get('/auth/venmo/callback', passport.authenticate('venmo', {
       failureRedirect: '/' //redirect to login eventually
   }), function(req, res) {
-    var obj = JSON.parse(jwt.decode(req.user, process.env.secret_code));
-    var name = obj.name;
-    var accessToken = obj.access_token;
-    // console.log("Access token", obj);
-    // console.log("REZZ",res.req.session.passport.user);
-    // console.log("SESSIN", res.req.session);
     return req.session.regenerate(function() {
-      req.session.user = name;
-      req.session.accessToken = accessToken; 
+      console.log("DECODED", jwt.decode(req.user, process.env.secret_code))
+      req.session.jwt = req.user;
       res.redirect('/');
     });
   });
+
+  app.get('/obie', function(req, res) {
+    res.send(JSON.stringify(req.session));
+  })
 
   //Login/Logout
   app.get('/logout', function(req, res){
@@ -73,14 +71,16 @@ module.exports = function(app, express) {
   app.get('/woo', Auth.checkUser, function(req, res){
     // console.log("auth", req.isAuthenticated())
     console.log("SESSION", req.session);
-    res.send("hi guys")
+    res.send(req.session);
   })
 
   //Users
   app.get('/users/:houseId', userController.getUsersInHouse);
   app.get('/users/venmo/:venmoId', userController.findUserByVenmoId);
+  app.get('/users/id/:email', userController.getHouseOfUser);
   app.post('/users', userController.postUser);
   app.put('/users', userController.putUser);
+
 
   //Messages
   app.get('/messages/:houseId', messageController.get);
