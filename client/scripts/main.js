@@ -115,7 +115,7 @@ var ContentContainer = React.createClass({
 });
 
 var Login = React.createClass({
-  mixins: [History], 
+  mixins: [History],
 
   login: function(event) {
     event.preventDefault();
@@ -155,5 +155,5 @@ $(".side-bar-filler").css({'height':($(".side-bar-container").height()+'px')});
 //   ReactDOM.render(routes, document.querySelector('#app'));
 // }
 
-ReactDOM.render(routes, document.querySelector('#app'))
+ReactDOM.render(<App/>, document.getElementById('app'));
 
