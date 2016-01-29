@@ -77,7 +77,7 @@ module.exports = function(app, express) {
   //Users
   app.get('/users/:houseId', userController.getUsersInHouse);
   app.get('/users/venmo/:venmoId', userController.findUserByVenmoId);
-  app.get('/users/id/:email', userController.getHouseOfUser);
+  app.get('/users/id/:username', userController.getHouseOfUser);
   app.post('/users', userController.postUser);
   app.put('/users', userController.putUser);
 
