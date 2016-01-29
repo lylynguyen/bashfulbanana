@@ -155,6 +155,15 @@ INSERT INTO `House` (`id`,`name`) VALUES
 INSERT INTO `Users` (name, houseId, venmoName, username, email, provider, venmo, balance, access_token, refresh_token, venmoid ) VALUES
 ('Joey Holland', 1,'Joey', 'jballz', 'joey@yahoo.com', 'venmo', '{}', 45.33, 'sdafdsfads234', 'ertwretwre214', 444444 );
 
+INSERT INTO `Users` (name, houseId, venmoName, username, email, provider, venmo, balance, access_token, refresh_token, venmoid ) VALUES
+('Justin Mancherje', 1,'JMancherje', 'justin', 'justin@yahoo.com', 'venmo', '{}', 45000.33, 'sdafdsfads412', 'ertwretwre123', 444445 );
+
+INSERT INTO `Users` (name, houseId, venmoName, username, email, provider, venmo, balance, access_token, refresh_token, venmoid ) VALUES
+('Lyly Nguyen', 1,'lnguyen', 'lyly', 'lyly@yahoo.com', 'venmo', '{}', 142.23, 'sdafdsfads152', 'ertwretwre876', 444446 );
+
+INSERT INTO `Users` (name, houseId, venmoName, username, email, provider, venmo, balance, access_token, refresh_token, venmoid ) VALUES
+('Nick Kneafsey', 1,'nicholas', 'nicky', 'nick@yahoo.com', 'venmo', '{}', 4.33, 'sdafdsfads444', 'ertwretwre888', 444447 );
+
 -- INSERT INTO `Users` (`id`,`name`,`password`,`houseId`) VALUES
 -- (2, 'Nick Kneafsey','nice', 1);
 

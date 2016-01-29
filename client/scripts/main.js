@@ -7,27 +7,41 @@ import MessageContainer from './components/messageComponent'
 import ChoreContainer from './components/choreComponent'
 import FinanceContainer from './components/financeComponent'
 import RegistrationContainer from './components/registrationComponent'
+import NavBar from './components/navbarComponent'
+
+var navbar = {};
+navbar.links = [
+  {render: "Message", text: "Messages"},
+  {render: "Finance", text: "Finances"},
+  {render: "Chore", text: "Chores"}
+];
 
 var App = React.createClass({
   getInitialState: function() {
     return {
-      view: 'Message'
+      view: 'Messages'
     }
   },
   renderView: function(view) {
+    console.log("view: ", view);
     this.setState({view: view});
   },
   render: function() {
     return (
-      <div className="app-container">
-        <div className="col-xs-5 col-md-4 col-lg-4 interface-container side-bar-container">
-          <ImageContainer />
-          <h3>Samuel</h3>
-          <NavigationContainer changeView={this.renderView} />
-          <Logout />
-        </div>
-        <div className="col-xs-7 col-md-8 col-lg-8 interface-container">
-          <ContentContainer view={this.state.view} />
+      <div>
+        <NavBar {...navbar} changeView={this.renderView} />
+        <div className="app-container col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+          <div className="col-xs-5 col-md-4 col-lg-4 side-bar-container">
+            <div className="side-bar-filler">
+              <ImageContainer />
+              <h3>Samuel</h3>
+              <NavigationContainer changeView={this.renderView} />
+              <Logout />
+            </div>
+          </div>
+          <div className="col-xs-7 col-md-8 col-lg-8 interface-container main-bar-container">
+            <ContentContainer view={this.state.view} />
+          </div>
         </div>
       </div>
     )
@@ -42,7 +56,8 @@ var ImageContainer = React.createClass({
 
 var NavigationContainer = React.createClass({
   render: function() {
-    return (<div className="navigation-link">
+    return (
+      <div className="navigation-link">
         <h3 onClick={this.renderMessage}>Messages</h3>
         <h3 onClick={this.renderFinance}>Finance</h3>
         <h3 onClick={this.renderChore}>Chores</h3>
@@ -50,13 +65,13 @@ var NavigationContainer = React.createClass({
     )
   },
   renderMessage() {
-    this.props.changeView('Message');
+    this.props.changeView('Messages');
   },
   renderFinance() {
-    this.props.changeView('Finance');
+    this.props.changeView('Finances');
   },
   renderChore() {
-    this.props.changeView('Chore');
+    this.props.changeView('Chores');
   }
 });
 
@@ -74,11 +89,11 @@ var Logout = React.createClass({
 
 var ContentContainer = React.createClass({
   render: function() {
-    if (this.props.view === 'Message') {
+    if (this.props.view === 'Messages') {
       return <MessageContainer />
-    } else if (this.props.view === 'Chore') {
+    } else if (this.props.view === 'Chores') {
       return <ChoreContainer />
-    } else if (this.props.view === 'Finance') {
+    } else if (this.props.view === 'Finances') {
       return <FinanceContainer />
     }
   }
@@ -102,6 +117,8 @@ var Login = React.createClass({
         <label htmlFor="userId-input">houseId</label>
         <input ref="houseId" id="userId-input" className="form-control" type="text" />
         <button className="btn btn-success">Login</button>
+
+        <a href="/auth/venmo">Log In with Venmo</a>
       </form>
     )
   }
@@ -115,13 +132,7 @@ var routes = (
   </Router>
 )
 
-// var routes = (
-//   <Router history={createBrowserHistory()}>
-//     <Route path="/" component={StorePicker}/>
-//     <Route path="/store/:storeId" component={App}/>
-//     <Route path="*" component={NotFound}/>
-//   </Router>
-// )
+$(".side-bar-filler").css({'height':($(".side-bar-container").height()+'px')});
 
 // ReactDOM.render(routes, document.querySelector('#main'));
 
@@ -132,7 +143,4 @@ var routes = (
 // }
 
 ReactDOM.render(routes, document.querySelector('#app'))
-
-
-
 

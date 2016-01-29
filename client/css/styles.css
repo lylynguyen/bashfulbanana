@@ -9,19 +9,47 @@ h2 {
 html, body {
   height: 100%;
 }
+body {
+  background-color: #F5F8FA;
+}
 #app {
   height: 100%;
+  /* enable margin-top-10px for navbar */
+  /*margin-top: -10px;*/
+}
+#bill-due-date {
+  width: 100%;
+}
+.side-bar-filler > {
+  border-radius: 20px;
 }
 .app-container {
-  margin-top: 40px;
+  /*margin-top: 30px;*/
 }
 .interface-container {
   padding-top: 20px;
-  height: 90vh;
+  height: 88vh;
   min-height: 330px;
 }
 .side-bar-container {
+  padding: 0 0 20px 5px;
+  height: inherit;
+}
+.side-bar-filler {
+  width: 90%;
+  padding: 10px;
+  height: 100%;
+  border: 1px solid #E1E8ED;
+  border-radius: 5px;
+  background-color: white;
+}
+.side-bar-filler > img {
   padding-top: 50px;
+}
+.main-bar-container {
+  background-color: white;
+  border: 1px solid #E1E8ED;
+  border-radius: 5px;
 }
 .navigation-link > h3 {
   color: #337AB7;
@@ -50,12 +78,13 @@ html, body {
      subtract height of the message form
      could use jQuery for more dynamic if necessary
    */
-  height: calc(100% - 150px);
+  height: calc(100% - 180px);
+  margin-top: 15px;
 }
-.message-form {
+.message-form, .form-bottom, .bill-form {
   background-color: white;
   position: absolute;
-  bottom: 20px;
+  bottom: 0;
   width: 100%;
 }
 
@@ -103,6 +132,7 @@ div.message-entry:hover {
 
 .chore-container {
   height: 100%;
+  min-height: 440px;
   position: relative;
 }
 
@@ -117,7 +147,8 @@ div.message-entry:hover {
 }
 
 .chore-list {
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
    /*
      subtract height of the message form
      could use jQuery for more dynamic if necessary
@@ -129,7 +160,6 @@ div.message-entry:hover {
   text-align: left;
   margin: 15px 15px 15px 15px;
 }
-
 
 div.chore-entry:hover {
   background-color: rgba(138, 138, 138, 0.1);
@@ -161,18 +191,27 @@ div.chore-entry:hover {
   margin: 0 15px 0 15px;
 }
 
-.chore-div {
-  display:  inline-block
+.full-width {
+  padding: 0;
 }
 
-.chore-input-left {
+.chore-div {
+/*  display:  inline-block*/
+  padding: 0;
+}
+
+.chore-div-middle {
+  padding: 0 5px 0 5px;
+}
+
+/*.chore-input-left {
   float:left;
 }
 
 .chore-input-right {
   float: right;
 }
-
+*/
 .username-input {
   width: 100%;
 }
@@ -181,6 +220,18 @@ div.chore-entry:hover {
   Finance
 */
 
+.finance-container {
+  position: relative;
+  height: 100%;
+}
+.custom-split-container {
+  margin-top: 10px;
+}
+.custom-split-user > p {
+  font-size: 1em;
+  margin-bottom: 0;
+  font-weight: 600;
+}
 .split-bill-user-list {
   list-style: none;
 }
@@ -192,5 +243,25 @@ div.chore-entry:hover {
 }
 .full-width-input {
   width: 100%;
+}
+
+/*
+  Navbar
+*/
+.navbar-header {
+  width: 100%;
+}
+.flexbox {
+  width: 100%;
+  display: flex;
+  justify-content:space-between;
+  list-style-type: none;
+}
+.flexbox > li > img {
+  margin-top: 8px;
+  float: left;
+}
+.flexbox > li {
+  cursor: pointer;
 }
 

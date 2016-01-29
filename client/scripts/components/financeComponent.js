@@ -273,6 +273,13 @@ var BillForm = React.createClass({
   customSplit: function(event) {
     event.preventDefault();
     var updateSplitEvenly = this.state.splitEvenly ? false : true;
+    if (this.state.splitEvenly) {
+      updateSplitEvenly = false;
+      $('.interface-container').css('min-height', '330px')
+    } else {
+      updateSplitEvenly = true;
+      $('.interface-container').css('min-height', '590px')
+    }
     this.setState({
       splitEvenly: updateSplitEvenly
     });
@@ -308,7 +315,7 @@ var BillForm = React.createClass({
     }); 
     return (
       <div className='bill-form'>
-        <form action="submit" ref='billForm' className="form-group" onSubmit=''>
+        <form action="submit" ref='billForm' className="form-group form-bottom" onSubmit=''>
           <div className='input'>
             <div className="input-group full-width-input">
               <label htmlFor="bill-name">Bill Name</label>
@@ -329,8 +336,8 @@ var BillForm = React.createClass({
                 </div>
               </div>
             </div>
-            <button className="btn btn-success btn-left" onClick={this.splitEvenly}>Split Evenly</button>
-            <button className="btn btn-success btn-right" onClick={this.customSplit}>Custom Split</button>
+            <button className="btn btn-info btn-left" onClick={this.splitEvenly}>Split Evenly</button>
+            <button className="btn btn-info btn-right" onClick={this.customSplit}>Custom Split</button>
             {this.state.splitEvenly ? <CustomSplitForm createBill={this.createBill} userList={userList} users={this.props.users} /> : null}
           </div>
         </form>
@@ -340,15 +347,6 @@ var BillForm = React.createClass({
 });
 
 var CustomSplitForm = React.createClass({
-  // startBill: function(event) {
-  //   event.preventDefault();
-  //   var userProps = this.props.users;
-  //   var usersPaying = {};
-  //   for (var i = 0; i<userProps.length; i++) {
-  //     if (this.refs[userProps[user.id]])
-  //   }
-  //   this.props.createBill();
-  // },
   render: function() {
     return (
       <div className="custom-split-container">
@@ -374,9 +372,9 @@ var UserEntry = React.createClass({
   render: function() {
     return (
       <li className="split-bill-user-entry">
-        <div className="form-group">
+        <div className="form-group custom-split-user">
+          <p className="lead">{this.props.user.name}</p>
           <div className="input-group">
-          <label htmlFor="user-split-input">{this.props.user.name}</label>
             <div className="input-group-addon">$</div>
             <input className="form-control" id="user-split-input" onKeyUp={this.setValue.bind(this, this.props.user.id)} ref={this.props.user.id} type='number'/>
           </div>
