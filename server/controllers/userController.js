@@ -23,7 +23,6 @@ module.exports = {
   },
   postUser: function (req, res) {
     var name = req.body.name
-    var houseId = parseInt(req.body.houseId);
     var venmoName = req.body.venmoName;
     var username = req.body.username;
     var email = req.body.email;
@@ -34,7 +33,7 @@ module.exports = {
     var refresh_token = req.body.refresh_token;
     var venmoid = req.body.venmoid;
 
-    var params = [name, houseId, venmoName, username, email, provider, venmo, balance, access_token, refresh_token, venmoid];
+    var params = [name, venmoName, username, email, provider, venmo, balance, access_token, refresh_token, venmoid];
 
     userModel.postUser(params, function(err, results) {
       if (err) {
