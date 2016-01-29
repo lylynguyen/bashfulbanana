@@ -336,8 +336,8 @@ var BillForm = React.createClass({
                 </div>
               </div>
             </div>
-            <button className="btn btn-success btn-left" onClick={this.splitEvenly}>Split Evenly</button>
-            <button className="btn btn-success btn-right" onClick={this.customSplit}>Custom Split</button>
+            <button className="btn btn-info btn-left" onClick={this.splitEvenly}>Split Evenly</button>
+            <button className="btn btn-info btn-right" onClick={this.customSplit}>Custom Split</button>
             {this.state.splitEvenly ? <CustomSplitForm createBill={this.createBill} userList={userList} users={this.props.users} /> : null}
           </div>
         </form>
