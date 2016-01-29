@@ -71,7 +71,7 @@ var NavigationContainer = React.createClass({
     this.props.changeView('Finances');
   },
   renderChore() {
-    this.props.changeView('Chore');
+    this.props.changeView('Chores');
   }
 });
 
@@ -117,6 +117,8 @@ var Login = React.createClass({
         <label htmlFor="userId-input">houseId</label>
         <input ref="houseId" id="userId-input" className="form-control" type="text" />
         <button className="btn btn-success">Login</button>
+
+        <a href="/auth/venmo">Log In with Venmo</a>
       </form>
     )
   }

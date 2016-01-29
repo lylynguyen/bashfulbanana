@@ -16,7 +16,7 @@ var MessageContainer = React.createClass({
   loadMessages: function() {
     $.ajax({
       //eventually need to pass in :houseId instead of 1
-      url: 'http://localhost:8080/messages/1',
+      url: 'http://localhost:8080/messages/' + localStorage.getItem('houseId'),
       type: 'GET',
       contentType: 'application/json',
       success: function(messages) {
@@ -88,6 +88,7 @@ var MessageForm = React.createClass({
   localSubmit: function(event) {
     event.preventDefault();
     var messageText = this.refs.message.value;
+    //////////////////////////////////////////////local storage
     var userId = localStorage.getItem('userId');
     var messageObj = {
       userId: userId,
