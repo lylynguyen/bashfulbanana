@@ -19,9 +19,18 @@ module.exports = function(app, express) {
   app.get('/auth/venmo/callback', passport.authenticate('venmo', {
       failureRedirect: '/' //redirect to login eventually
   }), function(req, res) {
-    // console.log("REZZ",res)
+    console.log("REZZ",res.req.session)
     res.redirect("/");
   });
+
+  //Dummy Test Route
+  app.get('/woo', passport.authenticate('venmo', { 
+    scope: ['make_payments', 'access_feed', 'access_profile', 'access_email', 'access_phone', 'access_balance', 'access_friends'],
+    failureRedirect: '/',
+    successRedirect: '/woo'
+  }) , function(req, res){
+    res.send("hi guys")
+  })
 
   //Users
   app.get('/users/:houseId', userController.getUsersInHouse);
