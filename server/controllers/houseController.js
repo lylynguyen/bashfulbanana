@@ -10,7 +10,6 @@ module.exports = {
       if(err) {
         res.sendStatus(500);
       } else {
-        console.log('postHouse sending back results')
         res.json(results);
       }
     });
@@ -23,6 +22,7 @@ module.exports = {
       if(err) {
         res.sendStatus(500);
       } else {
+        console.log('sending back houseId', results);
         res.json(results);
       }
     })
@@ -34,7 +34,7 @@ module.exports = {
     //and extract it from req.body. First set params to userId
     var houseId = req.body.houseId;
     var params = [houseId, req.params.userId];
-    houseModel.getHouse(params, function(err, results) {
+    houseModel.updateHouseUserList(params, function(err, results) {
       if(err) {
         res.sendStatus(500);
       } else {

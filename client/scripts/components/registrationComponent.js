@@ -41,9 +41,8 @@ var RegistrationContainer = React.createClass ({
       success: function(houseId) {
         //if successful, want to call updateUserHouseId
         //with appropriate userId, adding the houseId
-        //Need somewhere to store that id when it comes back.
-        console.log(houseId); 
-        updateUserHouseId(houseId); 
+        //Need somewhere to store that id when it comes back. 
+        this.updateUserHouseId(houseId[0].id); 
       }.bind(this)
     }); 
     this.refs.joinHouseForm.reset(); 
@@ -55,10 +54,10 @@ var RegistrationContainer = React.createClass ({
     $.ajax({
       url: 'http://localhost:8080/users/' + userId,
       type: 'PUT',
-      data: JSON.stringify(houseId),
+      data: JSON.stringify({houseId: houseId}),
       contentType: 'application/json',
       success: function(data) {
-        console.log(data); 
+        console.log('updated')
       }.bind(this)
     })
   },
