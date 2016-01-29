@@ -14,7 +14,7 @@ module.exports = {
     //need query string to find the house id with the provided
     //house token (assume when we update the schema we'll call
     //it token)
-    var queryStr = 'SELECT house.id from house WHERE token = ?';
+    var queryStr = 'SELECT id from house WHERE token = ?';
     db.query(queryStr, params, function(err, results) {
       callback(err, results); 
     })

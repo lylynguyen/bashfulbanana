@@ -71,16 +71,25 @@ var RegistrationContainer = React.createClass ({
     return (
       <div className='create-house'>
         <h4>Create House</h4>
-        <form ref='createHouseForm'>
-          Nickname: <input type='text' ref='nickname'/>
-          <button onClick={this.createHouse}>Create</button>
-        </form>
+        <div>
+          <form className="col-sm-6 input-group" ref='createHouseForm'>
+            Nickname: <input type='text' className="form-control" ref='nickname'/>
+            <div>
+              <button className="btn btn-success btn-left" onClick={this.createHouse}>Create</button>
+            </div>
+          </form>
+        </div>
         <p> --OR-- </p>
-        <form ref='joinHouseForm'>
-          Enter House Code: <input type='text' ref='houseCode'/>
-          <button onClick={this.findHouse}>Join</button>
-        </form>
-        <button onClick={this.redirectToHouse}>House</button>
+        <h4>Join House</h4>
+        <div>
+          <form className="col-sm-6 input-group" ref='joinHouseForm'>
+            Enter House Code: <input className="form-control" type='text' ref='houseCode'/>
+            <div>
+              <button className="btn btn-success btn-left" onClick={this.findHouse}>Join</button>
+            </div>
+          </form>
+        </div>
+        <button className="btn btn-success btn-left" onClick={this.redirectToHouse}>House</button>
       </div>
     )
   }
