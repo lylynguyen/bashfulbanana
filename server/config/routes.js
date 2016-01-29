@@ -3,13 +3,29 @@ var paymentController = require('../controllers/paymentController.js');
 var choreController = require('../controllers/choreController.js');
 var userController = require('../controllers/userController.js');
 var houseController = require('../controllers/houseController.js');
+var Auth = require('../auth/Auth.js');
 var passport = require('passport');
+var session = require('express-session');
+var jwt = require('jwt-simple');
+
+
 
 module.exports = function(app, express) {
+
+  
+  app.use(passport.initialize());
+  app.use(passport.session());
+  app.use(session({
+    secret: process.env.session_secret,
+    resave: false,
+    saveUninitialized: true
+  }));
+
   app.use('/', express.static('client'));
 
   //Passport
   app.get('/auth/venmo', passport.authenticate('venmo', {
+      session: false,
       scope: ['make_payments', 'access_feed', 'access_profile', 'access_email', 'access_phone', 'access_balance', 'access_friends'],
       failureRedirect: '/'
   }), function(req, res) {
@@ -19,15 +35,25 @@ module.exports = function(app, express) {
   app.get('/auth/venmo/callback', passport.authenticate('venmo', {
       failureRedirect: '/' //redirect to login eventually
   }), function(req, res) {
-    console.log("REZZ",res.req.session.passport.user);
-    console.log("WAA", res.req.session);
-    res.redirect("/");
+    var name = JSON.parse(jwt.decode(req.user, process.env.secret_code)).name;
+    // console.log("REZZ",res.req.session.passport.user);
+    // console.log("SESSIN", res.req.session);
+    return req.session.regenerate(function() {
+      req.session.user = name;
+      res.redirect('/');
+    });
   });
 
   //Login/Logout
   app.get('/logout', function(req, res){
-    req.logout();
-    res.redirect('/');
+    req.session.destroy(function(){
+      res.redirect('/');
+    });
+    console.log("SESSION after logout", req.session)
+    // console.log("USER AFTER LOGOUT", req.user);
+    // req.session.destroy(function(){
+    //   res.redirect('/login');
+    // });
   });
 
   //Pay a user
@@ -44,11 +70,9 @@ module.exports = function(app, express) {
 });
 
   //Dummy Test Route
-  app.get('/woo', passport.authenticate('venmo', { 
-    scope: ['make_payments', 'access_feed', 'access_profile', 'access_email', 'access_phone', 'access_balance', 'access_friends'],
-    failureRedirect: '/',
-    successRedirect: '/woo'
-  }) , function(req, res){
+  app.get('/woo', Auth.checkUser, function(req, res){
+    // console.log("auth", req.isAuthenticated())
+    console.log("SESSION", req.session);
     res.send("hi guys")
   })
 
