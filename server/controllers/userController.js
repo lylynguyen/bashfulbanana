@@ -53,7 +53,7 @@ module.exports = {
     })
   },
   getHouseOfUser: function(req, res) {
-    var params = [req.params.email];
+    var params = [req.params.username];
     userModel.getHouseOfUser(params, function(err, results) {
       if (err) {
         res.sendStatus(500);
