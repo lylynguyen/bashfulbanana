@@ -3,13 +3,29 @@ var paymentController = require('../controllers/paymentController.js');
 var choreController = require('../controllers/choreController.js');
 var userController = require('../controllers/userController.js');
 var houseController = require('../controllers/houseController.js');
+var Auth = require('../auth/Auth.js');
 var passport = require('passport');
+var session = require('express-session');
+var jwt = require('jwt-simple');
+
+
 
 module.exports = function(app, express) {
+
+  
+  app.use(passport.initialize());
+  app.use(passport.session());
+  app.use(session({
+    secret: process.env.session_secret,
+    resave: false,
+    saveUninitialized: true
+  }));
+
   app.use('/', express.static('client'));
 
   //Passport
   app.get('/auth/venmo', passport.authenticate('venmo', {
+      session: false,
       scope: ['make_payments', 'access_feed', 'access_profile', 'access_email', 'access_phone', 'access_balance', 'access_friends'],
       failureRedirect: '/'
   }), function(req, res) {
@@ -19,9 +35,46 @@ module.exports = function(app, express) {
   app.get('/auth/venmo/callback', passport.authenticate('venmo', {
       failureRedirect: '/' //redirect to login eventually
   }), function(req, res) {
-    // console.log("REZZ",res)
-    res.redirect("/");
+    var obj = JSON.parse(jwt.decode(req.user, process.env.secret_code));
+    var name = obj.name;
+    var accessToken = obj.access_token;
+    // console.log("Access token", obj);
+    // console.log("REZZ",res.req.session.passport.user);
+    // console.log("SESSIN", res.req.session);
+    return req.session.regenerate(function() {
+      req.session.user = name;
+      req.session.accessToken = accessToken; 
+      res.redirect('/');
+    });
   });
+
+  //Login/Logout
+  app.get('/logout', function(req, res){
+    req.session.destroy(function(){
+      res.redirect('/');
+    });
+    console.log("SESSION after logout", req.session)
+  });
+
+  //Pay a user
+  app.post('/auth/venmo/payment', function(req, res){
+    //using the request library with a callback
+    console.log("BOD:", req.body);
+    request.post('https://api.venmo.com/v1/payments', {form: req.body}, function(e, r, venmo_receipt){
+        // parsing the returned JSON string into an object
+        console.log(venmo_receipt);
+        var venmo_receipt = JSON.parse(venmo_receipt);
+        console.log("paid successfully")
+        res.render('success', {venmo_receipt: venmo_receipt});
+    });
+});
+
+  //Dummy Test Route
+  app.get('/woo', Auth.checkUser, function(req, res){
+    // console.log("auth", req.isAuthenticated())
+    console.log("SESSION", req.session);
+    res.send("hi guys")
+  })
 
   //Users
   app.get('/users/:houseId', userController.getUsersInHouse);

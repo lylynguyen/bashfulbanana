@@ -9,6 +9,7 @@ var app = express();
 var db = require('./db/index');
 var cors = require('cors');
 var user = require('./controllers/userController');
+var jwt = require('jwt-simple');
 require('dotenv').load();
 
 var Venmo_Client_ID = process.env.venmo_client_ID; 
@@ -51,6 +52,8 @@ passport.use(new VenmoStrategy({
     obj.access_token = accessToken;
     obj.refresh_token = refreshToken;
     obj.venmoid = venmo.id;
+
+    var jwtObj = jwt.encode(JSON.stringify(obj), process.env.secret_code);
     
     request.get('http://localhost:8080/users/venmo/'+ venmo.id, function(err, resp, body) {
       if (!err && resp.statusCode == 200) { 
@@ -64,7 +67,7 @@ passport.use(new VenmoStrategy({
               if(error) {
                 return done(error);
               } else {
-                return done(null, obj);
+                return done(null, jwtObj);
               }
           });  
         }
@@ -77,7 +80,7 @@ passport.use(new VenmoStrategy({
             if (error) {
               return done(error);
             } else {
-              return done(null, obj);
+              return done(null, jwtObj);
             }
           });
         }
