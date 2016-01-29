@@ -2,6 +2,7 @@ var messageController = require('../controllers/messageController.js')
 var paymentController = require('../controllers/paymentController.js');
 var choreController = require('../controllers/choreController.js');
 var userController = require('../controllers/userController.js');
+var houseController = require('../controllers/houseController.js');
 var passport = require('passport');
 
 module.exports = function(app, express) {
@@ -46,4 +47,9 @@ module.exports = function(app, express) {
   app.post('/payment', paymentController.postPayment);
   app.post('/payment/bill', paymentController.postBill);
   app.put('/payment/:paymentId', paymentController.markPaymentAsPaid);
+
+  //Houses
+  app.post('/houses', houseController.postHouse);
+  app.get('/houses/:token', houseController.getHousebyHouseId);
+  app.put('/users/:userId', houseController.updateUserHouseId); 
 }
