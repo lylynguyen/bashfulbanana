@@ -19,9 +19,29 @@ module.exports = function(app, express) {
   app.get('/auth/venmo/callback', passport.authenticate('venmo', {
       failureRedirect: '/' //redirect to login eventually
   }), function(req, res) {
-    console.log("REZZ",res.req.session)
+    console.log("REZZ",res.req.session.passport.user);
+    console.log("WAA", res.req.session);
     res.redirect("/");
   });
+
+  //Login/Logout
+  app.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/');
+  });
+
+  //Pay a user
+  app.post('/auth/venmo/payment', function(req, res){
+    //using the request library with a callback
+    console.log("BOD:", req.body);
+    request.post('https://api.venmo.com/v1/payments', {form: req.body}, function(e, r, venmo_receipt){
+        // parsing the returned JSON string into an object
+        console.log(venmo_receipt);
+        var venmo_receipt = JSON.parse(venmo_receipt);
+        console.log("paid successfully")
+        res.render('success', {venmo_receipt: venmo_receipt});
+    });
+});
 
   //Dummy Test Route
   app.get('/woo', passport.authenticate('venmo', { 
