@@ -35,11 +35,15 @@ module.exports = function(app, express) {
   app.get('/auth/venmo/callback', passport.authenticate('venmo', {
       failureRedirect: '/' //redirect to login eventually
   }), function(req, res) {
-    var name = JSON.parse(jwt.decode(req.user, process.env.secret_code)).name;
+    var obj = JSON.parse(jwt.decode(req.user, process.env.secret_code));
+    var name = obj.name;
+    var accessToken = obj.access_token;
+    // console.log("Access token", obj);
     // console.log("REZZ",res.req.session.passport.user);
     // console.log("SESSIN", res.req.session);
     return req.session.regenerate(function() {
       req.session.user = name;
+      req.session.accessToken = accessToken; 
       res.redirect('/');
     });
   });
@@ -50,10 +54,6 @@ module.exports = function(app, express) {
       res.redirect('/');
     });
     console.log("SESSION after logout", req.session)
-    // console.log("USER AFTER LOGOUT", req.user);
-    // req.session.destroy(function(){
-    //   res.redirect('/login');
-    // });
   });
 
   //Pay a user

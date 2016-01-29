@@ -29,11 +29,9 @@ module.exports = {
     var provider = req.body.provider;
     var venmo = req.body.venmo;
     var balance = parseFloat(req.body.balance);
-    var access_token = req.body.access_token;
-    var refresh_token = req.body.refresh_token;
     var venmoid = req.body.venmoid;
 
-    var params = [name, venmoName, username, email, provider, venmo, balance, access_token, refresh_token, venmoid];
+    var params = [name, venmoName, username, email, provider, venmo, balance, venmoid];
 
     userModel.postUser(params, function(err, results) {
       if (err) {
@@ -44,7 +42,7 @@ module.exports = {
     })
   },
   putUser: function (req, res) {
-    var params = [req.body.balance, req.body.access_token, req.body.venmo, req.body.venmoid];
+    var params = [req.body.balance, req.body.venmo, req.body.venmoid];
     
     userModel.putUser(params, function (err, results) {
       if (err) {

@@ -14,14 +14,14 @@ module.exports = {
     });
   },
   postUser: function (params, callback) {
-    var queryStr = "INSERT INTO Users (name, venmoName, username, email, provider, venmo, balance, access_token, refresh_token, venmoid ) VALUES (?,?, ?, ?, ?, ?, ?, ?, ?, ? )"
+    var queryStr = "INSERT INTO Users (name, venmoName, username, email, provider, venmo, balance, venmoid ) VALUES (?, ?, ?, ?, ?, ?, ?, ? )"
     db.query(queryStr, params, function(err, results) {
       callback(err, results);
     });
   },
 
   putUser: function (params, callback) {
-    var queryStr = "UPDATE USERS set balance = ?, access_token = ?, venmo = ? WHERE venmoid = ?";
+    var queryStr = "UPDATE USERS set balance = ?, venmo = ? WHERE venmoid = ?";
      db.query(queryStr, params, function(err, results) {
       callback(err, results);
     });
