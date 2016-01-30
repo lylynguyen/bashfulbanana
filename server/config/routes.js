@@ -36,14 +36,15 @@ module.exports = function(app, express) {
       failureRedirect: '/' //redirect to login eventually
   }), function(req, res) {
     return req.session.regenerate(function() {
-      console.log("DECODED", jwt.decode(req.user, process.env.secret_code))
+      //console.log("DECODED", jwt.decode(req.user, process.env.secret_code))
       req.session.jwt = req.user;
       res.redirect('/');
     });
   });
 
   app.get('/obie', function(req, res) {
-    res.send(JSON.stringify(req.session));
+    //console.log('IN OBIE', jwt.decode(req.session.jwt, process.env.secret_code))
+    res.send(JSON.stringify(req.session.jwt));
   })
 
   //Login/Logout
@@ -75,7 +76,7 @@ module.exports = function(app, express) {
   })
 
   //Users
-  app.get('/users/:houseId', userController.getUsersInHouse);
+  app.get('/users/', userController.getUsersInHouse);
   app.get('/users/venmo/:venmoId', userController.findUserByVenmoId);
   app.get('/users/id/:username', userController.getHouseOfUser);
   app.post('/users', userController.postUser);

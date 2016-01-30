@@ -1,8 +1,10 @@
 var userModel = require('../models/userModel.js');
+var jwt = require('jwt-simple');
 
 module.exports = {
   getUsersInHouse: function (req, res) {
-    var params = [req.params.houseId];
+    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
+    var params = [token.houseId];
     userModel.getUsersInHouse(params, function(err, results) {
       if (err) {
         res.sendStatus(500);
