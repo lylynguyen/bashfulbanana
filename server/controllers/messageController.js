@@ -1,10 +1,10 @@
 var messageModel = require('../models/messageModel.js');
+var jwt = require('jwt-simple');
 
 module.exports = {
   get: function(req, res) {
-    console.log('got here');
-    var params = [req.params.houseId];
-
+    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
+    var params = [token.houseId];
     messageModel.get(params, function (err, results) {
       if (err) {
         res.sendStatus(500);
@@ -13,9 +13,8 @@ module.exports = {
     });
   },
   post: function(req, res) {
-    console.log('req is', req.body);
-    var params = [req.body.userId, req.body.text, req.body.houseId]
-
+    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
+    var params = [token.userid, req.body.text, token.houseId];
     messageModel.post(params, function(err, results) {
       if (err) {
         res.sendStatus(500);
