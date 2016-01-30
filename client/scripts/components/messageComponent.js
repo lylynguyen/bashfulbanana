@@ -25,9 +25,6 @@ var MessageContainer = React.createClass({
       contentType: 'application/json',
       headers: {'token': localStorage.getItem('obie')},
       success: function(messages) {
-        socket.on('new message', function(message) {
-          console.log("data", message);
-        })
         this.setState({messages: messages});
       }.bind(this),
       error: function(err) {
