@@ -13,10 +13,11 @@ var ChoreContainer = React.createClass({
   },
 
   getUsers: function() {
-    var houseId = localStorage.getItem('houseId');
+    var token = localStorage.getItem('obie');
     $.ajax({
       //eventually need to replace 1 with houseId. 
-      url: 'http://localhost:8080/users/' + houseId,
+      url: 'http://localhost:8080/users/',
+      headers: {'token': token},
       type: 'GET',
       contentType: 'application/json',
       success: function(users) {
@@ -28,10 +29,11 @@ var ChoreContainer = React.createClass({
   },
 
   loadChores: function () {
-    var houseId = window.localStorage.getItem('houseId'); 
+    var token = localStorage.getItem('obie'); 
     $.ajax({
       //eventually need to pass in :houseId instead of 1
-      url: 'http://localhost:8080/chores/' + houseId,
+      url: 'http://localhost:8080/chores/',
+      headers: {'token': token},
       type: 'GET',
       contentType: 'application/json',
       success: function (chores) {
@@ -48,6 +50,7 @@ var ChoreContainer = React.createClass({
     $.ajax({
       url: 'http://localhost:8080/chores',
       type: 'POST',
+      headers: {'token': localStorage.getItem('obie')},
       data: JSON.stringify(chore),
       contentType: 'application/json',
       success: function (data) {
@@ -81,6 +84,7 @@ var ChoreEntry = React.createClass({
     $.ajax({
       url: 'http://localhost:8080/chores/' + this.props.chore.id,
       type: 'PUT',
+      headers: {'token': localStorage.getItem('obie')},
       contentType: 'application/json',
       success: function() {
         console.log('update successful')

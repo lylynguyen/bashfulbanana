@@ -1,8 +1,10 @@
 var models = require('../models/paymentModel.js');
+var jwt = require('jwt-simple');
 
 module.exports = {
   getWhatYouOwe: function (req, res) {
-    var params = [req.params.userId];
+    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
+    var params = [token.userid];
     models.getWhatYouOwe(params, function(err, bills) {
       if (err) {
         res.sendStatus(404);
@@ -13,7 +15,8 @@ module.exports = {
   },
 
   getWhatIsOwedToYou: function (req, res) {
-    var params = [req.params.userId];
+    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
+    var params = [token.userid];
     models.getWhatIsOwedToYou(params, function(err, paymentOwed) {
       if (err) {
         res.sendStatus(404);
@@ -24,7 +27,8 @@ module.exports = {
   },
 
   getWhatYouHavePaid: function (req, res) {
-    var params = [req.params.userId];
+    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
+    var params = [token.userid];
     models.getWhatYouHavePaid(params, function(err, paymentHistory) {
       if (err) {
         res.sendStatus(404);
@@ -35,7 +39,8 @@ module.exports = {
   },
 
   getWhatHasBeenPaidToYou: function (req, res) {
-    var params = [req.params.userId];
+    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
+    var params = [token.userid];
     models.getWhatHasBeenPaidToYou(params, function(err, paymentHistory) {
       if (err) {
         res.sendStatus(404);
@@ -46,6 +51,7 @@ module.exports = {
   },
 
   postPayment: function (req, res) {
+    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
     var params = [req.body.billId, req.body.userId, req.body.amount];
     models.postPayment(params, function(err, payment) {
       if (err) {
@@ -58,7 +64,8 @@ module.exports = {
   },
 
   postBill: function (req, res) {
-    var params = [req.body.userId, req.body.total, req.body.name, req.body.dueDate];
+    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
+    var params = [token.userid, req.body.total, req.body.name, req.body.dueDate];
     models.postBill(params, function(err, payment) {
       if (err) {
         res.sendStatus(500);

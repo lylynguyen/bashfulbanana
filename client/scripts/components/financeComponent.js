@@ -21,15 +21,14 @@ var FinanceContainer = React.createClass({
       users: [],
       //eventually need to get real houseId/userId - use Justin's login to query
       //database with userId to get that user's houseId
-      houseId: 1,
-      userId: userId
     }
   },
 
   loadBillHistory: function() {
     $.ajax({
-      url: 'http://localhost:8080/payment/completed/' + this.userId,
+      url: 'http://localhost:8080/payment/completed',
       type: 'GET',
+      headers: {'token': localStorage.getItem('obie')},
       contentType: 'application/json',
       success: function(bills) {
         this.state.billHistory = bills;
@@ -40,7 +39,8 @@ var FinanceContainer = React.createClass({
 
   loadPaymentHistory: function() {
     $.ajax({
-      url: 'http://localhost:8080/payment/completed/owed/' + this.userId,
+      url: 'http://localhost:8080/payment/completed/owed',
+      headers: {'token': localStorage.getItem('obie')},
       type: 'GET',
       contentType: 'application/json',
       success: function(payments) {
@@ -53,9 +53,10 @@ var FinanceContainer = React.createClass({
   getUsers: function() {
     $.ajax({
       //eventually need to replace 1 with houseId. 
-      url: 'http://localhost:8080/users/1',
+      url: 'http://localhost:8080/users/',
       type: 'GET',
       contentType: 'application/json',
+      headers: {'token': localStorage.getItem('obie')},
       success: function(users) {
         this.state.users = users; 
         this.setState({users: this.state.users}); 
@@ -76,6 +77,7 @@ var FinanceContainer = React.createClass({
   addBill: function(bill) {
     $.ajax({
       url: 'http://localhost:8080/payment/bill',
+      headers: {'token': localStorage.getItem('obie')},
       type: 'POST',
       data: JSON.stringify(bill),
       contentType: 'application/json',
@@ -90,6 +92,7 @@ var FinanceContainer = React.createClass({
   addPayment: function(payment) {
     $.ajax({
       url: 'http://localhost:8080/payment',
+      headers: {'token': localStorage.getItem('obie')},
       type: 'POST',
       data: JSON.stringify(payment),
       contentType: 'application/json',
@@ -106,6 +109,7 @@ var FinanceContainer = React.createClass({
     var users = this.state.users;
     //iterate through users
     for(var i = 0; i < users.length; i++) {
+      //console.log('USER', users[i]);
       //find the ones selected
       if(users[i].selected === true) {
         //create payment object
@@ -129,11 +133,12 @@ var FinanceContainer = React.createClass({
   // payee_userId
 
   loadBills: function() {
-    var userId = localStorage.getItem('userId');
+    var token = localStorage.getItem('obie'); 
     $.ajax({
-      url: 'http://localhost:8080/payment/pay/' + userId,
+      url: 'http://localhost:8080/payment/pay',
       type: 'GET',
       contentType: 'application/json',
+      headers: {'token': token},
       success: function(bills) {
         console.log("bills", bills)
         this.state.bills = bills; 
@@ -146,11 +151,12 @@ var FinanceContainer = React.createClass({
   },
   
   loadPayments: function () {
-    var userId = localStorage.getItem('userId');
+    var token = localStorage.getItem('obie');
     $.ajax({
-      url: 'http://localhost:8080/payment/owed/'+ userId,
+      url: 'http://localhost:8080/payment/owed',
       type: 'GET',
       contentType: 'application/json',
+      headers: {'token': token},
       success: function(payments) {
         this.state.paymentsOwed = payments; 
         this.setState({paymentsOwed: this.state.paymentsOwed});

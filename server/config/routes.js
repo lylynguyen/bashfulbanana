@@ -36,14 +36,15 @@ module.exports = function(app, express) {
       failureRedirect: '/' //redirect to login eventually
   }), function(req, res) {
     return req.session.regenerate(function() {
-      console.log("DECODED", jwt.decode(req.user, process.env.secret_code))
+      //console.log("DECODED", jwt.decode(req.user, process.env.secret_code))
       req.session.jwt = req.user;
       res.redirect('/');
     });
   });
 
   app.get('/obie', function(req, res) {
-    res.send(JSON.stringify(req.session));
+    //console.log('IN OBIE', jwt.decode(req.session.jwt, process.env.secret_code))
+    res.send(JSON.stringify(req.session.jwt));
   })
 
   //Login/Logout
@@ -75,7 +76,7 @@ module.exports = function(app, express) {
   })
 
   //Users
-  app.get('/users/:houseId', userController.getUsersInHouse);
+  app.get('/users/', userController.getUsersInHouse);
   app.get('/users/venmo/:venmoId', userController.findUserByVenmoId);
   app.get('/users/id/:username', userController.getHouseOfUser);
   app.post('/users', userController.postUser);
@@ -87,16 +88,16 @@ module.exports = function(app, express) {
   app.post('/messages', messageController.post);
 
   //Chores
-  app.get('/chores/:houseId', choreController.get);
+  app.get('/chores/', choreController.get);
   app.post('/chores', choreController.post);
   app.put('/chores/:choreId', choreController.put);
   app.delete('/chores/:choreId', choreController.delete);
 
   //Payments
-  app.get('/payment/pay/:userId', paymentController.getWhatYouOwe);
-  app.get('/payment/owed/:userId', paymentController.getWhatIsOwedToYou);
-  app.get('/payment/completed/:userId', paymentController.getWhatYouHavePaid);
-  app.get('/payment/completed/owed/:userId', paymentController.getWhatHasBeenPaidToYou);
+  app.get('/payment/pay', paymentController.getWhatYouOwe);
+  app.get('/payment/owed', paymentController.getWhatIsOwedToYou);
+  app.get('/payment/completed', paymentController.getWhatYouHavePaid);
+  app.get('/payment/completed/owed', paymentController.getWhatHasBeenPaidToYou);
   app.post('/payment', paymentController.postPayment);
   app.post('/payment/bill', paymentController.postBill);
   app.put('/payment/:paymentId', paymentController.markPaymentAsPaid);
