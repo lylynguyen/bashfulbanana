@@ -2,18 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
+//get a reference to the websocket
+// var socket = io();
+
 var MessageContainer = React.createClass({
+  var socket = io();
   getInitialState: function() {
-    //this.loadMessages(); 
+    //this.loadMessages();
     setTimeout(this.loadMessages, 500);
     return {
       messages: []
     }
-  }, 
-  // need to receive 
-  // username *** need to query using userId to get username
-  // messageText
-  // timestamp
+  },
+
   loadMessages: function() {
     $.ajax({
       //eventually need to pass in :houseId instead of 1
@@ -22,18 +23,21 @@ var MessageContainer = React.createClass({
       contentType: 'application/json',
       headers: {'token': localStorage.getItem('obie')},
       success: function(messages) {
+        socket.on('new message', function(message) {
+          console.log("data", message);
+          // this.setState({messages: messages});
+        })
         this.setState({messages: messages});
       }.bind(this),
       error: function(err) {
         console.log(err);
       }
     })
-  }, 
+  },
 
   // userId
   // text
-  formSubmit: function(message) { 
-    console.log('MESSAGE', message);
+  formSubmit: function(message) {
     $.ajax({
       url: 'http://localhost:8080/messages',
       type: 'POST',
@@ -41,15 +45,15 @@ var MessageContainer = React.createClass({
       contentType: 'application/json',
       headers: {'token': localStorage.getItem('obie')},
       success: function(data) {
-        console.log('got here'); 
         this.loadMessages();
+        socket.emit('send message', message);
       }.bind(this)
     });
+
   },
 
   render: function() {
     //this.loadMessages(); 
-    console.log('this.state.messages', this.state.messages); 
     var messageList = this.state.messages.map(function(item, i) {
       return <MessageEntry key={i} message={item} />
     })
@@ -91,7 +95,7 @@ var MessageForm = React.createClass({
   localSubmit: function(event) {
     event.preventDefault();
     var messageText = this.refs.message.value;
-    //////////////////////////////////////////////local storage
+
     var messageObj = {
       text: messageText
     }
