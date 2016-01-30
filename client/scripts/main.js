@@ -6,7 +6,7 @@ import { createHistory } from 'history';
 import MessageContainer from './components/messageComponent'
 import ChoreContainer from './components/choreComponent'
 import FinanceContainer from './components/financeComponent'
-import RegistrationContainer from './components/registrationComponent'
+//import RegistrationContainer from './components/registrationComponent'
 import NavBar from './components/navbarComponent'
 
 var navbar = {};
@@ -141,9 +141,7 @@ var Login = React.createClass({
 
 var routes = (
   <Router history={createHistory()}>
-    <Route path="/" component={Login}/>
-    <Route path="/house" component={App}/>
-    <Route path="/registration" component={RegistrationContainer}/>
+    <Route path="/" component={App}/>
   </Router>
 )
 

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Obie Registration</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-7s5uDGW3AHqw6xtJmNNtr+OBRJUlgkNJEo78P4b0yRw= sha512-nNo+yCHEyn0smMxSswnf/OnX6/KwJuZTlNZBjauKhTK0c+zT+q5JOCx0UFhXQ6rJR9jg6Es8gPuD2uZcYDLqSw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+    <div class='create-house'>
+      <h4>Create House</h4>
+      <div>
+        <form class="col-sm-6 input-group" ref='createHouseForm'>
+          Nickname: <input type='text' id="house-name" class="form-control" ref='nickname'/>
+          <div>
+            <button id="create-house" class="btn btn-success btn-left">Create</button>
+          </div>
+        </form>
+      </div>
+      <p> --OR-- </p>
+      <h4>Join House</h4>
+      <div>
+        <form class="col-sm-6 input-group" ref='joinHouseForm'>
+          Enter House Code: <input id="house-code" class="form-control" type='text' ref='houseCode'/>
+          <div>
+            <button class="btn btn-success btn-left" id="join-house">Join</button>
+          </div>
+        </form>
+      </div>
+      <button class="btn btn-success btn-left">House</button>
+    </div>
+  <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+  <script src="/scripts/registration.js"></script>
+</body>
+</html>
