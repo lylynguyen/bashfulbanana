@@ -29,11 +29,11 @@ var ChoreContainer = React.createClass({
   },
 
   loadChores: function () {
-    var houseId = window.localStorage.getItem('houseId'); 
+    var token = localStorage.getItem('obie'); 
     $.ajax({
       //eventually need to pass in :houseId instead of 1
-      url: 'http://localhost:8080/chores/' + houseId,
-      headers: {'token': localStorage.getItem('obie')},
+      url: 'http://localhost:8080/chores/',
+      headers: {'token': token},
       type: 'GET',
       contentType: 'application/json',
       success: function (chores) {

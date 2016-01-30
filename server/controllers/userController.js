@@ -9,10 +9,12 @@ module.exports = {
       if (err) {
         res.sendStatus(500);
       } else {
+        console.log('RESULTS', results); 
         res.json(results);
       }
     });
   },
+
   findUserByVenmoId: function (req, res) {
     var params = [req.params.venmoId];
     userModel.findUserByVenmoId(params, function (err, results) {

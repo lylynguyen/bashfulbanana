@@ -1,9 +1,10 @@
 var choreModel = require('../models/choreModel.js');
+var jwt = require('jwt-simple');
 
 module.exports = {
   get: function (req, res) {
-    var params = [req.params.houseId];
-
+    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
+    var params = [token.houseId];
     choreModel.get(params, function (err, results) {
       if (err) {
         res.sendStatus(500);
@@ -13,8 +14,8 @@ module.exports = {
   },
 
   post: function (req, res) {
-    var params = [req.body.userId, req.body.name, req.body.category, req.body.dueDate, req.body.houseId];
-    
+    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
+    var params = [token.userid, req.body.name, req.body.category, req.body.dueDate, token.houseId];
     choreModel.post(params, function (err, results) {
       if (err) {
         res.sendStatus(500);
@@ -25,7 +26,6 @@ module.exports = {
 
   put: function (req, res) {
     var params = [req.params.choreId];
-  
     choreModel.put(params, function(err, results) {
       if (err) {
         res.sendStatus(500);
