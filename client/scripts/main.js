@@ -91,7 +91,7 @@ var NavigationContainer = React.createClass({
 });
 
 var Logout = React.createClass({
-  mixins : [Router.Navigation],
+  mixins: [Router.Navigation],
   logout: function() {
     window.localStorage.removeItem('userId');
     window.localStorage.removeItem('houseId');
@@ -139,21 +139,8 @@ var Login = React.createClass({
   }
 });
 
-var routes = (
-  <Router history={createHistory()}>
-    <Route path="/" component={App}/>
-  </Router>
-)
-
 $(".side-bar-filler").css({'height':($(".side-bar-container").height()+'px')});
 
-// ReactDOM.render(routes, document.querySelector('#main'));
+ReactDOM.render(<App/>, document.getElementById('app'));
 
-// if (window.localStorage.getItem('userId')) {
-//   ReactDOM.render(<App />, document.querySelector('#app'));
-// } else {
-//   ReactDOM.render(routes, document.querySelector('#app'));
-// }
-
-ReactDOM.render(routes, document.querySelector('#app'))
 

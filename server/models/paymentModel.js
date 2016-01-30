@@ -4,7 +4,7 @@ module.exports = {
   // money the user owes
   getWhatYouOwe: function (params, callback) {
     var queryStr = "select bill.name AS billName, bill.dueDate, payment.amount, bill.total, users.name AS whoIsOwed, payment.id AS paymentId, bill.id AS billId from payment left outer join bill on (payment.billid=bill.id) left outer join users on (users.id=bill.userid) where payment.paid=0 AND payment.userId=?"
-    
+
     db.query(queryStr, params, function(err, results) {
       callback(err, results);
     });
@@ -12,7 +12,7 @@ module.exports = {
    // payments from other users
   getWhatIsOwedToYou: function (params, callback) {
     var queryStr = "select users.name AS ower, payment.amount, bill.name AS billName, bill.dueDate, bill.id AS billId, payment.id AS paymentID from bill left outer join payment on (bill.id=payment.billid) left outer join users on(payment.userid=users.id) where bill.userId = ? AND payment.paid=0";
-    
+
     db.query(queryStr, params, function(err, results) {
       callback(err, results);
     });
@@ -28,7 +28,7 @@ module.exports = {
 
   getWhatHasBeenPaidToYou: function (params, callback) {
     var queryStr = "select users.name AS ower, payment.amount, bill.name AS billName, bill.dueDate, bill.id AS billId, payment.id AS paymentID from bill left outer join payment on (bill.id=payment.billid) left outer join users on(payment.userid=users.id) where payment.paid=1 AND bill.userId = ? LIMIT 5";
-    
+
     db.query(queryStr, params, function(err, results) {
       callback(err, results);
     });

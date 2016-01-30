@@ -2,21 +2,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
+var socket = io();
+
 var MessageContainer = React.createClass({
+
   getInitialState: function() {
-    //this.loadMessages(); 
     setTimeout(this.loadMessages, 500);
+
     return {
       messages: []
     }
-  }, 
-  // need to receive 
-  // username *** need to query using userId to get username
-  // messageText
-  // timestamp
+  },
+
+  componentDidMount: function () {
+    var context=this;
+    socket.on('message', context.loadMessages);
+  },
+
   loadMessages: function() {
     $.ajax({
-      //eventually need to pass in :houseId instead of 1
       url: 'http://localhost:8080/messages',
       type: 'GET',
       contentType: 'application/json',
@@ -28,12 +32,9 @@ var MessageContainer = React.createClass({
         console.log(err);
       }
     })
-  }, 
+  },
 
-  // userId
-  // text
-  formSubmit: function(message) { 
-    console.log('MESSAGE', message);
+  formSubmit: function(message) {
     $.ajax({
       url: 'http://localhost:8080/messages',
       type: 'POST',
@@ -41,15 +42,14 @@ var MessageContainer = React.createClass({
       contentType: 'application/json',
       headers: {'token': localStorage.getItem('obie')},
       success: function(data) {
-        console.log('got here'); 
         this.loadMessages();
+        socket.emit('message', message);
       }.bind(this)
     });
+
   },
 
   render: function() {
-    //this.loadMessages(); 
-    console.log('this.state.messages', this.state.messages); 
     var messageList = this.state.messages.map(function(item, i) {
       return <MessageEntry key={i} message={item} />
     })
@@ -91,7 +91,7 @@ var MessageForm = React.createClass({
   localSubmit: function(event) {
     event.preventDefault();
     var messageText = this.refs.message.value;
-    //////////////////////////////////////////////local storage
+
     var messageObj = {
       text: messageText
     }
@@ -99,7 +99,7 @@ var MessageForm = React.createClass({
     this.refs.messageForm.reset()
   },
   randomPlaceholder: function() {
-    var placeholders = ["You guys are the worst", "Someone get me the pigeon stick..", "Wash your dishes", "Great Party!", "Who ordered the stripper?", "Where's my dog?", "Someone bring in the mail for me", "Joey at all the pizza", "Obie's dog shit on the floor", "Clean the shit off the floor, Obie"];
+    var placeholders = ["You guys are the worst", "Someone get me the pigeon stick..", "Wash your dishes", "Great Party!", "Who ordered the stripper?", "Where's my dog?", "Someone bring in the mail for me", "~(_8^(I)", "Joey at all the pizza", "Obie's dog shit on the floor", "so==[]::::::::::::::::>", "Clean the shit off the floor, Obie", "ͼ(ݓ_ݓ)ͽ"];
     var randomIndex = Math.floor(Math.random()*placeholders.length);
     return placeholders[randomIndex];
   },

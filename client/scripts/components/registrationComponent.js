@@ -93,8 +93,3 @@ var RegistrationContainer = React.createClass ({
     )
   }
 });
-
-
-
-//ReactDOM.render(<RegistrationContainer/>, document.querySelector('#registration')); 
-
