@@ -84,7 +84,7 @@ module.exports = function(app, express) {
 
 
   //Messages
-  app.get('/messages/:houseId', messageController.get);
+  app.get('/messages', messageController.get);
   app.post('/messages', messageController.post);
 
   //Chores

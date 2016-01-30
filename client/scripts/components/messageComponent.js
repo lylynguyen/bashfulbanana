@@ -16,9 +16,10 @@ var MessageContainer = React.createClass({
   loadMessages: function() {
     $.ajax({
       //eventually need to pass in :houseId instead of 1
-      url: 'http://localhost:8080/messages/' + localStorage.getItem('houseId'),
+      url: 'http://localhost:8080/messages',
       type: 'GET',
       contentType: 'application/json',
+      headers: {'token': localStorage.getItem('obie')},
       success: function(messages) {
         this.setState({messages: messages});
       }.bind(this),
@@ -37,6 +38,7 @@ var MessageContainer = React.createClass({
       type: 'POST',
       data: JSON.stringify(message),
       contentType: 'application/json',
+      headers: {'token': localStorage.getItem('obie')},
       success: function(data) {
         console.log('got here'); 
         this.loadMessages();
