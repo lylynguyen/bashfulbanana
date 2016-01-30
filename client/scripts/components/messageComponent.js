@@ -2,14 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
-//get a reference to the websocket
 var socket = io();
 
 var MessageContainer = React.createClass({
-  // var socket = io();
+
   getInitialState: function() {
-    //this.loadMessages();
     setTimeout(this.loadMessages, 500);
+
     return {
       messages: []
     }
@@ -22,7 +21,6 @@ var MessageContainer = React.createClass({
 
   loadMessages: function() {
     $.ajax({
-      //eventually need to pass in :houseId instead of 1
       url: 'http://localhost:8080/messages',
       type: 'GET',
       contentType: 'application/json',
@@ -30,7 +28,6 @@ var MessageContainer = React.createClass({
       success: function(messages) {
         socket.on('new message', function(message) {
           console.log("data", message);
-          // this.setState({messages: messages});
         })
         this.setState({messages: messages});
       }.bind(this),

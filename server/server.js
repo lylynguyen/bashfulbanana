@@ -17,24 +17,17 @@ var Venmo_Client_ID = process.env.venmo_client_ID;
 var Venmo_Client_SECRET = process.env.venmo_client_secret;
 var Venmo_Callback_URL = 'http://localhost:8080/auth/venmo/callback';
 
-
 app.set('port', (process.env.PORT || 8080));
 
 var server = app.listen(app.get('port'), function() {
   console.log('Server started: http://localhost:' + app.get('port') + '/');
 });
 
-// var http = require('http');
 var io = require('socket.io').listen(server);
 
 io.sockets.on('connection', function(socket){
   console.log('a user connected');
-  // socket.on('disconnect', function(){
-  // console.log('a user disconnected');
-  // });
   socket.on('message', function(data) {
-    // io.emit('messageAdded', message); // broadcast to all clients
-
     io.sockets.emit('message', data); // broadcast to all but the sender
   });
 })
@@ -45,7 +38,6 @@ app.use(cors());
 
 app.use(passport.initialize());
 app.use(passport.session());
-// app.use(app.router);
 
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -61,7 +53,6 @@ passport.use(new VenmoStrategy({
     callbackURL: Venmo_Callback_URL
   },
   function(accessToken, refreshToken, venmo, done) {
-    // User.findUserByVenmoID(venmo.id, callback);
     var obj= {}
     obj.name = venmo.displayName;
     obj.venmoName = venmo.displayName;
@@ -77,6 +68,7 @@ passport.use(new VenmoStrategy({
     var jtObj = {};
     jtObj.email = venmo.email;
     jtObj.access_token = accessToken;
+
 
     request.get('http://localhost:8080/users/venmo/'+ venmo.id, function(err, resp, body) {
 
