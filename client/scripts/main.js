@@ -91,7 +91,7 @@ var NavigationContainer = React.createClass({
 });
 
 var Logout = React.createClass({
-  mixins : [Router.Navigation],
+  mixins: [Router.Navigation],
   logout: function() {
     window.localStorage.removeItem('userId');
     window.localStorage.removeItem('houseId');
@@ -115,7 +115,7 @@ var ContentContainer = React.createClass({
 });
 
 var Login = React.createClass({
-  mixins: [History],
+  mixins: [History], 
 
   login: function(event) {
     event.preventDefault();
