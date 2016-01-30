@@ -21,8 +21,6 @@ var FinanceContainer = React.createClass({
       users: [],
       //eventually need to get real houseId/userId - use Justin's login to query
       //database with userId to get that user's houseId
-      houseId: 1,
-      userId: userId
     }
   },
 
@@ -111,6 +109,7 @@ var FinanceContainer = React.createClass({
     var users = this.state.users;
     //iterate through users
     for(var i = 0; i < users.length; i++) {
+      //console.log('USER', users[i]);
       //find the ones selected
       if(users[i].selected === true) {
         //create payment object
@@ -134,7 +133,7 @@ var FinanceContainer = React.createClass({
   // payee_userId
 
   loadBills: function() {
-    var token = localStorage.getItem('obie');
+    var token = localStorage.getItem('obie'); 
     $.ajax({
       url: 'http://localhost:8080/payment/pay',
       type: 'GET',

@@ -52,7 +52,7 @@ module.exports = {
 
   postPayment: function (req, res) {
     var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
-    var params = [req.body.billId, token.userid, req.body.amount];
+    var params = [req.body.billId, req.body.userId, req.body.amount];
     models.postPayment(params, function(err, payment) {
       if (err) {
         res.sendStatus(500);
