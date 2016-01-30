@@ -34,7 +34,7 @@ io.sockets.on('connection', function(socket){
   // });
   socket.on('message', function(data) {
     // io.emit('messageAdded', message); // broadcast to all clients
-    console.log('send message', data);
+
     io.sockets.emit('message', data); // broadcast to all but the sender
   });
 })

@@ -3,16 +3,21 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
 //get a reference to the websocket
-// var socket = io();
+var socket = io();
 
 var MessageContainer = React.createClass({
-  var socket = io();
+  // var socket = io();
   getInitialState: function() {
     //this.loadMessages();
     setTimeout(this.loadMessages, 500);
     return {
       messages: []
     }
+  },
+
+  componentDidMount: function () {
+    var context=this;
+    socket.on('message', context.loadMessages);
   },
 
   loadMessages: function() {
@@ -35,8 +40,6 @@ var MessageContainer = React.createClass({
     })
   },
 
-  // userId
-  // text
   formSubmit: function(message) {
     $.ajax({
       url: 'http://localhost:8080/messages',
@@ -46,14 +49,13 @@ var MessageContainer = React.createClass({
       headers: {'token': localStorage.getItem('obie')},
       success: function(data) {
         this.loadMessages();
-        socket.emit('send message', message);
+        socket.emit('message', message);
       }.bind(this)
     });
 
   },
 
   render: function() {
-    //this.loadMessages(); 
     var messageList = this.state.messages.map(function(item, i) {
       return <MessageEntry key={i} message={item} />
     })
