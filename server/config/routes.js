@@ -21,19 +21,17 @@ module.exports = function(app, express) {
     saveUninitialized: true
   }));
 
-  app.use('/', express.static('client'));
-
-  //Passport
   app.get('/auth/venmo', passport.authenticate('venmo', {
       session: false,
       scope: ['make_payments', 'access_feed', 'access_profile', 'access_email', 'access_phone', 'access_balance', 'access_friends'],
-      failureRedirect: '/'
+      failureRedirect: '/login'
   }), function(req, res) {
     res.render("hi");
   });
 
+  //Passport
   app.get('/auth/venmo/callback', passport.authenticate('venmo', {
-      failureRedirect: '/' //redirect to login eventually
+      failureRedirect: '/login' //redirect to login eventually
   }), function(req, res) {
     return req.session.regenerate(function() {
       //console.log("DECODED", jwt.decode(req.user, process.env.secret_code))
@@ -41,6 +39,11 @@ module.exports = function(app, express) {
       res.redirect('/');
     });
   });
+
+  app.use('/login', express.static('client/login.html'));
+  app.use('/', Auth.checkUser);
+  app.use('/', express.static('client'));
+  app.use('/registration', express.static('client/registration.html'));
 
   app.get('/obie', function(req, res) {
     //console.log('IN OBIE', jwt.decode(req.session.jwt, process.env.secret_code))
@@ -50,7 +53,7 @@ module.exports = function(app, express) {
   //Login/Logout
   app.get('/logout', function(req, res){
     req.session.destroy(function(){
-      res.redirect('/');
+      res.redirect('/login');
     });
     console.log("SESSION after logout", req.session)
   });
@@ -74,6 +77,10 @@ module.exports = function(app, express) {
     console.log("SESSION", req.session);
     res.send(req.session);
   })
+
+  // app.get('/', Auth.checkUser, function(req, res) {
+  //   console.log('got through auth'); 
+  // })
 
   //Users
   app.get('/users/', userController.getUsersInHouse);

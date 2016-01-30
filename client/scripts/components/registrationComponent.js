@@ -96,5 +96,5 @@ var RegistrationContainer = React.createClass ({
 
 
 
-export default RegistrationContainer;
+//ReactDOM.render(<RegistrationContainer/>, document.querySelector('#registration')); 
 

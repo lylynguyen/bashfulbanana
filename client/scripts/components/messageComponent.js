@@ -4,7 +4,8 @@ import $ from 'jquery';
 
 var MessageContainer = React.createClass({
   getInitialState: function() {
-    this.loadMessages(); 
+    //this.loadMessages(); 
+    setTimeout(this.loadMessages, 500);
     return {
       messages: []
     }
@@ -91,11 +92,8 @@ var MessageForm = React.createClass({
     event.preventDefault();
     var messageText = this.refs.message.value;
     //////////////////////////////////////////////local storage
-    var userId = localStorage.getItem('userId');
     var messageObj = {
-      userId: userId,
-      text: messageText,
-      houseId: 1
+      text: messageText
     }
     this.props.formSubmit(messageObj);
     this.refs.messageForm.reset()
