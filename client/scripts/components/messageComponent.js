@@ -99,7 +99,7 @@ var MessageForm = React.createClass({
     this.refs.messageForm.reset()
   },
   randomPlaceholder: function() {
-    var placeholders = ["You guys are the worst", "Someone get me the pigeon stick..", "Wash your dishes", "Great Party!", "Who ordered the stripper?", "Where's my dog?", "Someone bring in the mail for me", "Joey at all the pizza", "Obie's dog shit on the floor", "Clean the shit off the floor, Obie"];
+    var placeholders = ["You guys are the worst", "Someone get me the pigeon stick..", "Wash your dishes", "Great Party!", "Who ordered the stripper?", "Where's my dog?", "Someone bring in the mail for me", "~(_8^(I)", "Joey at all the pizza", "Obie's dog shit on the floor", "so==[]::::::::::::::::>", "Clean the shit off the floor, Obie", "ͼ(ݓ_ݓ)ͽ"];
     var randomIndex = Math.floor(Math.random()*placeholders.length);
     return placeholders[randomIndex];
   },

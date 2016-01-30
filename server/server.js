@@ -26,9 +26,10 @@ var server = app.listen(app.get('port'), function() {
 var io = require('socket.io').listen(server);
 
 io.sockets.on('connection', function(socket){
-  console.log('a user connected');
+  console.log('a user connected  ~(_8^(I) ');
   socket.on('message', function(data) {
     io.sockets.emit('message', data); // broadcast to all but the sender
+    console.log("server nsp->%s", socket.nsp.name)
   });
 })
 
