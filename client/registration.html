@@ -6,8 +6,29 @@
   <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
-  <div id="registration">
-  </div>
-  <script src="/build/main.js"></script>
+    <div class='create-house'>
+      <h4>Create House</h4>
+      <div>
+        <form class="col-sm-6 input-group" ref='createHouseForm'>
+          Nickname: <input type='text' id="house-name" class="form-control" ref='nickname'/>
+          <div>
+            <button id="create-house" class="btn btn-success btn-left">Create</button>
+          </div>
+        </form>
+      </div>
+      <p> --OR-- </p>
+      <h4>Join House</h4>
+      <div>
+        <form class="col-sm-6 input-group" ref='joinHouseForm'>
+          Enter House Code: <input id="house-code" class="form-control" type='text' ref='houseCode'/>
+          <div>
+            <button class="btn btn-success btn-left" id="join-house">Join</button>
+          </div>
+        </form>
+      </div>
+      <button class="btn btn-success btn-left">House</button>
+    </div>
+  <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+  <script src="/scripts/registration.js"></script>
 </body>
 </html>

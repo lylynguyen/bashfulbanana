@@ -61,6 +61,7 @@ passport.use(new VenmoStrategy({
     
     request.get('http://localhost:8080/users/venmo/'+ venmo.id, function(err, resp, body) {
       if (!err && resp.statusCode == 200) { 
+        console.log('BODY', body); 
         if (JSON.parse(body).length === 0){
 
           request({

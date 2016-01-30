@@ -5,6 +5,7 @@ module.exports = {
   getUsersInHouse: function (req, res) {
     var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
     var params = [token.houseId];
+    console.log('GET USERS IN HOUSE PARAMS:', params);
     userModel.getUsersInHouse(params, function(err, results) {
       if (err) {
         res.sendStatus(500);
