@@ -104,6 +104,10 @@ var FinanceContainer = React.createClass({
     });
   },
 
+  
+
+  
+
   createPayments: function(billId) {
     // event.preventDefault();
     var users = this.state.users;
@@ -169,8 +173,9 @@ var FinanceContainer = React.createClass({
 
 
   render: function() {
+    var context = this;
     var billList = this.state.bills.map(function(item, i) {
-      return <BillEntry key={i} bill={item} />
+      return <BillEntry loadBills={context.loadBills} key={i} bill={item} />
     }); 
     var paymentsOwedList = this.state.paymentsOwed.map(function(item, i) {
       return <PaymentOwedEntry key={i} paymentOwed={item} />
@@ -212,11 +217,49 @@ var BillEntry = React.createClass({
     console.log(date);
     return `${date.day}/${date.month}/${date.year}`;
   },
+
+  createVenmoPayment: function(event) {
+    event.preventDefault();
+    var obj = {};
+    obj.id = this.props.bill.paymentId;
+    obj.email = this.props.bill.whoIsOwedEmail;
+    obj.amount = this.props.bill.amount;
+    obj.note = this.props.bill.billName;
+    this.makeVenmoPayment(obj);
+  },
+
+  makeVenmoPayment: function(venmoData) {
+    console.log("venmo DATA", venmoData);
+    $.ajax({
+      url: 'http://localhost:8080/auth/venmo/payment',
+      headers: {'token': localStorage.getItem('obie')},
+      type: 'POST',
+      data: JSON.stringify(venmoData),
+      contentType: 'application/json',
+      success: function(data) {
+        console.log("venmo paid", "venmo data id", venmoData.id);
+        this.markPaymentAsPaid(venmoData.id);
+      }.bind(this)
+    });
+  },
+
+  markPaymentAsPaid: function(paymentId) {
+    $.ajax({
+      url: 'http://localhost:8080/payment/' + paymentId,
+      type: 'PUT',
+      contentType: 'application/json',
+      success: function(data) {
+        console.log("payment marked");
+        this.props.loadBills();
+      }.bind(this)
+    });
+  },
+
   render: function() {
     return (
       <div>
         {this.props.bill.billName} ${this.props.bill.amount} by {this.getDate()}
-        <button className=''>Pay Bill</button>
+        <button className='' onClick={this.createVenmoPayment}>Pay Bill</button>
       </div>
     )
   }

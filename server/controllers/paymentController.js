@@ -1,5 +1,6 @@
 var models = require('../models/paymentModel.js');
 var jwt = require('jwt-simple');
+var request = require('request');
 
 module.exports = {
   getWhatYouOwe: function (req, res) {
@@ -84,6 +85,28 @@ module.exports = {
       } else {
         res.json(payment);
       }
+    });
+  },
+  makeVenmoPayment: function(req, res) {
+    //using the request library with a callback
+    console.log("BOD:", req.body);
+    console.log(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
+    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
+
+    var obj = {}
+    obj.access_token = token.access_token;
+    obj.email = req.body.email;
+    obj.amount = req.body.amount;
+    obj.note = req.body.note;
+    obj.audience = 'public';
+    console.log(obj);
+
+    request.post('https://api.venmo.com/v1/payments', {form: obj}, function(e, r, venmo_receipt){
+        // parsing the returned JSON string into an object
+        console.log(venmo_receipt);
+        // var venmo_receipt = JSON.parse(venmo_receipt);
+        console.log("paid successfully")
+        res.json(venmo_receipt);
     });
   }
 }

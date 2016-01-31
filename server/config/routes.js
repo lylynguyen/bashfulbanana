@@ -97,17 +97,7 @@ module.exports = function(app, express) {
   });
 
   //Pay a user
-  app.post('/auth/venmo/payment', function(req, res){
-    //using the request library with a callback
-    console.log("BOD:", req.body);
-    request.post('https://api.venmo.com/v1/payments', {form: req.body}, function(e, r, venmo_receipt){
-        // parsing the returned JSON string into an object
-        console.log(venmo_receipt);
-        var venmo_receipt = JSON.parse(venmo_receipt);
-        console.log("paid successfully")
-        res.render('success', {venmo_receipt: venmo_receipt});
-    });
-});
+  app.post('/auth/venmo/payment', paymentController.makeVenmoPayment);
 
   //Dummy Test Route
   app.get('/woo', Auth.checkUser, function(req, res){
