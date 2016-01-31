@@ -75,7 +75,8 @@ module.exports = function(app, express) {
   //Houses
   app.post('/houses', houseController.postHouse);
   app.get('/houses/:token', houseController.getHousebyHouseId);
-  app.put('/houses/users', houseController.updateUserHouseId); 
+  app.put('/houses/users', houseController.updateUserHouseId);
+  app.get('/houses/token/:houseId', houseController.getHouseToken);
 
 
   app.use('/login', express.static('client/login.html'));
@@ -96,17 +97,7 @@ module.exports = function(app, express) {
   });
 
   //Pay a user
-  app.post('/auth/venmo/payment', function(req, res){
-    //using the request library with a callback
-    console.log("BOD:", req.body);
-    request.post('https://api.venmo.com/v1/payments', {form: req.body}, function(e, r, venmo_receipt){
-        // parsing the returned JSON string into an object
-        console.log(venmo_receipt);
-        var venmo_receipt = JSON.parse(venmo_receipt);
-        console.log("paid successfully")
-        res.render('success', {venmo_receipt: venmo_receipt});
-    });
-});
+  app.post('/auth/venmo/payment', paymentController.makeVenmoPayment);
 
   //Dummy Test Route
   app.get('/woo', Auth.checkUser, function(req, res){

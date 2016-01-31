@@ -46,5 +46,16 @@ module.exports = {
         res.json(results)
       }
     })
+  },
+  getHouseToken: function(req, res) {
+    var params = [req.params.houseId];
+    houseModel.getHouseToken(params, function(err, results) {
+      if (err) {
+        res.sendStatus(500);
+      } else {
+        res.json(results);
+      }
+    })
+
   }
 }

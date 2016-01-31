@@ -20,7 +20,24 @@ $(document).ready(function() {
       data: JSON.stringify(house),
       contentType: 'application/json',
       success: function(data) {
-        console.log('id of newly added house', data.insertId); 
+        console.log('id of newly added house', data.insertId);
+        getHouseToken(data.insertId);
+      }
+    });
+  };
+
+  var getHouseToken = function(houseId) {
+    $.ajax({
+      url: 'http://localhost:8080/houses/token/'+houseId,
+      type: 'GET',
+      contentType: 'application/json',
+      success: function(data) {
+        var token = data[0].token; 
+        // alert('Your token is ' + token);
+        $('#house-code').val(token); 
+      },
+      error: function(error) {
+        console.log('error: ', error);
       }
     });
   };

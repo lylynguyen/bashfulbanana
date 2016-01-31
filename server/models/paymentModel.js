@@ -3,8 +3,8 @@ var db = require('../db');
 module.exports = {
   // money the user owes
   getWhatYouOwe: function (params, callback) {
-    var queryStr = "select bill.name AS billName, bill.dueDate, payment.amount, bill.total, users.name AS whoIsOwed, payment.id AS paymentId, bill.id AS billId from payment left outer join bill on (payment.billid=bill.id) left outer join users on (users.id=bill.userid) where payment.paid=0 AND payment.userId=?"
-
+    var queryStr = "select bill.name AS billName, bill.dueDate, payment.amount, bill.total, users.name AS whoIsOwed, users.email AS whoIsOwedEmail, payment.id AS paymentId, bill.id AS billId from payment left outer join bill on (payment.billid=bill.id) left outer join users on (users.id=bill.userid) where payment.paid=0 AND payment.userId=?"
+    
     db.query(queryStr, params, function(err, results) {
       callback(err, results);
     });

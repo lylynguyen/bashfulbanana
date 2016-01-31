@@ -95,7 +95,7 @@ var Logout = React.createClass({
   logout: function() {
     window.localStorage.removeItem('userId');
     window.localStorage.removeItem('houseId');
-    window.location.href = "http://localhost:8080/";
+    window.location.href = "http://localhost:8080/logout";
   },
   render: function() {
     return <button onClick={this.logout} className="btn btn-danger">Logout</button>

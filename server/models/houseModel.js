@@ -17,7 +17,7 @@ module.exports = {
     var queryStr = 'SELECT id from house WHERE token = ?';
     db.query(queryStr, params, function(err, results) {
       callback(err, results); 
-    })
+    });
   },
 
   updateHouseUserList: function(params, callback) {
@@ -27,6 +27,12 @@ module.exports = {
     var queryStr = 'UPDATE users set houseId = ? WHERE id = ?';
     db.query(queryStr, params, function(err, results) {
       callback(err, results); 
-    })
+    });
+  },
+  getHouseToken: function(params, callback) {
+    var queryStr = 'SELECT token FROM house WHERE id = ?';
+    db.query(queryStr, params, function(err, results) {
+      callback(err, results); 
+    });
   }
 }
