@@ -30,6 +30,7 @@ CREATE TABLE `Users` (
   `venmo` VARCHAR(1000),
   `balance` FLOAT,
   `venmoid` VARCHAR(500),
+  `userImageUrl` VARCHAR(200),
   PRIMARY KEY (`id`)
 );
 

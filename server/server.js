@@ -65,6 +65,7 @@ passport.use(new VenmoStrategy({
     obj.access_token = accessToken;
     obj.refresh_token = refreshToken;
     obj.venmoid = venmo.id;
+    obj.userImageUrl = venmo._json.profile_picture_url || null;
 
     var jtObj = {};
     jtObj.email = venmo.email;

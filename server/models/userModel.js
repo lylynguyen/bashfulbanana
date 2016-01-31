@@ -14,7 +14,7 @@ module.exports = {
     });
   },
   postUser: function (params, callback) {
-    var queryStr = "INSERT INTO Users (name, venmoName, username, email, provider, venmo, balance, venmoid ) VALUES (?, ?, ?, ?, ?, ?, ?, ? )"
+    var queryStr = "INSERT INTO Users (name, venmoName, username, email, provider, venmo, balance, venmoid, userImageUrl ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
     db.query(queryStr, params, function(err, results) {
       callback(err, results);
     });
@@ -27,7 +27,13 @@ module.exports = {
     });
   },
   getHouseOfUser: function(params, callback) {
-    var queryStr = "SELECT id, houseId FROM users WHERE username = ? LIMIT 1";
+    var queryStr = "SELECT id, houseId, userImageUrl FROM users WHERE username = ? LIMIT 1";
+    db.query(queryStr, params, function(err, results) {
+      callback(err, results);
+    });
+  },
+  getUserImage: function(params, callback) {
+    var queryStr = "SELECT userImageUrl, name FROM users WHERE id=?";
     db.query(queryStr, params, function(err, results) {
       callback(err, results);
     });
