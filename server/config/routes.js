@@ -78,6 +78,7 @@ module.exports = function(app, express) {
   app.get('/houses/:token', houseController.getHousebyHouseId);
   app.put('/houses/users', houseController.updateUserHouseId);
   app.get('/houses/token/:houseId', houseController.getHouseToken);
+  app.get('/housez/code', houseController.getHouseCode);
 
 
   app.use('/login', express.static('client/login.html'));

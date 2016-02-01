@@ -21,7 +21,8 @@ var App = React.createClass({
     this.getSession();
     this.getUserImage();
     return {
-      view: 'Messages'
+      view: 'Messages',
+      code: ''
     }
   },
   getUserImage: function() {
@@ -53,6 +54,20 @@ var App = React.createClass({
       }
     });
   },
+  getHouseCode: function() {
+    $.ajax({
+      url: 'http://localhost:8080/housez/code',
+      type: 'GET',
+      contentType: 'application/json',
+      headers: {'token': localStorage.getItem('obie')},
+      success: function(code) {
+        this.setState({code: "Your house code is: " + code[0].token});
+      }.bind(this),
+      error: function() {
+        console.log('error');
+      }
+    });
+  },
   renderView: function(view) {
     console.log("view: ", view);
     this.setState({view: view});
@@ -66,6 +81,8 @@ var App = React.createClass({
             <div className="side-bar-filler">
               <ImageContainer imageUrl={this.state.imageUrl}  />
               <h3>{this.state.name}</h3>
+              <button className="btn btn-info submit-message-button text-center" onClick={this.getHouseCode}>Get House Code</button>
+              <p>{this.state.code}</p>
             </div>
           </div>
           <div className="col-xs-7 col-md-8 col-lg-8 interface-container main-bar-container">
