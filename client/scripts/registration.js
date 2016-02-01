@@ -42,6 +42,9 @@ $(document).ready(function() {
 
   var createHouse = function(event) {
     event.preventDefault();
+    if (!$('#create-house-form').valid()) {
+      return;
+    }
     var house = {
       name: $('#house-name').val()
     };
@@ -93,6 +96,9 @@ $(document).ready(function() {
   // join a house
   $('#join-house-submit').on('click', function(event) {
     event.preventDefault();
+    if (!$('#join-house-form').valid()) {
+      return;
+    }
     findHouse();
   });
 
@@ -109,5 +115,9 @@ $(document).ready(function() {
     $('#create-house-div').show('slow');
     $('#join-house-div').hide('slow');
   });
+
+  // validate forms:
+  $('#create-house-form').validate();
+  $('#join-house-form').validate();
 
 });
