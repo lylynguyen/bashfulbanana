@@ -245,6 +245,10 @@ div.chore-entry:hover {
   width: 100%;
 }
 
+.pay-btn {
+  height: 5px;
+}
+
 /*
   Navbar
 */

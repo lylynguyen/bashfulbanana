@@ -97,10 +97,5 @@ module.exports = function(app, express) {
 
   //Pay a user
   app.post('/auth/venmo/payment', paymentController.makeVenmoPayment);
-
-  //Dummy Test Route
-  app.get('/woo', Auth.checkUser, function(req, res){
-    res.send(req.session);
-  })
 }
   

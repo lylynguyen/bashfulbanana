@@ -82,6 +82,7 @@ var FinanceContainer = React.createClass({
       data: JSON.stringify(bill),
       contentType: 'application/json',
       success: function(id) {
+        // console.log(data);
         this.createPayments(id)
         this.loadBills();
       }.bind(this)
@@ -95,7 +96,11 @@ var FinanceContainer = React.createClass({
       type: 'POST',
       data: JSON.stringify(payment),
       contentType: 'application/json',
-      success: function(data) {}
+      success: function(data) {
+        // this.loadPayments()
+        console.log("payment added");
+        // this.loadBills();
+      }
     });
   },
 
@@ -108,6 +113,7 @@ var FinanceContainer = React.createClass({
     var users = this.state.users;
     //iterate through users
     for(var i = 0; i < users.length; i++) {
+      //console.log('USER', users[i]);
       //find the ones selected
       if(users[i].selected === true) {
         //create payment object
@@ -118,6 +124,8 @@ var FinanceContainer = React.createClass({
         }
         this.addPayment(payment);
         this.getUsers();
+        // console.log(users[i]);
+        // console.log('PAYMENT', payment)
       }
     }
   },
@@ -136,6 +144,7 @@ var FinanceContainer = React.createClass({
       contentType: 'application/json',
       headers: {'token': token},
       success: function(bills) {
+        console.log("bills", bills)
         this.state.bills = bills; 
         this.setState({bills: this.state.bills});
       }.bind(this),
@@ -205,7 +214,8 @@ var FinanceContainer = React.createClass({
 var BillEntry = React.createClass({
   getDate: function() {
     var date = h.getDate(this.props.bill.dueDate);
-    return `${date.day}/${date.month}/${date.year}`;
+    console.log(date);
+    return `${date.month}/${date.day}/${date.year}`;
   },
 
   createVenmoPayment: function(event) {
@@ -219,6 +229,7 @@ var BillEntry = React.createClass({
   },
 
   makeVenmoPayment: function(venmoData) {
+    console.log("venmo DATA", venmoData);
     $.ajax({
       url: 'http://localhost:8080/auth/venmo/payment',
       headers: {'token': localStorage.getItem('obie')},
@@ -226,6 +237,7 @@ var BillEntry = React.createClass({
       data: JSON.stringify(venmoData),
       contentType: 'application/json',
       success: function(data) {
+        console.log("venmo paid", "venmo data id", venmoData.id);
         this.markPaymentAsPaid(venmoData.id);
       }.bind(this)
     });
@@ -237,6 +249,7 @@ var BillEntry = React.createClass({
       type: 'PUT',
       contentType: 'application/json',
       success: function(data) {
+        console.log("payment marked");
         this.props.loadBills();
       }.bind(this)
     });
@@ -245,8 +258,8 @@ var BillEntry = React.createClass({
   render: function() {
     return (
       <div>
-        {this.props.bill.billName} ${this.props.bill.amount} by {this.getDate()}
-        <button className='' onClick={this.createVenmoPayment}>Pay Bill</button>
+        You owe {this.props.bill.whoIsOwed} ${this.props.bill.amount} for {this.props.bill.billName} by {this.getDate()}
+        <button className='btn btn-info' onClick={this.createVenmoPayment}>Pay Bill</button>
       </div>
     )
   }
@@ -303,6 +316,7 @@ var BillForm = React.createClass({
       //invert selected property
       this.props.users[i].selected = true;
     };
+    console.log('USERS', this.props.users);
     this.createBill();
   },
   customSplit: function(event) {
@@ -324,7 +338,13 @@ var BillForm = React.createClass({
     if (event) {
       event.preventDefault();
     }
-    var userId = localStorage.getItem('userId');
+    var totalsArray = this.props.users.map(function(item, i) {
+      return parseInt(item.total); 
+    });
+    var customTotal = totalsArray.reduce(function(acc, curr) {
+      return acc += curr; 
+    }, 0); 
+    //var userId = localStorage.getItem('userId');
     //create bill object based on user input
     var bill = {
       //on top of these, need access to the userId of
@@ -332,15 +352,20 @@ var BillForm = React.createClass({
       //users checked on the form and what they owe.
       //think about creating separate payment objects
       //in a different payment function for these. 
-      userId: userId,
+      //userId: userId,
       total: this.refs.total.value,
       name: this.refs.name.value,
       dueDate: this.refs.dueDate.value
     };
-    //call addBill with this object. 
-    this.props.addBill(bill); 
-    //reset input fields
-    this.refs.billForm.reset();
+    if(customTotal !== parseInt(bill.total)) {
+      $('<div id="failure" class="alert alert-danger"><strong>Nerd!</strong> Get better at math.</div>').insertBefore('#bill-submit');
+    } else {
+      //call addBill with this object. 
+      this.props.addBill(bill); 
+      //reset input fields
+      this.refs.billForm.reset();
+      $( "#failure" ).remove();
+    }
   },
 
   render: function() {
@@ -388,7 +413,7 @@ var CustomSplitForm = React.createClass({
         <ul className='split-bill-user-list'>
           {this.props.userList}
         </ul>
-        <button className="btn btn-info" onClick={this.props.createBill}>Submit Bill</button>
+        <button id='bill-submit' className="btn btn-info" onClick={this.props.createBill}>Submit Bill</button>
       </div>
     )
   }
@@ -398,6 +423,7 @@ var UserEntry = React.createClass({
   setValue: function(id) {
     this.props.user.selected = true;
     this.props.user.total = this.refs[id].value;
+    console.log('this.refs[id].value', !this.refs[id].value);
     if (!this.refs[id].value) {
       this.props.user.selected = false;
     }
@@ -419,3 +445,6 @@ var UserEntry = React.createClass({
 })
 
 export default FinanceContainer;
+
+
+

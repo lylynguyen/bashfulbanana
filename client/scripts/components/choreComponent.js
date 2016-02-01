@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import h from '../helpers';
 
 var ChoreContainer = React.createClass({
   getInitialState: function () {
@@ -78,6 +79,11 @@ var ChoreContainer = React.createClass({
 });
 
 var ChoreEntry = React.createClass({
+  getDate: function() {
+    var date = h.getDate(this.props.chore.dueDate);
+    return `${date.month}/${date.day}/${date.year}`;
+  },
+
   updateChoreStatus: function () {
     $.ajax({
       url: 'http://localhost:8080/chores/' + this.props.chore.id,
@@ -101,7 +107,7 @@ var ChoreEntry = React.createClass({
             <p>{this.props.chore.chorename}</p>
           </div>
           <div className="col-xs-6 chore-duedate">
-            <p>{this.props.chore.dueDate}</p>
+            <p>{this.getDate()}</p>
           </div>
         </div>
         <div className="row">
@@ -109,7 +115,7 @@ var ChoreEntry = React.createClass({
             <p>{this.props.chore.name}</p>
           </div>
         </div>
-        <button type='button' onClick={this.updateChoreStatus}>Completed</button>
+        <button type='button' className='btn btn-info' onClick={this.updateChoreStatus}>Completed</button>
       </div>
     )
   }
