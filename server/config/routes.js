@@ -36,7 +36,7 @@ module.exports = function(app, express) {
     return req.session.regenerate(function() {
       var token = JSON.parse(jwt.decode(req.user, process.env.secret_code));
       req.session.jwt = req.user;
-      if(token.houseId === null) {
+      if(!token.houseId) {
         res.redirect('/registration')
       } else {
         res.redirect('/');
