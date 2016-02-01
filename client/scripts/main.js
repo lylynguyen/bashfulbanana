@@ -18,10 +18,27 @@ navbar.links = [
 
 var App = React.createClass({
   getInitialState: function() {
-    this.getSession()
+    this.getSession();
+    this.getUserImage();
     return {
       view: 'Messages'
     }
+  },
+  getUserImage: function() {
+     $.ajax({
+      url: 'http://localhost:8080/users/images',
+      type: 'GET',
+      contentType: 'application/json',
+      headers: {'token': localStorage.getItem('obie')},
+      success: function(url) {
+        this.state.imageUrl = url[0].userImageUrl || "https://s-media-cache-ak0.pinimg.com/736x/fb/e1/cd/fbe1cdbc1b728fbb5e157375905d576f.jpg";
+        this.state.name = url[0].name;
+        this.setState({imageUrl: this.state.imageUrl, name: this.state.name});
+      }.bind(this),
+      error: function() {
+        console.log('error getting image');
+      }
+    });
   },
   getSession: function() {
     $.ajax({
@@ -29,7 +46,6 @@ var App = React.createClass({
       type: 'GET',
       contentType: 'application/json',
       success: function(session) {
-        console.log('got session: ', session);
         localStorage.setItem('obie', session);
       }.bind(this),
       error: function() {
@@ -48,8 +64,8 @@ var App = React.createClass({
         <div className="app-container col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
           <div className="col-xs-5 col-md-4 col-lg-4 side-bar-container">
             <div className="side-bar-filler">
-              <ImageContainer />
-              <h3>Samuel</h3>
+              <ImageContainer imageUrl={this.state.imageUrl}  />
+              <h3>{this.state.name}</h3>
               <NavigationContainer changeView={this.renderView} />
               <Logout />
             </div>
@@ -65,7 +81,7 @@ var App = React.createClass({
 
 var ImageContainer = React.createClass({
   render: function() {
-    return <img height="150" src="https://s-media-cache-ak0.pinimg.com/736x/fb/e1/cd/fbe1cdbc1b728fbb5e157375905d576f.jpg" />
+    return <img height="150" src={this.props.imageUrl} />
   }
 });
 

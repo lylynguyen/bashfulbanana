@@ -5,7 +5,6 @@ module.exports = {
   getUsersInHouse: function (req, res) {
     var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
     var params = [token.houseId];
-    console.log('GET USERS IN HOUSE PARAMS:', params);
     userModel.getUsersInHouse(params, function(err, results) {
       if (err) {
         res.sendStatus(500);
@@ -35,7 +34,8 @@ module.exports = {
     var venmo = req.body.venmo;
     var balance = parseFloat(req.body.balance);
     var venmoid = req.body.venmoid;
-    var params = [name, venmoName, username, email, provider, venmo, balance, venmoid];
+    var userImageUrl = req.body.userImageUrl;
+    var params = [name, venmoName, username, email, provider, venmo, balance, venmoid, userImageUrl];
     userModel.postUser(params, function(err, results) {
       if (err) {
         res.sendStatus(500);
@@ -57,6 +57,17 @@ module.exports = {
   getHouseOfUser: function(req, res) {
     var params = [req.params.username];
     userModel.getHouseOfUser(params, function(err, results) {
+      if (err) {
+        res.sendStatus(500);
+      } else {
+        res.json(results);
+      }
+    })
+  },
+  getUserImage: function(req, res) {
+    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
+    var params = token.userid;
+    userModel.getUserImage(params, function(err, results) {
       if (err) {
         res.sendStatus(500);
       } else {
