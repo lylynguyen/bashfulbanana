@@ -45,6 +45,9 @@ $(document).ready(function() {
     var house = {
       name: $('#house-name').val()
     };
+    $('#create-house-div').hide('slow');
+    $('#join-house-div').show('slow');
+    $('#create-house-btn').hide();
     addHouse(house);
   };
 
@@ -64,7 +67,7 @@ $(document).ready(function() {
     })  
   };
 
-  var findHouse = function() {
+  var findHouse = function(event) {
     // event.preventDefault();
     var houseCode = $('#house-code').val();
     //get request for house with provided houseCode
@@ -85,13 +88,26 @@ $(document).ready(function() {
   };
 
   // create a house
-  $('#create-house').on('click', createHouse);
-
+  $('#create-house-submit').on('click', createHouse);
 
   // join a house
-  $('#join-house').on('click', function(event) {
-    event.preventDefault()
+  $('#join-house-submit').on('click', function(event) {
+    event.preventDefault();
     findHouse();
+  });
+
+  // show join house div on button click
+  $('#join-house-btn').on('click', function(event) {
+    event.preventDefault();
+    $('#create-house-div').hide('slow');
+    $('#join-house-div').show('slow');
+  });
+
+  // show create house div on button click
+  $('#create-house-btn').on('click', function(event) {
+    event.preventDefault();
+    $('#create-house-div').show('slow');
+    $('#join-house-div').hide('slow');
   });
 
 });
