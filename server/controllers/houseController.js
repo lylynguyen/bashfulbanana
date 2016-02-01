@@ -56,6 +56,17 @@ module.exports = {
         res.json(results);
       }
     })
-
+  },
+  getHouseCode: function(req, res) {
+    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
+    var params = [token.houseId];
+    console.log(params);
+    houseModel.getHouseToken(params, function(err, results) {
+      if (err) {
+        res.sendStatus(500);
+      } else {
+        res.json(results);
+      }
+    })
   }
 }
