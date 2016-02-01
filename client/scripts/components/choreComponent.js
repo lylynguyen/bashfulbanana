@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import h from '../helpers';
 
 var ChoreContainer = React.createClass({
   getInitialState: function () {
@@ -21,7 +22,6 @@ var ChoreContainer = React.createClass({
       type: 'GET',
       contentType: 'application/json',
       success: function(users) {
-        console.log('users: ', users);
         this.state.users = users; 
         this.setState({users: this.state.users}); 
       }.bind(this)
@@ -37,7 +37,6 @@ var ChoreContainer = React.createClass({
       type: 'GET',
       contentType: 'application/json',
       success: function (chores) {
-        console.log('CHORES', chores);
         this.setState({chores: chores});
       }.bind(this),
       error: function (err) {
@@ -80,6 +79,11 @@ var ChoreContainer = React.createClass({
 });
 
 var ChoreEntry = React.createClass({
+  getDate: function() {
+    var date = h.getDate(this.props.chore.dueDate);
+    return `${date.month}/${date.day}/${date.year}`;
+  },
+
   updateChoreStatus: function () {
     $.ajax({
       url: 'http://localhost:8080/chores/' + this.props.chore.id,
@@ -87,7 +91,6 @@ var ChoreEntry = React.createClass({
       headers: {'token': localStorage.getItem('obie')},
       contentType: 'application/json',
       success: function() {
-        console.log('update successful')
         this.props.loadChores();
       }.bind(this),
       error: function(err) {
@@ -104,7 +107,7 @@ var ChoreEntry = React.createClass({
             <p>{this.props.chore.chorename}</p>
           </div>
           <div className="col-xs-6 chore-duedate">
-            <p>{this.props.chore.dueDate}</p>
+            <p>{this.getDate()}</p>
           </div>
         </div>
         <div className="row">
@@ -112,7 +115,7 @@ var ChoreEntry = React.createClass({
             <p>{this.props.chore.name}</p>
           </div>
         </div>
-        <button type='button' onClick={this.updateChoreStatus}>Completed</button>
+        <button type='button' className='btn btn-info' onClick={this.updateChoreStatus}>Completed</button>
       </div>
     )
   }
@@ -126,7 +129,6 @@ var ChoreForm = React.createClass({
     var name = this.refs.choreName.value;
     var category = this.refs.category.value;
     var houseId = localStorage.getItem('houseId');
-    console.log('USER ID submit', userId);
     var choreObject = {
       userId: userId,
       dueDate: dueDate,

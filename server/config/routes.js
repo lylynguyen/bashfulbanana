@@ -34,10 +34,9 @@ module.exports = function(app, express) {
       failureRedirect: '/login' //redirect to login eventually
   }), function(req, res) {
     return req.session.regenerate(function() {
-      console.log("DECODED", jwt.decode(req.user, process.env.secret_code))
       var token = JSON.parse(jwt.decode(req.user, process.env.secret_code));
       req.session.jwt = req.user;
-      if(token.houseId === null) {
+      if(!token.houseId) {
         res.redirect('/registration')
       } else {
         res.redirect('/');
@@ -86,7 +85,6 @@ module.exports = function(app, express) {
   app.use('/registration', Auth.checkUser, express.static('client/registration.html'));
 
   app.get('/obie', function(req, res) {
-    //console.log('IN OBIE', jwt.decode(req.session.jwt, process.env.secret_code))
     res.send(JSON.stringify(req.session.jwt));
   })
 
@@ -95,21 +93,9 @@ module.exports = function(app, express) {
     req.session.destroy(function(){
       res.redirect('/login');
     });
-    console.log("SESSION after logout", req.session)
   });
 
   //Pay a user
   app.post('/auth/venmo/payment', paymentController.makeVenmoPayment);
-
-  //Dummy Test Route
-  app.get('/woo', Auth.checkUser, function(req, res){
-    // console.log("auth", req.isAuthenticated())
-    console.log("SESSION", req.session);
-    res.send(req.session);
-  })
-
-  // app.get('/', Auth.checkUser, function(req, res) {
-  //   console.log('got through auth'); 
-  // })
 }
   

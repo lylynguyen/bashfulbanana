@@ -9,7 +9,6 @@ module.exports = {
       if (err) {
         res.sendStatus(500);
       } else {
-        console.log('RESULTS', results); 
         res.json(results);
       }
     });

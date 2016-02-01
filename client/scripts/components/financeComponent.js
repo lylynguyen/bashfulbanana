@@ -215,7 +215,7 @@ var BillEntry = React.createClass({
   getDate: function() {
     var date = h.getDate(this.props.bill.dueDate);
     console.log(date);
-    return `${date.day}/${date.month}/${date.year}`;
+    return `${date.month}/${date.day}/${date.year}`;
   },
 
   createVenmoPayment: function(event) {
@@ -258,8 +258,8 @@ var BillEntry = React.createClass({
   render: function() {
     return (
       <div>
-        {this.props.bill.billName} ${this.props.bill.amount} by {this.getDate()}
-        <button className='' onClick={this.createVenmoPayment}>Pay Bill</button>
+        You owe {this.props.bill.whoIsOwed} ${this.props.bill.amount} for {this.props.bill.billName} by {this.getDate()}
+        <button className='btn btn-info' onClick={this.createVenmoPayment}>Pay Bill</button>
       </div>
     )
   }
@@ -338,7 +338,13 @@ var BillForm = React.createClass({
     if (event) {
       event.preventDefault();
     }
-    var userId = localStorage.getItem('userId');
+    var totalsArray = this.props.users.map(function(item, i) {
+      return parseInt(item.total); 
+    });
+    var customTotal = totalsArray.reduce(function(acc, curr) {
+      return acc += curr; 
+    }, 0); 
+    //var userId = localStorage.getItem('userId');
     //create bill object based on user input
     var bill = {
       //on top of these, need access to the userId of
@@ -346,15 +352,20 @@ var BillForm = React.createClass({
       //users checked on the form and what they owe.
       //think about creating separate payment objects
       //in a different payment function for these. 
-      userId: userId,
+      //userId: userId,
       total: this.refs.total.value,
       name: this.refs.name.value,
       dueDate: this.refs.dueDate.value
     };
-    //call addBill with this object. 
-    this.props.addBill(bill); 
-    //reset input fields
-    this.refs.billForm.reset();
+    if(customTotal !== parseInt(bill.total)) {
+      $('<div id="failure" class="alert alert-danger"><strong>Nerd!</strong> Get better at math.</div>').insertBefore('#bill-submit');
+    } else {
+      //call addBill with this object. 
+      this.props.addBill(bill); 
+      //reset input fields
+      this.refs.billForm.reset();
+      $( "#failure" ).remove();
+    }
   },
 
   render: function() {
@@ -402,7 +413,7 @@ var CustomSplitForm = React.createClass({
         <ul className='split-bill-user-list'>
           {this.props.userList}
         </ul>
-        <button className="btn btn-info" onClick={this.props.createBill}>Submit Bill</button>
+        <button id='bill-submit' className="btn btn-info" onClick={this.props.createBill}>Submit Bill</button>
       </div>
     )
   }
@@ -434,3 +445,6 @@ var UserEntry = React.createClass({
 })
 
 export default FinanceContainer;
+
+
+

@@ -9,7 +9,6 @@ var RegistrationContainer = React.createClass ({
   //fully working front to back
   createHouse: function(event) {
     event.preventDefault();
-    console.log('creating house');
     var house = {
       name: this.refs.nickname.value
     };
@@ -25,7 +24,7 @@ var RegistrationContainer = React.createClass ({
       data: JSON.stringify(house),
       contentType: 'application/json',
       success: function(data) {
-        console.log('id of newly added house', data.insertId); 
+        
       }.bind(this)
     })
   },
@@ -57,7 +56,6 @@ var RegistrationContainer = React.createClass ({
       data: JSON.stringify({houseId: houseId}),
       contentType: 'application/json',
       success: function(data) {
-        console.log('updated')
       }.bind(this)
     })
   },

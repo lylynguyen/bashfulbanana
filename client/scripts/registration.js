@@ -5,7 +5,6 @@ $(document).ready(function() {
     type: 'GET',
     contentType: 'application/json',
     success: function(session) {
-      console.log('got session: ', session);
       localStorage.setItem('obie', session);
     },
     error: function() {
@@ -20,7 +19,6 @@ $(document).ready(function() {
       data: JSON.stringify(house),
       contentType: 'application/json',
       success: function(data) {
-        console.log('id of newly added house', data.insertId);
         getHouseToken(data.insertId);
       }
     });
@@ -44,7 +42,6 @@ $(document).ready(function() {
 
   var createHouse = function(event) {
     event.preventDefault();
-    console.log('creating house: ', $('#house-name').val());
     var house = {
       name: $('#house-name').val()
     };
@@ -59,7 +56,6 @@ $(document).ready(function() {
       data: JSON.stringify({houseId: houseId}),
       contentType: 'application/json',
       success: function(data) {
-        console.log('updated users houseId')
         window.location.href ='/login';
       },
       error: function(error) {
@@ -77,7 +73,6 @@ $(document).ready(function() {
       type: 'GET',
       contentType: 'application/json',
       success: function(houseId) {
-        console.log(houseId);
         //if successful, want to call updateUserHouseId
         //with appropriate userId, adding the houseId
         //Need somewhere to store that id when it comes back. 
@@ -96,7 +91,6 @@ $(document).ready(function() {
   // join a house
   $('#join-house').on('click', function(event) {
     event.preventDefault()
-    console.log('clicked join house');
     findHouse();
   });
 
