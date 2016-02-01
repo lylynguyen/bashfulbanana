@@ -21,7 +21,6 @@ var ChoreContainer = React.createClass({
       type: 'GET',
       contentType: 'application/json',
       success: function(users) {
-        console.log('users: ', users);
         this.state.users = users; 
         this.setState({users: this.state.users}); 
       }.bind(this)
@@ -37,7 +36,6 @@ var ChoreContainer = React.createClass({
       type: 'GET',
       contentType: 'application/json',
       success: function (chores) {
-        console.log('CHORES', chores);
         this.setState({chores: chores});
       }.bind(this),
       error: function (err) {
@@ -87,7 +85,6 @@ var ChoreEntry = React.createClass({
       headers: {'token': localStorage.getItem('obie')},
       contentType: 'application/json',
       success: function() {
-        console.log('update successful')
         this.props.loadChores();
       }.bind(this),
       error: function(err) {
@@ -126,7 +123,6 @@ var ChoreForm = React.createClass({
     var name = this.refs.choreName.value;
     var category = this.refs.category.value;
     var houseId = localStorage.getItem('houseId');
-    console.log('USER ID submit', userId);
     var choreObject = {
       userId: userId,
       dueDate: dueDate,

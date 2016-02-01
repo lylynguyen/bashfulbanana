@@ -23,7 +23,6 @@ module.exports = {
       if(err) {
         res.sendStatus(500);
       } else {
-        console.log('sending back houseId', results);
         res.json(results);
       }
     })
@@ -37,7 +36,6 @@ module.exports = {
     var houseId = req.body.houseId;
     var userId = token.userid;
     var params = [houseId, userId];
-    console.log(params);
     houseModel.updateHouseUserList(params, function(err, results) {
       if(err) {
         res.sendStatus(500);

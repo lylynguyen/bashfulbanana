@@ -69,7 +69,6 @@ var App = React.createClass({
     });
   },
   renderView: function(view) {
-    console.log("view: ", view);
     this.setState({view: view});
   },
   render: function() {

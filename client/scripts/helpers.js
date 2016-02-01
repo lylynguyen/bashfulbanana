@@ -12,5 +12,3 @@ module.exports = {
     return 'hi';
   }
 }
-
-console.log(module.exports.getDate('2016-03-02T08:00:00.000Z'));

@@ -82,7 +82,6 @@ var FinanceContainer = React.createClass({
       data: JSON.stringify(bill),
       contentType: 'application/json',
       success: function(id) {
-        // console.log(data);
         this.createPayments(id)
         this.loadBills();
       }.bind(this)
@@ -96,11 +95,7 @@ var FinanceContainer = React.createClass({
       type: 'POST',
       data: JSON.stringify(payment),
       contentType: 'application/json',
-      success: function(data) {
-        // this.loadPayments()
-        console.log("payment added");
-        // this.loadBills();
-      }
+      success: function(data) {}
     });
   },
 
@@ -113,7 +108,6 @@ var FinanceContainer = React.createClass({
     var users = this.state.users;
     //iterate through users
     for(var i = 0; i < users.length; i++) {
-      //console.log('USER', users[i]);
       //find the ones selected
       if(users[i].selected === true) {
         //create payment object
@@ -124,8 +118,6 @@ var FinanceContainer = React.createClass({
         }
         this.addPayment(payment);
         this.getUsers();
-        // console.log(users[i]);
-        // console.log('PAYMENT', payment)
       }
     }
   },
@@ -144,7 +136,6 @@ var FinanceContainer = React.createClass({
       contentType: 'application/json',
       headers: {'token': token},
       success: function(bills) {
-        console.log("bills", bills)
         this.state.bills = bills; 
         this.setState({bills: this.state.bills});
       }.bind(this),
@@ -214,7 +205,6 @@ var FinanceContainer = React.createClass({
 var BillEntry = React.createClass({
   getDate: function() {
     var date = h.getDate(this.props.bill.dueDate);
-    console.log(date);
     return `${date.day}/${date.month}/${date.year}`;
   },
 
@@ -229,7 +219,6 @@ var BillEntry = React.createClass({
   },
 
   makeVenmoPayment: function(venmoData) {
-    console.log("venmo DATA", venmoData);
     $.ajax({
       url: 'http://localhost:8080/auth/venmo/payment',
       headers: {'token': localStorage.getItem('obie')},
@@ -237,7 +226,6 @@ var BillEntry = React.createClass({
       data: JSON.stringify(venmoData),
       contentType: 'application/json',
       success: function(data) {
-        console.log("venmo paid", "venmo data id", venmoData.id);
         this.markPaymentAsPaid(venmoData.id);
       }.bind(this)
     });
@@ -249,7 +237,6 @@ var BillEntry = React.createClass({
       type: 'PUT',
       contentType: 'application/json',
       success: function(data) {
-        console.log("payment marked");
         this.props.loadBills();
       }.bind(this)
     });
@@ -316,7 +303,6 @@ var BillForm = React.createClass({
       //invert selected property
       this.props.users[i].selected = true;
     };
-    console.log('USERS', this.props.users);
     this.createBill();
   },
   customSplit: function(event) {
@@ -412,7 +398,6 @@ var UserEntry = React.createClass({
   setValue: function(id) {
     this.props.user.selected = true;
     this.props.user.total = this.refs[id].value;
-    console.log('this.refs[id].value', !this.refs[id].value);
     if (!this.refs[id].value) {
       this.props.user.selected = false;
     }
