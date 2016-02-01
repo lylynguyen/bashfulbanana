@@ -66,8 +66,6 @@ var App = React.createClass({
             <div className="side-bar-filler">
               <ImageContainer imageUrl={this.state.imageUrl}  />
               <h3>{this.state.name}</h3>
-              <NavigationContainer changeView={this.renderView} />
-              <Logout />
             </div>
           </div>
           <div className="col-xs-7 col-md-8 col-lg-8 interface-container main-bar-container">
@@ -85,38 +83,38 @@ var ImageContainer = React.createClass({
   }
 });
 
-var NavigationContainer = React.createClass({
-  render: function() {
-    return (
-      <div className="navigation-link">
-        <h3 onClick={this.renderMessage}>Messages</h3>
-        <h3 onClick={this.renderFinance}>Finance</h3>
-        <h3 onClick={this.renderChore}>Chores</h3>
-      </div>
-    )
-  },
-  renderMessage() {
-    this.props.changeView('Messages');
-  },
-  renderFinance() {
-    this.props.changeView('Finances');
-  },
-  renderChore() {
-    this.props.changeView('Chores');
-  }
-});
+// var NavigationContainer = React.createClass({
+//   render: function() {
+//     return (
+//       <div className="navigation-link">
+//         <h3 onClick={this.renderMessage}>Messages</h3>
+//         <h3 onClick={this.renderFinance}>Finance</h3>
+//         <h3 onClick={this.renderChore}>Chores</h3>
+//       </div>
+//     )
+//   },
+//   renderMessage() {
+//     this.props.changeView('Messages');
+//   },
+//   renderFinance() {
+//     this.props.changeView('Finances');
+//   },
+//   renderChore() {
+//     this.props.changeView('Chores');
+//   }
+// });
 
-var Logout = React.createClass({
-  mixins: [Router.Navigation],
-  logout: function() {
-    window.localStorage.removeItem('userId');
-    window.localStorage.removeItem('houseId');
-    window.location.href = "http://localhost:8080/logout";
-  },
-  render: function() {
-    return <button onClick={this.logout} className="btn btn-danger">Logout</button>
-  }
-});
+// var Logout = React.createClass({
+//   mixins: [Router.Navigation],
+//   logout: function() {
+//     window.localStorage.removeItem('userId');
+//     window.localStorage.removeItem('houseId');
+//     window.location.href = "http://localhost:8080/logout";
+//   },
+//   render: function() {
+//     return <button onClick={this.logout} className="btn btn-danger">Logout</button>
+//   }
+// });
 
 var ContentContainer = React.createClass({
   render: function() {

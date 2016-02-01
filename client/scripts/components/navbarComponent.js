@@ -34,7 +34,7 @@ var NavMenu = React.createClass({
   logout: function() {
     window.localStorage.removeItem('userId');
     window.localStorage.removeItem('houseId');
-    window.location.href = "http://localhost:8080/";
+    window.location.href = "http://localhost:8080/logout";
   },
   render: function(){
     var changeView = this.props.changeView;
