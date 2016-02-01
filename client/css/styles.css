@@ -66,12 +66,12 @@ body {
 /*
   Message Container Styles  
 */
-.message-container {
+.message-container, .finance-container {
   position: relative;
   height: 100%;
 }
 
-.message-list {
+.message-list, .finance-list {
   overflow-y: auto;
   overflow-x: hidden;
    /*

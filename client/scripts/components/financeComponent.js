@@ -82,7 +82,6 @@ var FinanceContainer = React.createClass({
       data: JSON.stringify(bill),
       contentType: 'application/json',
       success: function(id) {
-        // console.log(data);
         this.createPayments(id)
         this.loadBills();
       }.bind(this)
@@ -97,16 +96,11 @@ var FinanceContainer = React.createClass({
       data: JSON.stringify(payment),
       contentType: 'application/json',
       success: function(data) {
-        // this.loadPayments()
+        this.loadPayments()
         console.log("payment added");
-        // this.loadBills();
       }
     });
   },
-
-  
-
-  
 
   createPayments: function(billId) {
     // event.preventDefault();
@@ -124,6 +118,7 @@ var FinanceContainer = React.createClass({
         }
         this.addPayment(payment);
         this.getUsers();
+        setTimeout(loadPayments, 1000);
         // console.log(users[i]);
         // console.log('PAYMENT', payment)
       }
@@ -162,8 +157,7 @@ var FinanceContainer = React.createClass({
       contentType: 'application/json',
       headers: {'token': token},
       success: function(payments) {
-        this.state.paymentsOwed = payments; 
-        this.setState({paymentsOwed: this.state.paymentsOwed});
+        this.setState({paymentsOwed: payments});
       }.bind(this),
       error: function(err) {
         console.log(err);
@@ -189,21 +183,23 @@ var FinanceContainer = React.createClass({
     return (
       <div className="finance-container">
         <h2 className="text-center">Finance</h2>
-        <div className='bill-list'>
-          <h4 className="text-center">Bills</h4>
-          {billList}
-        </div>
-        <div className='payments-owed-list'>
-          <h4 className="text-center">Payments Owed</h4>
-          {paymentsOwedList}
-        </div>
-        <div className='bill-history-list'>
-          <h4 className="text-center">Bill History</h4>
-          {billHistoryList}
-        </div>
-        <div className='payment-history-list'>
-          <h4 className="text-center">Payment History</h4>
-          {paymentHistoryList}
+        <div className="finance-list">
+          <div className='bill-list'>
+            <h4 className="text-center">Bills</h4>
+            {billList}
+          </div>
+          <div className='payments-owed-list'>
+            <h4 className="text-center">Payments Owed</h4>
+            {paymentsOwedList}
+          </div>
+          <div className='bill-history-list'>
+            <h4 className="text-center">Bill History</h4>
+            {billHistoryList}
+          </div>
+          <div className='payment-history-list'>
+            <h4 className="text-center">Payment History</h4>
+            {paymentHistoryList}
+          </div>
         </div>
         <BillForm createPayments={this.createPayments} addPayment={this.addPayment} addBill={this.addBill} users={this.state.users}/>
       </div>
