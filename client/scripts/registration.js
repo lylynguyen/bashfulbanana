@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
   $.ajax({
-    url: 'http://localhost:8080/obie/',
+    url: '/obie/',
     type: 'GET',
     contentType: 'application/json',
     success: function(session) {
@@ -14,7 +14,7 @@ $(document).ready(function() {
 
   var addHouse = function(house) {
     $.ajax({
-      url: 'http://localhost:8080/houses',
+      url: '/houses',
       type: 'POST',
       data: JSON.stringify(house),
       contentType: 'application/json',
@@ -26,7 +26,7 @@ $(document).ready(function() {
 
   var getHouseToken = function(houseId) {
     $.ajax({
-      url: 'http://localhost:8080/houses/token/'+houseId,
+      url: '/houses/token/'+houseId,
       type: 'GET',
       contentType: 'application/json',
       success: function(data) {
@@ -56,7 +56,7 @@ $(document).ready(function() {
 
   var updateUserHouseId = function(houseId) {
     $.ajax({
-      url: 'http://localhost:8080/houses/users',
+      url: '/houses/users',
       type: 'PUT',
       headers: {token: localStorage.getItem('obie')},
       data: JSON.stringify({houseId: houseId}),
@@ -75,7 +75,7 @@ $(document).ready(function() {
     var houseCode = $('#house-code').val();
     //get request for house with provided houseCode
     $.ajax({
-      url: 'http://localhost:8080/houses/' + houseCode,
+      url: '/houses/' + houseCode,
       type: 'GET',
       contentType: 'application/json',
       success: function(houseId) {

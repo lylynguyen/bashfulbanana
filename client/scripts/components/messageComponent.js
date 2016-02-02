@@ -20,7 +20,7 @@ var MessageContainer = React.createClass({
 
   loadMessages: function() {
     $.ajax({
-      url: 'http://localhost:8080/messages',
+      url: '/messages',
       type: 'GET',
       contentType: 'application/json',
       headers: {'token': localStorage.getItem('obie')},
@@ -36,7 +36,7 @@ var MessageContainer = React.createClass({
 
   formSubmit: function(message) {
     $.ajax({
-      url: 'http://localhost:8080/messages',
+      url: '/messages',
       type: 'POST',
       data: JSON.stringify(message),
       contentType: 'application/json',
@@ -91,21 +91,6 @@ var MessageEntry = React.createClass({
     )
   }
 });
-      /*<div className="message-entry">
-        <div className="row">
-          <div className="col-xs-6 message-username">
-            <p>{this.props.message.name}</p>
-          </div>
-          <div className="col-xs-6 message-timestamp">
-            <p>{this.props.message.time}</p>
-          </div>
-        </div>
-        <div className="row">
-          <div className="message-text">
-            <p>{this.props.message.text}</p>
-          </div>
-        </div>
-      </div>*/
 
 var MessageForm = React.createClass({
   localSubmit: function(event) {

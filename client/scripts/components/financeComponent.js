@@ -30,7 +30,7 @@ var FinanceContainer = React.createClass({
 
   loadBillHistory: function() {
     $.ajax({
-      url: 'http://localhost:8080/payment/completed',
+      url: '/payment/completed',
       type: 'GET',
       headers: {'token': localStorage.getItem('obie')},
       contentType: 'application/json',
@@ -43,7 +43,7 @@ var FinanceContainer = React.createClass({
 
   loadPaymentHistory: function() {
     $.ajax({
-      url: 'http://localhost:8080/payment/completed/owed',
+      url: '/payment/completed/owed',
       headers: {'token': localStorage.getItem('obie')},
       type: 'GET',
       contentType: 'application/json',
@@ -57,7 +57,7 @@ var FinanceContainer = React.createClass({
   getUsers: function() {
     $.ajax({
       //eventually need to replace 1 with houseId. 
-      url: 'http://localhost:8080/users/',
+      url: '/users/',
       type: 'GET',
       contentType: 'application/json',
       headers: {'token': localStorage.getItem('obie')},
@@ -79,8 +79,9 @@ var FinanceContainer = React.createClass({
   //also need info on who owes what for the bill (checklist)
   
   addBill: function(bill) {
+    console.log("Add Bill")
     $.ajax({
-      url: 'http://localhost:8080/payment/bill',
+      url: '/payment/bill',
       headers: {'token': localStorage.getItem('obie')},
       type: 'POST',
       data: JSON.stringify(bill),
@@ -93,8 +94,9 @@ var FinanceContainer = React.createClass({
   },
 
   addPayment: function(payment) {
+    console.log("Add Payment")
     $.ajax({
-      url: 'http://localhost:8080/payment',
+      url: '/payment',
       headers: {'token': localStorage.getItem('obie')},
       type: 'POST',
       data: JSON.stringify(payment),
@@ -138,7 +140,7 @@ var FinanceContainer = React.createClass({
   loadBills: function() {
     var token = localStorage.getItem('obie'); 
     $.ajax({
-      url: 'http://localhost:8080/payment/pay',
+      url: '/payment/pay',
       type: 'GET',
       contentType: 'application/json',
       headers: {'token': token},
@@ -156,7 +158,7 @@ var FinanceContainer = React.createClass({
   loadPayments: function () {
     var token = localStorage.getItem('obie');
     $.ajax({
-      url: 'http://localhost:8080/payment/owed',
+      url: '/payment/owed',
       type: 'GET',
       contentType: 'application/json',
       headers: {'token': token},
@@ -230,7 +232,7 @@ var BillEntry = React.createClass({
   makeVenmoPayment: function(venmoData) {
     console.log("venmo DATA", venmoData);
     $.ajax({
-      url: 'http://localhost:8080/auth/venmo/payment',
+      url: '/auth/venmo/payment',
       headers: {'token': localStorage.getItem('obie')},
       type: 'POST',
       data: JSON.stringify(venmoData),
@@ -244,7 +246,7 @@ var BillEntry = React.createClass({
 
   markPaymentAsPaid: function(paymentId) {
     $.ajax({
-      url: 'http://localhost:8080/payment/' + paymentId,
+      url: '/payment/' + paymentId,
       type: 'PUT',
       contentType: 'application/json',
       success: function(data) {
@@ -312,6 +314,7 @@ var BillForm = React.createClass({
   },
   splitEvenly: function(event) {
     event.preventDefault();
+    console.log("SPLIT EVENLY");
     //access this.refs.amount.value
     var amount = this.refs.total.value;
     //divide total by number of roommates 
@@ -328,6 +331,7 @@ var BillForm = React.createClass({
   },
   customSplit: function(event) {
     event.preventDefault();
+    console.log("CUSTOM SPLIT");
     var updateSplitEvenly = this.state.splitEvenly ? false : true;
     if (this.state.splitEvenly) {
       updateSplitEvenly = false;
@@ -342,6 +346,7 @@ var BillForm = React.createClass({
   },
   createBill: function(event) {
     //prevent default event action
+    console.log("CREATE BILL");
     if (event) {
       event.preventDefault();
     }
@@ -377,10 +382,10 @@ var BillForm = React.createClass({
       this.refs.billForm.reset();
       $( "#failure" ).hide();
       this.state.splitEvenly = false;
-      this.setState({
-        splitEvenly: this.state.splitEvenly
-      });
-      $('.interface-container').css('min-height', '330px')
+      // this.setState({
+      //   splitEvenly: this.state.splitEvenly
+      // });
+      // $('.interface-container').css('min-height', '330px')
     }
   },
 

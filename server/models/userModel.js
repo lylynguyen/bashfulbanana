@@ -2,13 +2,13 @@ var db = require('../db');
 
 module.exports = {
   getUsersInHouse: function (params, callback) {
-    var queryStr="SELECT users.name, users.id, users.email from users WHERE houseId = ?";
+    var queryStr="SELECT Users.name, Users.id, Users.email from Users WHERE houseId = ?";
     db.query(queryStr, params, function(err, results) {
       callback(err, results);
     });
   }, 
   findUserByVenmoId: function (params, callback) {
-    var queryStr = "SELECT * FROM users WHERE venmoid=?";
+    var queryStr = "SELECT * FROM Users WHERE venmoid=?";
     db.query(queryStr, params, function(err, results) {
       callback(err, results);
     });
@@ -21,19 +21,19 @@ module.exports = {
   },
 
   putUser: function (params, callback) {
-    var queryStr = "UPDATE USERS set balance = ?, venmo = ? WHERE venmoid = ?";
+    var queryStr = "UPDATE Users set balance = ?, venmo = ? WHERE venmoid = ?";
      db.query(queryStr, params, function(err, results) {
       callback(err, results);
     });
   },
   getHouseOfUser: function(params, callback) {
-    var queryStr = "SELECT id, houseId, userImageUrl FROM users WHERE username = ? LIMIT 1";
+    var queryStr = "SELECT id, houseId, userImageUrl FROM Users WHERE username = ? LIMIT 1";
     db.query(queryStr, params, function(err, results) {
       callback(err, results);
     });
   },
   getUserImage: function(params, callback) {
-    var queryStr = "SELECT userImageUrl, name FROM users WHERE id=?";
+    var queryStr = "SELECT userImageUrl, name FROM Users WHERE id=?";
     db.query(queryStr, params, function(err, results) {
       callback(err, results);
     });
