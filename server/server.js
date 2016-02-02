@@ -13,10 +13,11 @@ var user = require('./controllers/userController');
 var jwt = require('jwt-simple');
 //set this on heroku
 
-if(!process.env.deployCheck){
-  require('dotenv').load();  
+// if(!process.env.deployCheck){
+//   require('dotenv').load();  
 
-}
+// }
+require('dotenv').load();
 
 var Venmo_Client_ID = process.env.venmo_client_ID;
 var Venmo_Client_SECRET = process.env.venmo_client_secret;
@@ -70,11 +71,13 @@ passport.use(new VenmoStrategy({
     obj.venmoid = venmo.id;
     obj.userImageUrl = venmo._json.profile_picture_url || null;
 
+    console.log("VENMO", venmo);
+
     var jtObj = {};
     jtObj.email = venmo.email;
     jtObj.access_token = accessToken;
 
-
+    console.log("URL", process.env.Base_URL +'/users/venmo/'+ venmo.id)
     request.get(process.env.Base_URL +'/users/venmo/'+ venmo.id, function(err, resp, body) {
 
       if (!err && resp.statusCode == 200) {
@@ -86,6 +89,7 @@ passport.use(new VenmoStrategy({
             json: obj //Set the body as a string
           }, function(error, response, body){
               if(error) {
+                console.log('post error', error);
                 return done(error);
               } else {
                 jtObj['userid']=body;
@@ -117,6 +121,7 @@ passport.use(new VenmoStrategy({
           });
         }
       } else {
+        console.log("get error", err)
         return done(err);
       }
     })

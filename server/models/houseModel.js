@@ -14,7 +14,7 @@ module.exports = {
     //need query string to find the house id with the provided
     //house token (assume when we update the schema we'll call
     //it token)
-    var queryStr = 'SELECT id from house WHERE token = ?';
+    var queryStr = 'SELECT id from House WHERE token = ?';
     db.query(queryStr, params, function(err, results) {
       callback(err, results); 
     });
@@ -24,13 +24,13 @@ module.exports = {
     //queryString add the house id to the user with passed userId
     //not sure if this qstring is right, unsure if the question
     //marks will access the right thing, does order matter?
-    var queryStr = 'UPDATE users set houseId = ? WHERE id = ?';
+    var queryStr = 'UPDATE Users set houseId = ? WHERE id = ?';
     db.query(queryStr, params, function(err, results) {
       callback(err, results); 
     });
   },
   getHouseToken: function(params, callback) {
-    var queryStr = 'SELECT token FROM house WHERE id = ?';
+    var queryStr = 'SELECT token FROM House WHERE id = ?';
     db.query(queryStr, params, function(err, results) {
       callback(err, results); 
     });

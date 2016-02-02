@@ -79,6 +79,7 @@ var FinanceContainer = React.createClass({
   //also need info on who owes what for the bill (checklist)
   
   addBill: function(bill) {
+    console.log("Add Bill")
     $.ajax({
       url: '/payment/bill',
       headers: {'token': localStorage.getItem('obie')},
@@ -93,6 +94,7 @@ var FinanceContainer = React.createClass({
   },
 
   addPayment: function(payment) {
+    console.log("Add Payment")
     $.ajax({
       url: '/payment',
       headers: {'token': localStorage.getItem('obie')},
@@ -312,6 +314,7 @@ var BillForm = React.createClass({
   },
   splitEvenly: function(event) {
     event.preventDefault();
+    console.log("SPLIT EVENLY");
     //access this.refs.amount.value
     var amount = this.refs.total.value;
     //divide total by number of roommates 
@@ -328,6 +331,7 @@ var BillForm = React.createClass({
   },
   customSplit: function(event) {
     event.preventDefault();
+    console.log("CUSTOM SPLIT");
     var updateSplitEvenly = this.state.splitEvenly ? false : true;
     if (this.state.splitEvenly) {
       updateSplitEvenly = false;
@@ -342,6 +346,7 @@ var BillForm = React.createClass({
   },
   createBill: function(event) {
     //prevent default event action
+    console.log("CREATE BILL");
     if (event) {
       event.preventDefault();
     }
@@ -377,10 +382,10 @@ var BillForm = React.createClass({
       this.refs.billForm.reset();
       $( "#failure" ).hide();
       this.state.splitEvenly = false;
-      this.setState({
-        splitEvenly: this.state.splitEvenly
-      });
-      $('.interface-container').css('min-height', '330px')
+      // this.setState({
+      //   splitEvenly: this.state.splitEvenly
+      // });
+      // $('.interface-container').css('min-height', '330px')
     }
   },
 
