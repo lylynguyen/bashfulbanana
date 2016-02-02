@@ -169,7 +169,6 @@ var FinanceContainer = React.createClass({
     })
   },
 
-
   render: function() {
     var context = this;
     var billList = this.state.bills.map(function(item, i) {
@@ -377,6 +376,11 @@ var BillForm = React.createClass({
       //reset input fields
       this.refs.billForm.reset();
       $( "#failure" ).hide();
+      this.state.splitEvenly = false;
+      this.setState({
+        splitEvenly: this.state.splitEvenly
+      });
+      $('.interface-container').css('min-height', '330px')
     }
   },
 
