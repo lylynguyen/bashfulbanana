@@ -7,14 +7,14 @@ var socket = io();
 var MessageContainer = React.createClass({
 
   getInitialState: function() {
-    setTimeout(this.loadMessages, 500);
-
     return {
       messages: []
     }
   },
 
   componentDidMount: function () {
+    // setTimeout(this.loadMessages, 500);
+    this.loadMessages();
     var context=this;
     socket.on('message', context.loadMessages);
   },
