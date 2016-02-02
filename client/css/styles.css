@@ -284,7 +284,9 @@ div.chore-entry:hover {
   font-weight: 500;
   font-size: 1.1em;
 }
-
+#failure {
+  display: none;
+}
 /*
   Navbar
 */

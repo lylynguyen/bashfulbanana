@@ -369,13 +369,14 @@ var BillForm = React.createClass({
       dueDate: this.refs.dueDate.value
     };
     if(customTotal !== parseInt(bill.total)) {
-      $('<div id="failure" class="alert alert-danger"><strong>Nerd!</strong> Get better at math.</div>').insertBefore('#bill-submit');
+      // $('<div id="failure" class="alert alert-danger"><strong>Nerd!</strong> Get better at math.</div>').insertBefore('#bill-submit');
+      $('#failure').show();
     } else {
       //call addBill with this object. 
       this.props.addBill(bill); 
       //reset input fields
       this.refs.billForm.reset();
-      $( "#failure" ).remove();
+      $( "#failure" ).hide();
     }
   },
 
@@ -424,6 +425,7 @@ var CustomSplitForm = React.createClass({
         <ul className='split-bill-user-list'>
           {this.props.userList}
         </ul>
+        <div id="failure" className="alert alert-danger"><strong>Nerd!</strong> Get better at math.</div>
         <button id='bill-submit' className="btn btn-info" onClick={this.props.createBill}>Submit Bill</button>
       </div>
     )
