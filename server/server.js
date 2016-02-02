@@ -11,7 +11,10 @@ var cors = require('cors');
 var user = require('./controllers/userController');
 
 var jwt = require('jwt-simple');
-require('dotenv').load();
+//set this on heroku
+if(!process.env.deployCheck){
+  require('dotenv').load();  
+}
 
 var Venmo_Client_ID = process.env.venmo_client_ID;
 var Venmo_Client_SECRET = process.env.venmo_client_secret;
