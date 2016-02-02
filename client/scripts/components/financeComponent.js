@@ -100,7 +100,7 @@ var FinanceContainer = React.createClass({
       data: JSON.stringify(payment),
       contentType: 'application/json',
       success: function(data) {
-        this.loadPayments()
+        // this.loadPayments()
         console.log("payment added");
       }
     });
@@ -122,7 +122,7 @@ var FinanceContainer = React.createClass({
         }
         this.addPayment(payment);
         this.getUsers();
-        setTimeout(loadPayments, 1000);
+        setTimeout(this.loadPayments, 500);
         // console.log(users[i]);
         // console.log('PAYMENT', payment)
       }
@@ -350,6 +350,9 @@ var BillForm = React.createClass({
       return parseInt(item.total); 
     });
     var customTotal = totalsArray.reduce(function(acc, curr) {
+      if (!curr) {
+        curr = 0;
+      }
       return acc += curr; 
     }, 0); 
     //var userId = localStorage.getItem('userId');
