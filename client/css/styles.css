@@ -270,9 +270,19 @@ div.chore-entry:hover {
 }
 .bill-entry-container {
   background-color: rgba(138, 138, 138, 0.1);
+  margin-bottom: 7px;
+  padding: 5px;
+  min-height: 42px;
+}
+.bill-entry-container:hover {
+  background-color: rgba(0, 0, 0, 0.1);
 }
 .pay-btn {
   height: 5px;
+}
+.who-is-owed {
+  font-weight: 500;
+  font-size: 1.1em;
 }
 
 /*

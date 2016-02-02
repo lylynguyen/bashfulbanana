@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import h from '../helpers';
 
+var formatPrice = function(cents) {
+  return '$' + ( (cents / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
+};
+
 var FinanceContainer = React.createClass({
   getInitialState: function() {
     this.loadBills();
@@ -254,11 +258,15 @@ var BillEntry = React.createClass({
   render: function() {
     return (
       <div className="bill-entry-container">
-        <div className="col-xs-8 col-md-10">
-          You owe {this.props.bill.whoIsOwed} ${this.props.bill.amount} for {this.props.bill.billName} by {this.getDate()}
-        </div>
-        <div className="col-xs-4 col-md-2">
-          <button className='btn btn-info' onClick={this.createVenmoPayment}>Pay</button>
+        <div className="row">
+          <div className="col-xs-8 col-md-10">
+            <p>You owe <span className="who-is-owed">{this.props.bill.whoIsOwed}</span></p> 
+            <p><span className="who-is-owed">{formatPrice(this.props.bill.amount * 100)}</span> for <span className="who-is-owed">{this.props.bill.billName}</span></p>
+            <p> by {this.getDate()}</p>
+          </div>
+          <div className="col-xs-4 col-md-2">
+            <button className='btn btn-default' onClick={this.createVenmoPayment}>Pay</button>
+          </div>
         </div>
       </div>
     )
