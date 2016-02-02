@@ -124,7 +124,7 @@ div.message-entry:hover {
   display: block;
 }
 .message-text > p, .time-stamp > p{
-  margin: 0 15px 0 15px;
+  margin: 0 15px 0 0;
 }
 .message-entry-left-box {
   text-align: right;
@@ -268,7 +268,9 @@ div.chore-entry:hover {
 .full-width-input {
   width: 100%;
 }
-
+.bill-entry-container {
+  background-color: rgba(138, 138, 138, 0.1);
+}
 .pay-btn {
   height: 5px;
 }

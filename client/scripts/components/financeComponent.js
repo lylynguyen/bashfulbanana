@@ -253,9 +253,13 @@ var BillEntry = React.createClass({
 
   render: function() {
     return (
-      <div>
-        You owe {this.props.bill.whoIsOwed} ${this.props.bill.amount} for {this.props.bill.billName} by {this.getDate()}
-        <button className='btn btn-info' onClick={this.createVenmoPayment}>Pay Bill</button>
+      <div className="bill-entry-container">
+        <div className="col-xs-8 col-md-10">
+          You owe {this.props.bill.whoIsOwed} ${this.props.bill.amount} for {this.props.bill.billName} by {this.getDate()}
+        </div>
+        <div className="col-xs-4 col-md-2">
+          <button className='btn btn-info' onClick={this.createVenmoPayment}>Pay</button>
+        </div>
       </div>
     )
   }
