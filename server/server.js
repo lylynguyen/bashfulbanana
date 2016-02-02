@@ -12,7 +12,7 @@ var user = require('./controllers/userController');
 
 var jwt = require('jwt-simple');
 //set this on heroku
-var site = 
+
 if(!process.env.deployCheck){
   require('dotenv').load();  
 
