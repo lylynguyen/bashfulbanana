@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import h from '../helpers';
 
+var formatPrice = function(cents) {
+  return '$' + ( (cents / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
+};
+
 var FinanceContainer = React.createClass({
   getInitialState: function() {
     this.loadBills();
@@ -82,7 +86,6 @@ var FinanceContainer = React.createClass({
       data: JSON.stringify(bill),
       contentType: 'application/json',
       success: function(id) {
-        // console.log(data);
         this.createPayments(id)
         this.loadBills();
       }.bind(this)
@@ -99,14 +102,9 @@ var FinanceContainer = React.createClass({
       success: function(data) {
         // this.loadPayments()
         console.log("payment added");
-        // this.loadBills();
       }
     });
   },
-
-  
-
-  
 
   createPayments: function(billId) {
     // event.preventDefault();
@@ -124,6 +122,7 @@ var FinanceContainer = React.createClass({
         }
         this.addPayment(payment);
         this.getUsers();
+        setTimeout(this.loadPayments, 500);
         // console.log(users[i]);
         // console.log('PAYMENT', payment)
       }
@@ -162,15 +161,13 @@ var FinanceContainer = React.createClass({
       contentType: 'application/json',
       headers: {'token': token},
       success: function(payments) {
-        this.state.paymentsOwed = payments; 
-        this.setState({paymentsOwed: this.state.paymentsOwed});
+        this.setState({paymentsOwed: payments});
       }.bind(this),
       error: function(err) {
         console.log(err);
       }
     })
   },
-
 
   render: function() {
     var context = this;
@@ -189,21 +186,23 @@ var FinanceContainer = React.createClass({
     return (
       <div className="finance-container">
         <h2 className="text-center">Finance</h2>
-        <div className='bill-list'>
-          <h4 className="text-center">Bills</h4>
-          {billList}
-        </div>
-        <div className='payments-owed-list'>
-          <h4 className="text-center">Payments Owed</h4>
-          {paymentsOwedList}
-        </div>
-        <div className='bill-history-list'>
-          <h4 className="text-center">Bill History</h4>
-          {billHistoryList}
-        </div>
-        <div className='payment-history-list'>
-          <h4 className="text-center">Payment History</h4>
-          {paymentHistoryList}
+        <div className="finance-list">
+          <div className='bill-list'>
+            <h4 className="text-center">Bills</h4>
+            {billList}
+          </div>
+          <div className='payments-owed-list'>
+            <h4 className="text-center">Payments Owed</h4>
+            {paymentsOwedList}
+          </div>
+          <div className='bill-history-list'>
+            <h4 className="text-center">Bill History</h4>
+            {billHistoryList}
+          </div>
+          <div className='payment-history-list'>
+            <h4 className="text-center">Payment History</h4>
+            {paymentHistoryList}
+          </div>
         </div>
         <BillForm createPayments={this.createPayments} addPayment={this.addPayment} addBill={this.addBill} users={this.state.users}/>
       </div>
@@ -257,9 +256,17 @@ var BillEntry = React.createClass({
 
   render: function() {
     return (
-      <div>
-        You owe {this.props.bill.whoIsOwed} ${this.props.bill.amount} for {this.props.bill.billName} by {this.getDate()}
-        <button className='btn btn-info' onClick={this.createVenmoPayment}>Pay Bill</button>
+      <div className="bill-entry-container">
+        <div className="row">
+          <div className="col-xs-8 col-md-10">
+            <p>You owe <span className="who-is-owed">{this.props.bill.whoIsOwed}</span></p> 
+            <p><span className="who-is-owed">{formatPrice(this.props.bill.amount * 100)}</span> for <span className="who-is-owed">{this.props.bill.billName}</span></p>
+            <p> by {this.getDate()}</p>
+          </div>
+          <div className="col-xs-4 col-md-2">
+            <button className='btn btn-default' onClick={this.createVenmoPayment}>Pay</button>
+          </div>
+        </div>
       </div>
     )
   }
@@ -342,6 +349,9 @@ var BillForm = React.createClass({
       return parseInt(item.total); 
     });
     var customTotal = totalsArray.reduce(function(acc, curr) {
+      if (!curr) {
+        curr = 0;
+      }
       return acc += curr; 
     }, 0); 
     //var userId = localStorage.getItem('userId');
@@ -358,13 +368,19 @@ var BillForm = React.createClass({
       dueDate: this.refs.dueDate.value
     };
     if(customTotal !== parseInt(bill.total)) {
-      $('<div id="failure" class="alert alert-danger"><strong>Nerd!</strong> Get better at math.</div>').insertBefore('#bill-submit');
+      // $('<div id="failure" class="alert alert-danger"><strong>Nerd!</strong> Get better at math.</div>').insertBefore('#bill-submit');
+      $('#failure').show();
     } else {
       //call addBill with this object. 
       this.props.addBill(bill); 
       //reset input fields
       this.refs.billForm.reset();
-      $( "#failure" ).remove();
+      $( "#failure" ).hide();
+      this.state.splitEvenly = false;
+      this.setState({
+        splitEvenly: this.state.splitEvenly
+      });
+      $('.interface-container').css('min-height', '330px')
     }
   },
 
@@ -413,6 +429,7 @@ var CustomSplitForm = React.createClass({
         <ul className='split-bill-user-list'>
           {this.props.userList}
         </ul>
+        <div id="failure" className="alert alert-danger"><strong>Nerd!</strong> Get better at math.</div>
         <button id='bill-submit' className="btn btn-info" onClick={this.props.createBill}>Submit Bill</button>
       </div>
     )

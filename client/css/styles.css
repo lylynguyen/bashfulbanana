@@ -66,12 +66,12 @@ body {
 /*
   Message Container Styles  
 */
-.message-container {
+.message-container, .finance-container {
   position: relative;
   height: 100%;
 }
 
-.message-list {
+.message-list, .finance-list {
   overflow-y: auto;
   overflow-x: hidden;
    /*
@@ -90,9 +90,12 @@ body {
 
 .message-entry {
   width: 100%;
+  padding: 5px;
+  margin-bottom: 7px;
+  background-color: rgba(138, 138, 138, 0.1);
 }
 div.message-entry:hover {
-  background-color: rgba(138, 138, 138, 0.1);
+  background-color: rgba(0, 0, 0, 0.1);
 }
 .message-username {
   font-weight: bold;
@@ -109,18 +112,36 @@ div.message-entry:hover {
   position: absolute;
   right: 15px;
 }
-.message-text {
-  width: 100%;
+.message-right-container {
+  height: 100%;
 }
-.message-text > p{
-  margin: 0 15px 0 15px;
+.time-stamp {
+  font-style: italic;
+  font-size: 0.8em;
+}
+.message-text, .time-stamp {
+  width: 100%;
+  display: block;
+}
+.message-text > p, .time-stamp > p{
+  margin: 0 15px 0 0;
+}
+.message-entry-left-box {
+  text-align: right;
+}
+.username > p {
+  font-weight: 600;
+  font-size:1.1em;
+}
+.profile-image > img {
+
 }
 .submit-message-button {
     margin-top: 10px;
     width: 100%;
     height: 100%;
 }
-}
+
 
 /*
   Chore Container Styles
@@ -224,6 +245,9 @@ div.chore-entry:hover {
   position: relative;
   height: 100%;
 }
+.finance-list {
+  max-height: calc(100% - 225px);
+}
 .custom-split-container {
   margin-top: 10px;
 }
@@ -244,11 +268,25 @@ div.chore-entry:hover {
 .full-width-input {
   width: 100%;
 }
-
+.bill-entry-container {
+  background-color: rgba(138, 138, 138, 0.1);
+  margin-bottom: 7px;
+  padding: 5px;
+  min-height: 42px;
+}
+.bill-entry-container:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
 .pay-btn {
   height: 5px;
 }
-
+.who-is-owed {
+  font-weight: 500;
+  font-size: 1.1em;
+}
+#failure {
+  display: none;
+}
 /*
   Navbar
 */

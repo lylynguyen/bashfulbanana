@@ -7,14 +7,14 @@ var socket = io();
 var MessageContainer = React.createClass({
 
   getInitialState: function() {
-    setTimeout(this.loadMessages, 500);
-
     return {
       messages: []
     }
   },
 
   componentDidMount: function () {
+    // setTimeout(this.loadMessages, 500);
+    this.loadMessages();
     var context=this;
     socket.on('message', context.loadMessages);
   },
@@ -70,6 +70,29 @@ var MessageEntry = React.createClass({
     return (
       <div className="message-entry">
         <div className="row">
+          <div className="col-xs-3 message-entry-left-box">
+            <div className="profile-image">
+              <img src="http://www.getparade.com/media/imagic/square3.jpg" width="50px" alt="user venmo image"/>
+            </div>
+            <div className="username">
+              <p>{this.props.message.name}</p>
+            </div>
+          </div>
+          <div className="col-xs-9 message-right-container">
+            <div className="message-text">
+              <p>{this.props.message.text}</p>
+            </div>
+            <div className="time-stamp">
+              <p>{this.props.message.time}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+});
+      /*<div className="message-entry">
+        <div className="row">
           <div className="col-xs-6 message-username">
             <p>{this.props.message.name}</p>
           </div>
@@ -82,10 +105,7 @@ var MessageEntry = React.createClass({
             <p>{this.props.message.text}</p>
           </div>
         </div>
-      </div>
-    )
-  }
-});
+      </div>*/
 
 var MessageForm = React.createClass({
   localSubmit: function(event) {
