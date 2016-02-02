@@ -26,7 +26,7 @@ var App = React.createClass({
   },
   getUserImage: function() {
      $.ajax({
-      url: 'http://localhost:8080/users/images',
+      url: '/users/images',
       type: 'GET',
       contentType: 'application/json',
       headers: {'token': localStorage.getItem('obie')},
@@ -43,7 +43,7 @@ var App = React.createClass({
   getSession: function() {
     localStorage.removeItem('obie');
     $.ajax({
-      url: 'http://localhost:8080/obie/',
+      url: '/obie/',
       type: 'GET',
       contentType: 'application/json',
       success: function(session) {
@@ -57,7 +57,7 @@ var App = React.createClass({
   },
   getHouseCode: function() {
     $.ajax({
-      url: 'http://localhost:8080/housez/code',
+      url: '/housez/code',
       type: 'GET',
       contentType: 'application/json',
       headers: {'token': localStorage.getItem('obie')},

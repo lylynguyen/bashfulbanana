@@ -30,7 +30,7 @@ var FinanceContainer = React.createClass({
 
   loadBillHistory: function() {
     $.ajax({
-      url: 'http://localhost:8080/payment/completed',
+      url: '/payment/completed',
       type: 'GET',
       headers: {'token': localStorage.getItem('obie')},
       contentType: 'application/json',
@@ -43,7 +43,7 @@ var FinanceContainer = React.createClass({
 
   loadPaymentHistory: function() {
     $.ajax({
-      url: 'http://localhost:8080/payment/completed/owed',
+      url: '/payment/completed/owed',
       headers: {'token': localStorage.getItem('obie')},
       type: 'GET',
       contentType: 'application/json',
@@ -57,7 +57,7 @@ var FinanceContainer = React.createClass({
   getUsers: function() {
     $.ajax({
       //eventually need to replace 1 with houseId. 
-      url: 'http://localhost:8080/users/',
+      url: '/users/',
       type: 'GET',
       contentType: 'application/json',
       headers: {'token': localStorage.getItem('obie')},
@@ -80,7 +80,7 @@ var FinanceContainer = React.createClass({
   
   addBill: function(bill) {
     $.ajax({
-      url: 'http://localhost:8080/payment/bill',
+      url: '/payment/bill',
       headers: {'token': localStorage.getItem('obie')},
       type: 'POST',
       data: JSON.stringify(bill),
@@ -94,7 +94,7 @@ var FinanceContainer = React.createClass({
 
   addPayment: function(payment) {
     $.ajax({
-      url: 'http://localhost:8080/payment',
+      url: '/payment',
       headers: {'token': localStorage.getItem('obie')},
       type: 'POST',
       data: JSON.stringify(payment),
@@ -138,7 +138,7 @@ var FinanceContainer = React.createClass({
   loadBills: function() {
     var token = localStorage.getItem('obie'); 
     $.ajax({
-      url: 'http://localhost:8080/payment/pay',
+      url: '/payment/pay',
       type: 'GET',
       contentType: 'application/json',
       headers: {'token': token},
@@ -156,7 +156,7 @@ var FinanceContainer = React.createClass({
   loadPayments: function () {
     var token = localStorage.getItem('obie');
     $.ajax({
-      url: 'http://localhost:8080/payment/owed',
+      url: '/payment/owed',
       type: 'GET',
       contentType: 'application/json',
       headers: {'token': token},
@@ -230,7 +230,7 @@ var BillEntry = React.createClass({
   makeVenmoPayment: function(venmoData) {
     console.log("venmo DATA", venmoData);
     $.ajax({
-      url: 'http://localhost:8080/auth/venmo/payment',
+      url: '/auth/venmo/payment',
       headers: {'token': localStorage.getItem('obie')},
       type: 'POST',
       data: JSON.stringify(venmoData),
@@ -244,7 +244,7 @@ var BillEntry = React.createClass({
 
   markPaymentAsPaid: function(paymentId) {
     $.ajax({
-      url: 'http://localhost:8080/payment/' + paymentId,
+      url: '/payment/' + paymentId,
       type: 'PUT',
       contentType: 'application/json',
       success: function(data) {
