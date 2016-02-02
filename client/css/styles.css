@@ -65,6 +65,11 @@ body {
   width: 100%;
   display: block;
 }
+
+.profile-image {
+  width: 100px;
+  height: auto;
+}
 /*
   Message Container Styles  
 */

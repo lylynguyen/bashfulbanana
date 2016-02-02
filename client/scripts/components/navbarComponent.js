@@ -21,15 +21,6 @@ var NavBar = React.createClass({
   }
 });
 
-// var NavBrand = React.createClass({
-//   render: function(){
-//       // <a className="navbar-brand" href={this.props.linkTo}>{this.props.text}</a>
-//     return (
-//         <img src="http://vignette4.wikia.nocookie.net/house/images/5/58/HouseLogo.png/revision/latest?cb=20090407183707" height="30px" />
-//     ); 
-//   }
-// });
-
 var NavMenu = React.createClass({
   logout: function() {
     window.localStorage.removeItem('userId');

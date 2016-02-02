@@ -19,11 +19,29 @@ navbar.links = [
 var App = React.createClass({
   getInitialState: function() {
     this.getSession();
+    setTimeout(this.getUsers, 200);
     return {
       view: 'Messages',
-      code: ''
+      code: '',
+      users: []
     }
   },
+
+  getUsers: function() {
+    $.ajax({
+      //eventually need to replace 1 with houseId. 
+      url: 'http://localhost:8080/users/',
+      type: 'GET',
+      contentType: 'application/json',
+      headers: {'token': localStorage.getItem('obie')},
+      success: function(users) {
+        console.log('getting users: ', users);
+        this.state.users = users; 
+        this.setState({users: this.state.users}); 
+      }.bind(this)
+    });
+  },
+
   getUserImage: function() {
      $.ajax({
       url: '/users/images',
@@ -40,6 +58,7 @@ var App = React.createClass({
       }
     });
   },
+
   getSession: function() {
     localStorage.removeItem('obie');
     $.ajax({
@@ -73,6 +92,14 @@ var App = React.createClass({
     this.setState({view: view});
   },
   render: function() {
+    var roommates = this.state.users.map(function(user, index) {
+      console.log(user.imageUrl);
+      return (
+        <li key={index} className="username-sidebar">
+          <span><img height="30" src={user.imageUrl} /></span><p> {user.name}</p>
+        </li>
+      )
+    });
     return (
       <div>
         <NavBar {...navbar} changeView={this.renderView} />
@@ -80,7 +107,10 @@ var App = React.createClass({
           <div className="col-xs-5 col-md-4 col-lg-4 side-bar-container">
             <div className="side-bar-filler">
               <ImageContainer imageUrl={this.state.imageUrl}  />
-              <h3>{this.state.name}</h3>
+              <h3><span className="profile-image"><img height="50" src={this.state.imageUrl}/></span> {this.state.name}</h3>
+              <ul>
+                {roommates}
+              </ul>
               <button className="btn btn-info submit-message-button text-center" onClick={this.getHouseCode}>Get House Code</button>
               <p>{this.state.code}</p>
             </div>
@@ -109,31 +139,6 @@ var ContentContainer = React.createClass({
     } else if (this.props.view === 'Finances') {
       return <FinanceContainer />
     }
-  }
-});
-
-var Login = React.createClass({
-  mixins: [History], 
-
-  login: function(event) {
-    event.preventDefault();
-    window.localStorage.setItem('userId', this.refs.userId.value);
-    window.localStorage.setItem('houseId', this.refs.houseId.value);
-    this.history.pushState(null, '/registration');
-  },
-
-  render: function() {
-    return (
-      <form onSubmit={this.login} className="form-group">
-        <label htmlFor="userId-input">userId</label>
-        <input ref="userId" id="userId-input" className="form-control" type="text" />
-        <label htmlFor="userId-input">houseId</label>
-        <input ref="houseId" id="userId-input" className="form-control" type="text" />
-        <button className="btn btn-success">Login</button>
-
-        <a href="/auth/venmo">Log In with Venmo</a>
-      </form>
-    )
   }
 });
 
