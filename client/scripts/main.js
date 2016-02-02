@@ -19,7 +19,6 @@ navbar.links = [
 var App = React.createClass({
   getInitialState: function() {
     this.getSession();
-    this.getUserImage();
     return {
       view: 'Messages',
       code: ''
@@ -42,12 +41,14 @@ var App = React.createClass({
     });
   },
   getSession: function() {
+    localStorage.removeItem('obie');
     $.ajax({
       url: 'http://localhost:8080/obie/',
       type: 'GET',
       contentType: 'application/json',
       success: function(session) {
         localStorage.setItem('obie', session);
+        this.getUserImage();
       }.bind(this),
       error: function() {
         console.log('error getting session');
