@@ -26,6 +26,7 @@ var MessageContainer = React.createClass({
       headers: {'token': localStorage.getItem('obie')},
       success: function(messages) {
         this.setState({messages: messages});
+        console.log(messages);
       }.bind(this),
       error: function(err) {
         console.log(err);
@@ -71,7 +72,7 @@ var MessageEntry = React.createClass({
         <div className="row">
           <div className="col-xs-3 message-entry-left-box">
             <div className="profile-image">
-              <img src="http://www.getparade.com/media/imagic/square3.jpg" width="50px" alt="user venmo image"/>
+              <img src={this.props.message.userImageUrl || "http://www.getparade.com/media/imagic/square3.jpg"} width="50px" alt="user venmo image"/>
             </div>
             <div className="username">
               <p>{this.props.message.name}</p>
