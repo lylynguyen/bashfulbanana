@@ -318,7 +318,8 @@ var BillForm = React.createClass({
     //access this.refs.amount.value
     var amount = this.refs.total.value;
     //divide total by number of roommates 
-    var costPerUser = amount/this.props.users.length; 
+    var costPerUser = amount/this.props.users.length;
+    var costPerUser = Math.ceil(costPerUser * 100) / 100;
     //iterate through users
     for(var i = 0; i < this.props.users.length; i++) {
       //set the user total to costPerUser

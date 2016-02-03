@@ -70,6 +70,16 @@ body {
   width: 100px;
   height: auto;
 }
+
+.profile-image > img {
+  width: 50%;
+  height: inherit;
+  margin: 0 auto;
+}
+.profile-image > .username {
+  /*text-align: left;*/
+  float: left;
+}
 .sidebar-roommate-ul, .landlord-house-ul {
   list-style: none;
 }
