@@ -260,13 +260,13 @@ var BillEntry = React.createClass({
     return (
       <div className="bill-entry-container">
         <div className="row">
-          <div className="col-xs-8 col-md-10">
+          <div className="col-xs-8">
             <p>You owe <span className="who-is-owed">{this.props.bill.whoIsOwed}</span></p> 
             <p><span className="who-is-owed">{formatPrice(this.props.bill.amount * 100)}</span> for <span className="who-is-owed">{this.props.bill.billName}</span></p>
             <p> by {this.getDate()}</p>
           </div>
-          <div className="col-xs-4 col-md-2">
-            <button className='btn btn-default' onClick={this.createVenmoPayment}>Pay</button>
+          <div className="col-xs-4">
+            <button className='pay-button btn btn-default' onClick={this.createVenmoPayment}>Pay</button>
           </div>
         </div>
       </div>
@@ -318,7 +318,8 @@ var BillForm = React.createClass({
     //access this.refs.amount.value
     var amount = this.refs.total.value;
     //divide total by number of roommates 
-    var costPerUser = amount/this.props.users.length; 
+    var costPerUser = amount/this.props.users.length;
+    var costPerUser = Math.ceil(costPerUser * 100) / 100;
     //iterate through users
     for(var i = 0; i < this.props.users.length; i++) {
       //set the user total to costPerUser

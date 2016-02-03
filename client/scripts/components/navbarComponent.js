@@ -10,10 +10,7 @@ var NavBar = React.createClass({
       <nav className="navbar navbar-default">
         <div className="container-fluid col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
           <div className="navbar-header">
-            {/*<NavBrand linkTo={this.props.brand.linkTo} text={this.props.brand.text} />
-          </div>
-          <div className="collapse navbar-collapse" id="navbar-collapse">*/}
-            <NavMenu changeView={this.props.changeView} links={this.props.links} />
+            <NavMenu changeView={this.props.changeView} links={this.props.isLandlord ? this.props.landlordLinks : this.props.links} />
           </div>
         </div>
       </nav>
@@ -51,27 +48,6 @@ var NavMenu = React.createClass({
           <a onClick={this.logout}>Logout</a>
         </li>
       </ul>
-    );
-  }
-});
-
-var NavLinkDropdown = React.createClass({
-  render: function(){
-    var links = this.props.links.map(function(link, i){
-      return (
-        <NavLink key={i} text={link.text} render={link.render} />
-      );
-    });
-    return (
-      <li className="dropdown">
-        <a href="#" on className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-          {this.props.text}
-          <span className="caret"></span>
-        </a>
-        <ul className="dropdown-menu">
-          {links}
-        </ul>
-      </li>
     );
   }
 });

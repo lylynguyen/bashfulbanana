@@ -70,7 +70,17 @@ body {
   width: 100px;
   height: auto;
 }
-.sidebar-roommate-ul {
+
+.profile-image > img {
+  width: 50%;
+  height: inherit;
+  margin: 0 auto;
+}
+.profile-image > .username {
+  /*text-align: left;*/
+  float: left;
+}
+.sidebar-roommate-ul, .landlord-house-ul {
   list-style: none;
 }
 .username-sidebar > p {
@@ -292,8 +302,8 @@ div.chore-entry:hover {
 .bill-entry-container:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
-.pay-btn {
-  height: 5px;
+.pay-button {
+  float: right;
 }
 .who-is-owed {
   font-weight: 500;
