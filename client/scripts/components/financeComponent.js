@@ -190,7 +190,7 @@ var FinanceContainer = React.createClass({
         <h2 className="text-center">Finance</h2>
         <div className="finance-list">
           <div className='bill-list'>
-            <h4 className="text-center">Bills</h4>
+            <h4 className="text-center">Bills Tenant</h4>
             {billList}
           </div>
           <div className='payments-owed-list'>

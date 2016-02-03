@@ -111,8 +111,10 @@ passport.use(new VenmoStrategy({
                 body=JSON.parse(body);
                 var userId = body[0]['id'] ||null;
                 var houseId = body[0]['houseId'] || null;
-                jtObj['userid']=userId;
-                jtObj['houseId']=houseId;
+                var isLandlord = body[0]['isLandlord'] || null;
+                jtObj['userid'] = userId;
+                jtObj['houseId'] = houseId;
+                jtObj['isLandlord'] = isLandlord;
                 var jwtObj = jwt.encode(JSON.stringify(jtObj), process.env.secret_code);
                 return done(null, jwtObj);
               })

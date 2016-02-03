@@ -27,7 +27,7 @@ module.exports = {
     });
   },
   getHouseOfUser: function(params, callback) {
-    var queryStr = "SELECT id, houseId, userImageUrl FROM Users WHERE username = ? LIMIT 1";
+    var queryStr = "SELECT id, houseId, userImageUrl, isLandlord  FROM Users WHERE username = ? LIMIT 1";
     db.query(queryStr, params, function(err, results) {
       callback(err, results);
     });
