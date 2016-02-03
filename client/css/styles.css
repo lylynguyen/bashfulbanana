@@ -292,8 +292,8 @@ div.chore-entry:hover {
 .bill-entry-container:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
-.pay-btn {
-  height: 5px;
+.pay-button {
+  float: right;
 }
 .who-is-owed {
   font-weight: 500;
