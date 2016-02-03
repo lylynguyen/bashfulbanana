@@ -39,8 +39,10 @@ module.exports = function(app, express) {
       req.session.jwt = req.user;
       if(!token.houseId) {
         res.redirect('/registration')
-      } else {
+      } else if (!token.isLandlord) {
         res.redirect('/');
+      } else if (token.isLandlord) {
+        res.redirect('/landlord');
       }
     });
   });
@@ -83,6 +85,7 @@ module.exports = function(app, express) {
 
   app.use('/login', express.static('client/login'));
   app.use('/', Auth.checkUser, express.static('client'));
+  app.use('/landlord', Auth.checkUser, express.static('/landlordclient'));
   app.use('/registration', Auth.checkUser, express.static('client/registration.html'));
 
   app.get('/obie', function(req, res) {

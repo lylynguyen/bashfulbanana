@@ -10,7 +10,7 @@ var NavBar = React.createClass({
       <nav className="navbar navbar-default">
         <div className="container-fluid col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
           <div className="navbar-header">
-            <NavMenu changeView={this.props.changeView} links={this.props.links} />
+            <NavMenu changeView={this.props.changeView} links={this.props.isLandlord ? this.props.landlordLinks : this.props.links} />
           </div>
         </div>
       </nav>

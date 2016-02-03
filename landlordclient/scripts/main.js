@@ -3,12 +3,10 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import { Router, Route, History } from 'react-router';
 import { createHistory } from 'history';
-import NavBar from './components/navbarComponent'
-// tenant components
 import MessageContainer from './components/tenant/messageComponent'
 import ChoreContainer from './components/tenant/choreComponent'
 import FinanceContainer from './components/tenant/financeComponent'
-// landlord components
+import NavBar from './components/navbarComponent'
 import HouseInfo from './components/landlord/houseInfoComponent'
 import Notify from './components/landlord/notifyComponent'
 import PendingBills from './components/landlord/pendingBillComponent'
@@ -115,34 +113,56 @@ var App = React.createClass({
     this.setState({view: view});
   },
   render: function() {
-    var roommates = this.state.users.map(function(user, index) {
+    if (this.state.isLandlord) {
       return (
-        <li key={index} className="username-sidebar">
-          <span><img height="30" src={user.userImageUrl} /></span>  <p className="lead">  {user.name}</p>
-        </li>
-      )
-    });
-    return (
-      <div>
-        <NavBar {...navbar} isLandlord={this.state.isLandlord} changeView={this.renderView} />
-        <div className="app-container col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-          <div className="col-xs-5 col-md-4 col-lg-4 side-bar-container">
-            <div className="side-bar-filler">
-              <ImageContainer imageUrl={this.state.imageUrl}  />
-              <div>
-                <h3>{this.state.houseName}</h3>
-                <ul className="sidebar-roommate-ul">{roommates}</ul>
-                <button className="btn btn-info submit-message-button text-center" onClick={this.toggleHouseCode}>Get House Code</button>
-                <p className="toggle-house-code">Your house code is: {this.state.houseCode}</p>
+        <div>
+          <NavBar {...navbar} isLandlord={this.state.isLandlord} changeView={this.renderView} />
+          <div className="app-container col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+            <div className="col-xs-5 col-md-4 col-lg-4 side-bar-container">
+              <div className="side-bar-filler">
+                <ImageContainer imageUrl={this.state.imageUrl}  />
+                <div>
+                  <h3>Your Properties</h3>
+                  <LandlordHouses houses={this.state.landlordHouses} />
+                </div>
               </div>
             </div>
-          </div>
-          <div className="col-xs-7 col-md-8 col-lg-8 interface-container main-bar-container">
-            <ContentContainer isLandlord={this.state.isLandlord} view={this.state.view} />
+            <div className="col-xs-7 col-md-8 col-lg-8 interface-container main-bar-container">
+              <ContentContainer view={this.state.view} />
+            </div>
           </div>
         </div>
-      </div>
-    )
+      )
+    } else {
+      var roommates = this.state.users.map(function(user, index) {
+        return (
+          <li key={index} className="username-sidebar">
+            <span><img height="30" src={user.userImageUrl} /></span>  <p className="lead">  {user.name}</p>
+          </li>
+        )
+      });
+      return (
+        <div>
+          <NavBar {...navbar} isLandlord={this.state.isLandlord} changeView={this.renderView} />
+          <div className="app-container col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+            <div className="col-xs-5 col-md-4 col-lg-4 side-bar-container">
+              <div className="side-bar-filler">
+                <ImageContainer imageUrl={this.state.imageUrl}  />
+                <div>
+                  <h3>{this.state.houseName}</h3>
+                  <ul className="sidebar-roommate-ul">{roommates}</ul>
+                  <button className="btn btn-info submit-message-button text-center" onClick={this.toggleHouseCode}>Get House Code</button>
+                  <p className="toggle-house-code">Your house code is: {this.state.houseCode}</p>
+                </div>
+              </div>
+            </div>
+            <div className="col-xs-7 col-md-8 col-lg-8 interface-container main-bar-container">
+              <ContentContainer isLandlord={this.state.isLandlord} view={this.state.view} />
+            </div>
+          </div>
+        </div>
+      )
+    }
   }
 });
 
