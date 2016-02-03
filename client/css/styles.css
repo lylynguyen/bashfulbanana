@@ -70,6 +70,17 @@ body {
   width: 100px;
   height: auto;
 }
+.sidebar-roommate-ul {
+  list-style: none;
+}
+.username-sidebar > p {
+  display: inline-block;
+  font-weight: 400;
+  font-size: 1.1em;
+}
+.toggle-house-code {
+  display: none;
+}
 /*
   Message Container Styles  
 */
