@@ -5,6 +5,17 @@ import h from '../helpers';
 var socket = io();
 
 
+
+var image = {
+  kitchen: "../images/chores/kitchen56.svg",
+  bathroom: "../images/chores/bathroom3.svg",
+  laundryroom: "../images/chores/washing11.svg",
+  pets: "../images/chores/dog56.svg",
+  yard: "../images/chores/flowers12.svg",
+  livingroom: "../images/chores/livingroom8.svg",
+  bedroom: "../images/chores/bedroom3.svg"
+}
+
 var ChoreContainer = React.createClass({
   getInitialState: function () {
     return {
@@ -115,6 +126,7 @@ var ChoreEntry = React.createClass({
           </div>
           <div className="col-xs-6 chore-duedate">
             <p>{this.getDate()}</p>
+            <span><img className="chore-image" src={image[this.props.chore.category]}></img></span>
           </div>
         </div>
         <div className="row">
@@ -166,11 +178,12 @@ var ChoreForm = React.createClass({
             <label htmlFor="category">Category</label>
             <select name="category" id="category" className="form-control" ref="category" >
               <option value="kitchen">Kitchen</option>
-              <option value="living-room">Living Room</option>
+              <option value="livingroom">Living Room</option>
               <option value="yard">Yard</option>
-              <option value="laundry-room">Laundry Room</option>
+              <option value="laundryroom">Laundry Room</option>
               <option value="bathroom">Bathroom</option>
               <option value="bedroom">Bedroom</option>
+              <option value="pets">Pets</option>
               <option value="other">Other</option>
             </select>
           </div>
