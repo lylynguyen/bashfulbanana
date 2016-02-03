@@ -8,6 +8,7 @@ var MessageContainer = React.createClass({
 
   getInitialState: function() {
     setTimeout(this.loadMessages, 500);
+    this.loadMessages()
     return {
       messages: []
     }

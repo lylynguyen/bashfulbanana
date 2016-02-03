@@ -21,8 +21,8 @@ var App = React.createClass({
     if (!localStorage.getItem('obie')) {
       this.getSession();
     }
-    setTimeout(this.getHouseCode, 200);
-    setTimeout(this.getUsers, 200);
+    this.getHouseCode();
+    this.getUsers();
     return {
       view: 'Messages',
       houseCode: '',
@@ -73,6 +73,8 @@ var App = React.createClass({
         console.log('session: ', session);
         localStorage.setItem('obie', session);
         this.getUserImage();
+        this.getHouseCode();
+        this.getUsers();
       }.bind(this),
       error: function() {
         console.log('error getting session');
