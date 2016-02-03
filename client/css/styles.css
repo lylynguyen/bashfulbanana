@@ -70,7 +70,7 @@ body {
   width: 100px;
   height: auto;
 }
-.sidebar-roommate-ul {
+.sidebar-roommate-ul, .landlord-house-ul {
   list-style: none;
 }
 .username-sidebar > p {

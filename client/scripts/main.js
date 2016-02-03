@@ -7,6 +7,9 @@ import MessageContainer from './components/messageComponent'
 import ChoreContainer from './components/choreComponent'
 import FinanceContainer from './components/financeComponent'
 import NavBar from './components/navbarComponent'
+import HouseInfo from './components/houseInfoComponent'
+import Notify from './components/notifyComponent'
+import PendingBills from './components/pendingBillComponent'
 
 var navbar = {};
 navbar.links = [
@@ -14,6 +17,11 @@ navbar.links = [
   {render: "Finance", text: "Finances"},
   {render: "Chore", text: "Chores"}
 ];
+navbar.landlordLinks = [
+  {render: "Bills", text: "Pending Bills"},
+  {render: "Communication", text: "Notify"},
+  {render: "Info", text: "House Info"}
+]
 
 var App = React.createClass({
   getInitialState: function() {
@@ -23,16 +31,17 @@ var App = React.createClass({
     this.getHouseCode();
     this.getUsers();
     return {
-      view: 'Messages',
+      view: 'Finances',
       houseCode: '',
       users: [],
-      houseName: ''
+      houseName: '',
+      isLandlord: false,
+      landlordHouses: [{name: "Robot House", address:"123 road lane", id:4}, {name: "Real World House", address:"466 road street", id: 8}, {name: "Full House", address: "69 road lane", id:5}]
     }
   },
 
   getUsers: function() {
     $.ajax({
-      //eventually need to replace 1 with houseId. 
       url: 'http://localhost:8080/users/',
       type: 'GET',
       contentType: 'application/json',
@@ -100,36 +109,72 @@ var App = React.createClass({
     $('.toggle-house-code').toggle('slow');
   },
   renderView: function(view) {
+    console.log('view: ', view);
     this.setState({view: view});
   },
   render: function() {
-    var roommates = this.state.users.map(function(user, index) {
+    if (this.state.isLandlord) {
       return (
-        <li key={index} className="username-sidebar">
-          <span><img height="30" src={user.userImageUrl} /></span>  <p className="lead">  {user.name}</p>
-        </li>
-      )
-    });
-    return (
-      <div>
-        <NavBar {...navbar} changeView={this.renderView} />
-        <div className="app-container col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
-          <div className="col-xs-5 col-md-4 col-lg-4 side-bar-container">
-            <div className="side-bar-filler">
-              <ImageContainer imageUrl={this.state.imageUrl}  />
-              <h3>{this.state.houseName}</h3>
-              <ul className="sidebar-roommate-ul">
-                {roommates}
-              </ul>
-              <button className="btn btn-info submit-message-button text-center" onClick={this.toggleHouseCode}>Get House Code</button>
-              <p className="toggle-house-code">Your house code is: {this.state.houseCode}</p>
+        <div>
+          <NavBar {...navbar} isLandlord={this.state.isLandlord} changeView={this.renderView} />
+          <div className="app-container col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+            <div className="col-xs-5 col-md-4 col-lg-4 side-bar-container">
+              <div className="side-bar-filler">
+                <ImageContainer imageUrl={this.state.imageUrl}  />
+                <div>
+                  <h3>Your Properties</h3>
+                  <LandlordHouses houses={this.state.landlordHouses} />
+                </div>
+              </div>
+            </div>
+            <div className="col-xs-7 col-md-8 col-lg-8 interface-container main-bar-container">
+              <ContentContainer view={this.state.view} />
             </div>
           </div>
-          <div className="col-xs-7 col-md-8 col-lg-8 interface-container main-bar-container">
-            <ContentContainer view={this.state.view} />
+        </div>
+      )
+    } else {
+      var roommates = this.state.users.map(function(user, index) {
+        return (
+          <li key={index} className="username-sidebar">
+            <span><img height="30" src={user.userImageUrl} /></span>  <p className="lead">  {user.name}</p>
+          </li>
+        )
+      });
+      return (
+        <div>
+          <NavBar {...navbar} isLandlord={this.state.isLandlord} changeView={this.renderView} />
+          <div className="app-container col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
+            <div className="col-xs-5 col-md-4 col-lg-4 side-bar-container">
+              <div className="side-bar-filler">
+                <ImageContainer imageUrl={this.state.imageUrl}  />
+                <div>
+                  <h3>{this.state.houseName}</h3>
+                  <ul className="sidebar-roommate-ul">{roommates}</ul>
+                  <button className="btn btn-info submit-message-button text-center" onClick={this.toggleHouseCode}>Get House Code</button>
+                  <p className="toggle-house-code">Your house code is: {this.state.houseCode}</p>
+                </div>
+              </div>
+            </div>
+            <div className="col-xs-7 col-md-8 col-lg-8 interface-container main-bar-container">
+              <ContentContainer isLandlord={this.state.isLandlord} view={this.state.view} />
+            </div>
           </div>
         </div>
-      </div>
+      )
+    }
+  }
+});
+
+var LandlordHouses = React.createClass({
+  render: function() {
+    var houseList = this.props.houses.map(function(house, index) {
+      return <li key={index} houseInfo={house}>{house.name}</li>
+    })
+    return (
+      <ul className="landlord-house-ul">
+        {houseList}
+      </ul>
     )
   }
 });
@@ -142,7 +187,13 @@ var ImageContainer = React.createClass({
 
 var ContentContainer = React.createClass({
   render: function() {
-    if (this.props.view === 'Messages') {
+    if (this.props.view === 'Pending Bills') {
+      return <PendingBills />
+    } else if (this.props.view === 'Notify') {
+      return <Notify />
+    } else if (this.props.view === 'House Info') {
+      return <HouseInfo />
+    } else if (this.props.view === 'Messages') {
       return <MessageContainer />
     } else if (this.props.view === 'Chores') {
       return <ChoreContainer />
