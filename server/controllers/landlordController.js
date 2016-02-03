@@ -13,5 +13,11 @@ module.exports = {
         res.json(results);
       }
     });
+  },
+  updateLandlordsCurrentHouse: function(req, res) {
+    var houseId = req.params.houseId;
+    var obie = JSON.parse(jwt.decode(req.session.jwt, process.env.secret_code));
+    obie.houseId = houseId;
+    res.send(JSON.stringify(jwt.encode(JSON.stringify(obie), process.env.secret_code)));
   }
 }

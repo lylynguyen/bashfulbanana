@@ -119,6 +119,22 @@ var App = React.createClass({
       }
     });
   },
+  switchHouseView: function(houseId) {
+    console.log("HOUSEIDDDD", houseId);
+    $.ajax({
+      url: '/properties/view/' + houseId,
+      type: 'GET',
+      contentType: 'application/json',
+      headers: {'token': localStorage.getItem('obie')},
+      success: function(code) {
+        localStorage.setItem('obie', code);
+        console.log("GREAT SUCCESS");
+      }.bind(this),
+      error: function(err) {
+        console.log('error', err);
+      }
+    });
+  },
   toggleHouseCode: function () {
     $('.toggle-house-code').toggle('slow');
   },
@@ -136,7 +152,7 @@ var App = React.createClass({
               <ImageContainer imageUrl={this.state.imageUrl}  />
               <div>
                 <h3>Your Properties</h3>
-                <LandlordHouses houses={this.state.landlordHouses} />
+                <LandlordHouses switchHouseView={this.switchHouseView} houses={this.state.landlordHouses} />
               </div>
             </div>
           </div>
@@ -150,9 +166,15 @@ var App = React.createClass({
 });
 
 var LandlordHouses = React.createClass({
+  selectHouse: function(house) {
+    // console.log(this.props.houseInfo);
+    this.props.switchHouseView(house.id);
+  },
+
   render: function() {
+    var context = this;
     var houseList = this.props.houses.map(function(house, index) {
-      return <li key={index} houseInfo={house}>{house.name}</li>
+      return <li onClick={context.selectHouse.bind(null, house)} key={index} houseInfo={house}>{house.name}</li>
     })
     return (
       <ul className="landlord-house-ul">

@@ -85,6 +85,7 @@ module.exports = function(app, express) {
 
   //Landlord
   app.get('/properties/owned', landlordController.getHousesOwned);
+  app.get('/properties/view/:houseId', landlordController.updateLandlordsCurrentHouse);
 
 
   app.use('/login', express.static('client/login'));
