@@ -18,12 +18,16 @@ navbar.links = [
 
 var App = React.createClass({
   getInitialState: function() {
-    this.getSession();
+    if (!localStorage.getItem('obie')) {
+      this.getSession();
+    }
+    setTimeout(this.getHouseCode, 200);
     setTimeout(this.getUsers, 200);
     return {
       view: 'Messages',
-      code: '',
-      users: []
+      houseCode: '',
+      users: [],
+      houseName: ''
     }
   },
 
@@ -66,6 +70,7 @@ var App = React.createClass({
       type: 'GET',
       contentType: 'application/json',
       success: function(session) {
+        console.log('session: ', session);
         localStorage.setItem('obie', session);
         this.getUserImage();
       }.bind(this),
@@ -74,6 +79,7 @@ var App = React.createClass({
       }
     });
   },
+
   getHouseCode: function() {
     $.ajax({
       url: '/housez/code',
@@ -81,22 +87,25 @@ var App = React.createClass({
       contentType: 'application/json',
       headers: {'token': localStorage.getItem('obie')},
       success: function(code) {
-        this.setState({code: "Your house code is: " + code[0].token});
+        this.setState({houseCode: code[0].token});
+        this.setState({houseName: code[0].name});
       }.bind(this),
       error: function() {
         console.log('error');
       }
     });
   },
+  toggleHouseCode: function () {
+    $('.toggle-house-code').toggle('slow');
+  },
   renderView: function(view) {
     this.setState({view: view});
   },
   render: function() {
     var roommates = this.state.users.map(function(user, index) {
-      console.log(user.imageUrl);
       return (
         <li key={index} className="username-sidebar">
-          <span><img height="30" src={user.imageUrl} /></span><p> {user.name}</p>
+          <span><img height="30" src={user.userImageUrl} /></span>  <p className="lead">  {user.name}</p>
         </li>
       )
     });
@@ -107,12 +116,12 @@ var App = React.createClass({
           <div className="col-xs-5 col-md-4 col-lg-4 side-bar-container">
             <div className="side-bar-filler">
               <ImageContainer imageUrl={this.state.imageUrl}  />
-              <h3><span className="profile-image"><img height="50" src={this.state.imageUrl}/></span> {this.state.name}</h3>
-              <ul>
+              <h3>{this.state.houseName}</h3>
+              <ul className="sidebar-roommate-ul">
                 {roommates}
               </ul>
-              <button className="btn btn-info submit-message-button text-center" onClick={this.getHouseCode}>Get House Code</button>
-              <p>{this.state.code}</p>
+              <button className="btn btn-info submit-message-button text-center" onClick={this.toggleHouseCode}>Get House Code</button>
+              <p className="toggle-house-code">Your house code is: {this.state.houseCode}</p>
             </div>
           </div>
           <div className="col-xs-7 col-md-8 col-lg-8 interface-container main-bar-container">
