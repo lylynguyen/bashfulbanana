@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+
+
   $.ajax({
     url: '/obie/',
     type: 'GET',
@@ -20,6 +22,38 @@ $(document).ready(function() {
       contentType: 'application/json',
       success: function(data) {
         getHouseToken(data.insertId);
+      }
+    });
+  };
+
+  var getSession = function() {
+    localStorage.removeItem('obie');
+    $.ajax({
+      url: '/obie/',
+      type: 'GET',
+      contentType: 'application/json',
+      success: function(session) {
+        localStorage.setItem('obie', session);
+      }.bind(this),
+      error: function() {
+        console.log('error getting session');
+      }
+    });
+  }
+
+  var updateSession = function() {
+    $.ajax({
+      url: '/obie/tokenChange',
+      type: 'GET',
+      headers: {token: localStorage.getItem('obie')},
+      contentType: 'application/json',
+      success: function(session) {
+        console.log('session: ', session);
+        localStorage.setItem('obie', session);
+        window.location.href ='/';
+      }.bind(this),
+      error: function() {
+        console.log('error getting session');
       }
     });
   };
@@ -54,6 +88,8 @@ $(document).ready(function() {
     addHouse(house);
   };
 
+  
+  
   var updateUserHouseId = function(houseId) {
     $.ajax({
       url: '/houses/users',
@@ -62,7 +98,7 @@ $(document).ready(function() {
       data: JSON.stringify({houseId: houseId}),
       contentType: 'application/json',
       success: function(data) {
-        window.location.href ='/login';
+        updateSession();
       },
       error: function(error) {
         console.log('error: ', error);
@@ -89,6 +125,9 @@ $(document).ready(function() {
       }
     });
   };
+
+  // store session:
+  getSession();
 
   // create a house
   $('#create-house-submit').on('click', createHouse);

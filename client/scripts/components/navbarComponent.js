@@ -21,15 +21,6 @@ var NavBar = React.createClass({
   }
 });
 
-var NavBrand = React.createClass({
-  render: function(){
-      // <a className="navbar-brand" href={this.props.linkTo}>{this.props.text}</a>
-    return (
-        <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/Dr_House.png" height="30px" />
-    ); 
-  }
-});
-
 var NavMenu = React.createClass({
   logout: function() {
     window.localStorage.removeItem('userId');
@@ -53,7 +44,7 @@ var NavMenu = React.createClass({
     return (
       <ul className="nav navbar-nav flexbox">
         <li className="flex-children">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/5/57/Dr_House.png" height="30px" />
+          <img src="../../images/obie_logo.png" height="30px" />
         </li>
         {links}
         <li>

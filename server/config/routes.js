@@ -3,6 +3,7 @@ var paymentController = require('../controllers/paymentController.js');
 var choreController = require('../controllers/choreController.js');
 var userController = require('../controllers/userController.js');
 var houseController = require('../controllers/houseController.js');
+var tokenController = require('../controllers/tokenController.js');
 var Auth = require('../auth/Auth.js');
 var passport = require('passport');
 var session = require('express-session');
@@ -87,6 +88,9 @@ module.exports = function(app, express) {
   app.get('/obie', function(req, res) {
     res.send(JSON.stringify(req.session.jwt));
   })
+
+
+  app.get('/obie/tokenChange', tokenController.updateToken);
 
   //Login/Logout
   app.get('/logout', function(req, res){

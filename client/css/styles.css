@@ -44,7 +44,9 @@ body {
   background-color: white;
 }
 .side-bar-filler > img {
-  padding-top: 50px;
+  padding-top: 10px;
+  width: 100%;
+  height: inherit
 }
 .main-bar-container {
   background-color: white;
@@ -62,6 +64,22 @@ body {
 .form-control {
   width: 100%;
   display: block;
+}
+
+.profile-image {
+  width: 100px;
+  height: auto;
+}
+.sidebar-roommate-ul {
+  list-style: none;
+}
+.username-sidebar > p {
+  display: inline-block;
+  font-weight: 400;
+  font-size: 1.1em;
+}
+.toggle-house-code {
+  display: none;
 }
 /*
   Message Container Styles  
@@ -132,9 +150,6 @@ div.message-entry:hover {
 .username > p {
   font-weight: 600;
   font-size:1.1em;
-}
-.profile-image > img {
-
 }
 .submit-message-button {
     margin-top: 10px;
@@ -300,10 +315,17 @@ div.chore-entry:hover {
   list-style-type: none;
 }
 .flexbox > li > img {
-  margin-top: 8px;
+  margin-top: 10px;
   float: left;
 }
 .flexbox > li {
   cursor: pointer;
 }
 
+/*
+  Login
+*/
+
+#login {
+  background-color: green;
+}
