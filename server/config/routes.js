@@ -81,7 +81,7 @@ module.exports = function(app, express) {
   app.get('/housez/code', houseController.getHouseCode);
 
 
-  app.use('/login', express.static('client/login.html'));
+  app.use('/login', express.static('client/login'));
   app.use('/', Auth.checkUser, express.static('client'));
   app.use('/registration', Auth.checkUser, express.static('client/registration.html'));
 
