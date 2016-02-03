@@ -10,6 +10,14 @@ module.exports = {
     })
   },
 
+  getHouseIdByUserId: function(params, callback) {
+    var queryStr = 'SELECT houseId from Users where id = ?';
+
+    db.query(queryStr, params, function(err, results) {
+      callback(err, results);
+    })
+  },
+
   getHouse: function(params, callback) {
     //need query string to find the house id with the provided
     //house token (assume when we update the schema we'll call
@@ -29,8 +37,9 @@ module.exports = {
       callback(err, results); 
     });
   },
+
   getHouseToken: function(params, callback) {
-    var queryStr = 'SELECT token FROM House WHERE id = ?';
+    var queryStr = 'SELECT token, name FROM House WHERE id = ?';
     db.query(queryStr, params, function(err, results) {
       callback(err, results); 
     });
