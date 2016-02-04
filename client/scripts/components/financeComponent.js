@@ -3,9 +3,14 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import h from '../helpers';
 var socket = io();
+
 var formatPrice = function(cents) {
-  return '$' + ( (cents / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
+  return '$' + ( (cents / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 };
+
+var roundPrice = function(price) {
+  return Math.ceil(price * 100) / 100;
+}
 
 var FinanceContainer = React.createClass({
   getInitialState: function() {
@@ -15,7 +20,7 @@ var FinanceContainer = React.createClass({
       paymentsOwed: [], 
       billHistory: [],
       paymentHistory: [],
-      users: [],
+      users: []
       //eventually need to get real houseId/userId - use Justin's login to query
       //database with userId to get that user's houseId
     }
@@ -77,12 +82,6 @@ var FinanceContainer = React.createClass({
   //addBill is a function that will take a new created bill and post it
   //to the database. However, we don't have that route set up yet,
   //and need to verify schema as well. This should go in finance container. 
-
-  //userId will be the user who created the bill
-  //total 
-  //name
-  //dueDate
-  //also need info on who owes what for the bill (checklist)
   
   addBill: function(bill) {
     console.log("Add Bill")
@@ -128,7 +127,7 @@ var FinanceContainer = React.createClass({
         var payment = {
           billId: billId, //need to figure this out
           userId: users[i].id,
-          amount: users[i].total
+          amount: Math.round(users[i].total * 100) / 100
         }
         this.addPayment(payment);
         this.getUsers();
@@ -221,6 +220,9 @@ var BillEntry = React.createClass({
 
   createVenmoPayment: function(event) {
     event.preventDefault();
+    if (!confirm(`Are you sure you want to pay $${this.props.bill.amount} for ${this.props.bill.billName}`)) {
+      return;
+    }
     var obj = {};
     obj.id = this.props.bill.paymentId;
     obj.email = this.props.bill.whoIsOwedEmail;
@@ -318,8 +320,8 @@ var BillForm = React.createClass({
     //access this.refs.amount.value
     var amount = this.refs.total.value;
     //divide total by number of roommates 
-    var costPerUser = amount/this.props.users.length;
-    var costPerUser = Math.ceil(costPerUser * 100) / 100;
+    var unroundedCostPerUser = amount/this.props.users.length;
+    var costPerUser = roundPrice(unroundedCostPerUser);
     //iterate through users
     for(var i = 0; i < this.props.users.length; i++) {
       //set the user total to costPerUser
@@ -368,7 +370,7 @@ var BillForm = React.createClass({
       //think about creating separate payment objects
       //in a different payment function for these. 
       //userId: userId,
-      total: this.refs.total.value,
+      total: roundPrice(this.refs.total.value),
       name: this.refs.name.value,
       dueDate: this.refs.dueDate.value
     };
