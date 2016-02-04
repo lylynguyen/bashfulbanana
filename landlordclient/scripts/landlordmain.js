@@ -129,6 +129,9 @@ var App = React.createClass({
       success: function(code) {
         localStorage.setItem('obie', code);
         console.log("GREAT SUCCESS");
+        var view = this.state.view;
+        this.renderView('Dummy');
+        this.renderView(view);
       }.bind(this),
       error: function(err) {
         console.log('error', err);
@@ -190,6 +193,12 @@ var ImageContainer = React.createClass({
   }
 });
 
+var Dummy = React.createClass({
+  render: function() {
+    return <p>Dummy</p>;
+  }
+});
+
 var ContentContainer = React.createClass({
   render: function() {
     if (this.props.view === 'Pending Bills') {
@@ -198,7 +207,9 @@ var ContentContainer = React.createClass({
       return <Notify />
     } else if (this.props.view === 'House Info') {
       return <HouseInfo />
-    } 
+    } else if (this.props.view === 'Dummy') {
+      return <Dummy />
+    }
   }
 });
 
