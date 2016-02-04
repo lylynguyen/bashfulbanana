@@ -2,20 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import h from '../helpers';
-
+var socket = io();
 var formatPrice = function(cents) {
   return '$' + ( (cents / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
 };
 
 var FinanceContainer = React.createClass({
   getInitialState: function() {
-    this.loadBills();
-    this.getUsers(); 
-    this.loadPayments();
-    this.loadBillHistory();
-    this.loadPaymentHistory();
-    var userId = localStorage.getItem('userId');
-    this.userId = userId;
     return {
       bills: [],
       // payments: [],
@@ -26,6 +19,19 @@ var FinanceContainer = React.createClass({
       //eventually need to get real houseId/userId - use Justin's login to query
       //database with userId to get that user's houseId
     }
+  },
+
+  loadData: function() {
+    this.loadBills();
+    this.getUsers(); 
+    this.loadPayments();
+    this.loadBillHistory();
+    this.loadPaymentHistory();
+  },
+
+  componentDidMount: function() {
+    this.loadData();
+    socket.on('bill', this.loadData);
   },
 
   loadBillHistory: function() {
@@ -89,6 +95,7 @@ var FinanceContainer = React.createClass({
       success: function(id) {
         this.createPayments(id)
         this.loadBills();
+        socket.emit('bill');
       }.bind(this)
     });
   },
@@ -103,6 +110,7 @@ var FinanceContainer = React.createClass({
       contentType: 'application/json',
       success: function(data) {
         // this.loadPayments()
+        socket.emit('bill');
         console.log("payment added");
       }
     });
@@ -125,17 +133,9 @@ var FinanceContainer = React.createClass({
         this.addPayment(payment);
         this.getUsers();
         setTimeout(this.loadPayments, 500);
-        // console.log(users[i]);
-        // console.log('PAYMENT', payment)
       }
     }
   },
-
-  // name
-  // total
-  // dueDate
-  // payee_username
-  // payee_userId
 
   loadBills: function() {
     var token = localStorage.getItem('obie'); 
@@ -360,7 +360,6 @@ var BillForm = React.createClass({
       }
       return acc += curr; 
     }, 0); 
-    //var userId = localStorage.getItem('userId');
     //create bill object based on user input
     var bill = {
       //on top of these, need access to the userId of
