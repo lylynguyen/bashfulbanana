@@ -4,6 +4,7 @@ var choreController = require('../controllers/choreController.js');
 var userController = require('../controllers/userController.js');
 var houseController = require('../controllers/houseController.js');
 var tokenController = require('../controllers/tokenController.js');
+var landlordController = require('../controllers/landlordController.js');
 var Auth = require('../auth/Auth.js');
 var passport = require('passport');
 var session = require('express-session');
@@ -82,10 +83,15 @@ module.exports = function(app, express) {
   app.get('/houses/token/:houseId', houseController.getHouseToken);
   app.get('/housez/code', houseController.getHouseCode);
 
+  //Landlord
+  app.get('/properties/owned', landlordController.getHousesOwned);
+  app.get('/properties/view/:houseId', landlordController.updateLandlordsCurrentHouse);
+  app.put('/properties/add/:houseToken', landlordController.addProperty);
+  app.post('/properties/create', houseController.createHouse);
 
   app.use('/login', express.static('client/login'));
   app.use('/', Auth.checkUser, express.static('client'));
-  app.use('/landlord', Auth.checkUser, express.static('/landlordclient'));
+  app.use('/landlord', Auth.checkUser, express.static('landlordclient'));
   app.use('/registration', Auth.checkUser, express.static('client/registration.html'));
 
   app.get('/obie', function(req, res) {

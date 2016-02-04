@@ -6,8 +6,28 @@ module.exports = {
     //extract house name from req.body
     var name = req.body.name
     //insert that name into params
-    var params = [name]
+    var address = req.body.address || null;
+    var userId = token.userid;
+    var params = [name, address, userId];
     houseModel.postHouse(params, function(err, results) {
+      if(err) {
+        res.sendStatus(500);
+      } else {
+        res.json(results);
+      }
+    });
+  },
+
+  createHouse: function(req, res) {
+    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
+
+    //extract house name from req.body
+    var name = req.body.name
+    //insert that name into params
+    var address = req.body.address || null;
+    var userId = token.userid;
+    var params = [name, address, userId];
+    houseModel.createHouse(params, function(err, results) {
       if(err) {
         res.sendStatus(500);
       } else {

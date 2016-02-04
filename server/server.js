@@ -35,6 +35,12 @@ io.sockets.on('connection', function(socket){
   socket.on('message', function(data) {
     io.sockets.emit('message', data); // broadcast to all but the sender
   });
+  socket.on('chore', function(data) {
+    io.sockets.emit('chore', data); // broadcast to all but the sender
+  });
+  socket.on('bill', function(data) {
+    io.sockets.emit('bill', data); // broadcast to all but the sender
+  });
 })
 
 app.use(bodyParser.json());
@@ -111,8 +117,10 @@ passport.use(new VenmoStrategy({
                 body=JSON.parse(body);
                 var userId = body[0]['id'] ||null;
                 var houseId = body[0]['houseId'] || null;
-                jtObj['userid']=userId;
-                jtObj['houseId']=houseId;
+                var isLandlord = body[0]['isLandlord'] || null;
+                jtObj['userid'] = userId;
+                jtObj['houseId'] = houseId;
+                jtObj['isLandlord'] = isLandlord;
                 var jwtObj = jwt.encode(JSON.stringify(jtObj), process.env.secret_code);
                 return done(null, jwtObj);
               })

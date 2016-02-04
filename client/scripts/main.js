@@ -5,13 +5,9 @@ import { Router, Route, History } from 'react-router';
 import { createHistory } from 'history';
 import NavBar from './components/navbarComponent'
 // tenant components
-import MessageContainer from './components/tenant/messageComponent'
-import ChoreContainer from './components/tenant/choreComponent'
-import FinanceContainer from './components/tenant/financeComponent'
-// landlord components
-import HouseInfo from './components/landlord/houseInfoComponent'
-import Notify from './components/landlord/notifyComponent'
-import PendingBills from './components/landlord/pendingBillComponent'
+import MessageContainer from './components/messageComponent'
+import ChoreContainer from './components/choreComponent'
+import FinanceContainer from './components/financeComponent'
 
 var navbar = {};
 navbar.links = [
@@ -27,6 +23,7 @@ navbar.landlordLinks = [
 
 var App = React.createClass({
   getInitialState: function() {
+    console.log('client view');
     if (!localStorage.getItem('obie')) {
       this.getSession();
     }

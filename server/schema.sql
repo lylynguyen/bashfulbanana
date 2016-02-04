@@ -31,6 +31,7 @@ CREATE TABLE `Users` (
   `balance` FLOAT,
   `venmoid` VARCHAR(500),
   `userImageUrl` VARCHAR(200),
+  `isLandlord` TINYINT DEFAULT 0,
   PRIMARY KEY (`id`)
 );
 
@@ -44,7 +45,9 @@ DROP TABLE IF EXISTS `House`;
 CREATE TABLE `House` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(30) NOT NULL DEFAULT 'NULL',
-  `token` INT NOT NULL DEFAULT 0, 
+  `token` INT NOT NULL DEFAULT 0,
+  `address` VARCHAR(200),
+  `landlordId` INT,
   PRIMARY KEY (`id`)
 );
 
@@ -121,6 +124,7 @@ CREATE TABLE `Payment` (
 -- ---
 
 ALTER TABLE `Users` ADD FOREIGN KEY (houseId) REFERENCES `House` (`id`);
+ALTER TABLE `House` ADD FOREIGN KEY (landlordId) REFERENCES `Users` (`id`);
 ALTER TABLE `Chores` ADD FOREIGN KEY (userId) REFERENCES `Users` (`id`);
 ALTER TABLE `Messages` ADD FOREIGN KEY (userId) REFERENCES `Users` (`id`);
 ALTER TABLE `Messages` ADD FOREIGN KEY (houseId) REFERENCES `House` (`id`);

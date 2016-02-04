@@ -100,11 +100,11 @@ function buildScript(file, watch) {
 }
 
 gulp.task('scripts', function() {
-  return buildScript('main.js', false); // this will once run once because we set watch to false
+  return buildScript('landlordmain.js', false); // this will once run once because we set watch to false
 });
 
 // run 'scripts' task first, then watch for future changes
 gulp.task('default', ['images','styles','scripts','browser-sync'], function() {
   gulp.watch('css/**/*', ['styles']); // gulp watch for stylus changes
-  return buildScript('main.js', true); // browserify watch for JS changes
+  return buildScript('landlordmain.js', true); // browserify watch for JS changes
 });

@@ -2,15 +2,21 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import h from '../helpers';
+var socket = io();
+
 
 var ChoreContainer = React.createClass({
   getInitialState: function () {
-    this.getUsers();
-    this.loadChores();
     return {
       chores: [],
       users: []
     }
+  },
+  componentDidMount: function() {
+    this.getUsers();
+    this.loadChores();
+    var that = this;
+    socket.on('chore', that.loadChores);
   },
 
   getUsers: function() {
@@ -54,6 +60,7 @@ var ChoreContainer = React.createClass({
       contentType: 'application/json',
       success: function (data) {
         this.loadChores();
+        socket.emit('chore', chore);
       }.bind(this),
       error: function(err){
         console.log("error");
