@@ -7,25 +7,6 @@ var formatPrice = function(cents) {
   return '$' + ( (cents / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
 };
 
-// var pendingBills = React.createClass({
-//   getInitialState: function() {
-//     return {}
-//   },
-
-//   render: function() {
-//     return (
-//       <div className="message-container">
-//         <h2 className="text-center">Pending Bills / Rent</h2>
-//         <div className="message-list">
-//           <p>This is</p>
-//           <p>Just filler</p>
-//           <p>Text About</p>
-//           <p>$$$$$$$$</p>
-//         </div>
-//       </div>
-//     )
-//   }
-// });
 
 var pendingBills = React.createClass({
   getInitialState: function() {

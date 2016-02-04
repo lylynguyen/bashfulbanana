@@ -7,6 +7,7 @@ import NavBar from './components/navbarComponent'
 import HouseInfo from './components/houseInfoComponent'
 import Notify from './components/notifyComponent'
 import PendingBills from './components/pendingBillComponent'
+import PropertyAdder from './components/addPropertyComponent'
 
 
 var navbar = {};
@@ -103,23 +104,6 @@ var App = React.createClass({
     });
   },
 
-  addProperty: function(event) {
-    event.preventDefault();
-    $.ajax({
-      url: '/properties/add/' + this.refs.houseCode.value,
-      type: 'PUT',
-      contentType: 'application/json',
-      headers: {'token': localStorage.getItem('obie')},
-      success: function() {
-        alert("House added Successfully");
-        this.getHousesOwned();
-      }.bind(this),
-      error: function() {
-        alert('Error adding house. Please check token.');
-      }
-    });
-  },
-
   getHouseCode: function() {
     $.ajax({
       url: '/housez/code',
@@ -163,6 +147,7 @@ var App = React.createClass({
     this.setState({view: view});
   },
   render: function() {
+    var context = this;
     return (
       <div>
         <NavBar {...navbar} isLandlord={this.state.isLandlord} changeView={this.renderView} />
@@ -173,15 +158,12 @@ var App = React.createClass({
               <div>
                 <h3>Your Properties</h3>
                 <LandlordHouses switchHouseView={this.switchHouseView} houses={this.state.landlordHouses} />
-                <form onSubmit={this.addProperty}>
-                  <input ref="houseCode" type="text" placeholder="Add House With Token"/>
-                  <button type="submit">Submit</button>
-                </form>
+                <button onClick={function(){context.setState({view: "PropertyAdder"})}}>Add House</button>
               </div>
             </div>
           </div>
           <div className="col-xs-7 col-md-8 col-lg-8 interface-container main-bar-container">
-            <ContentContainer view={this.state.view} />
+            <ContentContainer getHousesOwned={this.getHousesOwned} view={this.state.view} />
           </div>
         </div>
       </div>
@@ -230,6 +212,8 @@ var ContentContainer = React.createClass({
       return <HouseInfo />
     } else if (this.props.view === 'Dummy') {
       return <Dummy />
+    } else if (this.props.view === 'PropertyAdder') {
+      return <PropertyAdder getHousesOwned={this.props.getHousesOwned} />
     }
   }
 });
