@@ -35,6 +35,12 @@ io.sockets.on('connection', function(socket){
   socket.on('message', function(data) {
     io.sockets.emit('message', data); // broadcast to all but the sender
   });
+  socket.on('chore', function(data) {
+    io.sockets.emit('chore', data); // broadcast to all but the sender
+  });
+  socket.on('bill', function(data) {
+    io.sockets.emit('bill', data); // broadcast to all but the sender
+  });
 })
 
 app.use(bodyParser.json());
