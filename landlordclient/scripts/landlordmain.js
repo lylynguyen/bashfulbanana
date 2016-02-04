@@ -103,6 +103,23 @@ var App = React.createClass({
     });
   },
 
+  addProperty: function(event) {
+    event.preventDefault();
+    $.ajax({
+      url: '/properties/add/' + this.refs.houseCode.value,
+      type: 'PUT',
+      contentType: 'application/json',
+      headers: {'token': localStorage.getItem('obie')},
+      success: function() {
+        alert("House added Successfully");
+        this.getHousesOwned();
+      }.bind(this),
+      error: function() {
+        alert('Error adding house. Please check token.');
+      }
+    });
+  },
+
   getHouseCode: function() {
     $.ajax({
       url: '/housez/code',
@@ -156,6 +173,10 @@ var App = React.createClass({
               <div>
                 <h3>Your Properties</h3>
                 <LandlordHouses switchHouseView={this.switchHouseView} houses={this.state.landlordHouses} />
+                <form onSubmit={this.addProperty}>
+                  <input ref="houseCode" type="text" placeholder="Add House With Token"/>
+                  <button type="submit">Submit</button>
+                </form>
               </div>
             </div>
           </div>

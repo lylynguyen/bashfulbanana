@@ -6,5 +6,11 @@ module.exports = {
     db.query(queryStr, params, function(err, results) {
       callback(err, results);
     });
+  },
+  addProperty: function(params, callback) {
+    var queryStr = "UPDATE House SET landlordId = ? WHERE token = ?";
+    db.query(queryStr, params, function(err, results) {
+      callback(err, results);
+    });
   }
 }
