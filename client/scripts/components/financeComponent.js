@@ -283,7 +283,7 @@ var PaymentOwedEntry = React.createClass({
   render: function() {
     return (
       <div>
-        {this.props.paymentOwed.ower} owes you {this.props.paymentOwed.amount} for {this.props.paymentOwed.billName}
+        {this.props.paymentOwed.ower} owes you ${this.props.paymentOwed.amount} for {this.props.paymentOwed.billName}
       </div>
     )
   }
@@ -293,8 +293,7 @@ var BillHistory = React.createClass({
   render: function() {
     return (
       <div>
-        {this.props.history.billName}
-        {this.props.history.amount}
+        You paid {this.props.history.whoIsOwed} ${this.props.history.amount} for {this.props.history.billName} 
       </div>
     )
   }
@@ -304,8 +303,7 @@ var PaymentHistory = React.createClass({
   render: function() {
     return (
       <div>
-        {this.props.history.paymentName}
-        {this.props.history.amount}
+        {this.props.history.ower} paid you ${this.props.history.amount} for {this.props.history.billName}
       </div>
     )
   }
