@@ -45,7 +45,7 @@ DROP TABLE IF EXISTS `House`;
 CREATE TABLE `House` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(30) NOT NULL DEFAULT 'NULL',
-  `token` INT NOT NULL DEFAULT 0,
+  `token` VARCHAR(15) NOT NULL,
   `address` VARCHAR(200),
   `landlordId` INT,
   PRIMARY KEY (`id`)

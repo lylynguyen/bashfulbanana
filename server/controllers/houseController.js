@@ -1,14 +1,25 @@
 var houseModel = require('../models/houseModel');
 var jwt = require('jwt-simple');
 
+var idGenerator = function () {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  for( var i=0; i < 11; i++ )
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+  return text;
+}
+
+console.log(idGenerator());
 module.exports = {
   postHouse: function(req, res) {
     //extract house name from req.body
-    var name = req.body.name
+    var name = req.body.name;
+    var address = req.body.address;
+    var token = idGenerator();
     //insert that name into params
     // var address = req.body.address || null;
     // var userId = token.userid;
-    var params = [name];
+    var params = [name, address, token];
     houseModel.postHouse(params, function(err, results) {
       if(err) {
         res.sendStatus(500);

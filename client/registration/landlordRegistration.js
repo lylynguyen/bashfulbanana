@@ -72,6 +72,7 @@ $(document).ready(function() {
     });
   };
 
+
   // need to test
   // need to update query to post address too
   var createHouse = function(event) {
@@ -80,7 +81,8 @@ $(document).ready(function() {
       return;
     }
     var house = {
-      name: $('#house-name').val()
+      name: $('#house-name').val(),
+      address: $('#house-address').val()
     };
     $('#create-house-div').hide('slow');
     $('#join-house-div').show('slow');
@@ -88,24 +90,39 @@ $(document).ready(function() {
     addHouse(house);
   };
 
-
-  //////////// need to test
-  var updateHouseWithLandlordId = function() {
+  var updateLandlordHouseId = function() {
     $.ajax({
-      url: '/houses/landlord',
+      url: '/property/landlord/house',
       type: 'PUT',
       headers: {token: localStorage.getItem('obie')},
-      data: JSON.stringify({houseId: houseId}),
       contentType: 'application/json',
       success: function(data) {
-        updateSession();
+        console.log('updated landlord houseid');
+        window.location.href = '/logout';
+      },
+      error: function(error) {
+        console.log('error: ', error);
+      }
+    });
+  };
+
+  //////////// need to test
+  var updateHouseWithLandlordId = function(houseToken) {
+    $.ajax({
+      url: '/properties/add/' + houseToken,
+      type: 'PUT',
+      headers: {token: localStorage.getItem('obie')},
+      contentType: 'application/json',
+      success: function(data) {
+        updateLandlordHouseId();
+        // window.location.href = '/logout';
       },
       error: function(error) {
         console.log('error updating house with landlord: ', error);
         alert('Invalid property code or property already has landlord');
       }
     });
-  },
+  };
   
   // NOT USED FOR LANDLORD
   var updateUserHouseId = function(houseId) {
@@ -124,40 +141,29 @@ $(document).ready(function() {
     })  
   };
 
-  var findHouse = function(event) {
-    // event.preventDefault();
-    var houseCode = $('#house-code').val();
-    //get request for house with provided houseCode
-    $.ajax({
-      url: '/houses/' + houseCode,
-      type: 'GET',
-      contentType: 'application/json',
-      success: function(houseId) {
-        //if successful, want to call updateUserHouseId
-        //with appropriate userId, adding the houseId
-        //Need somewhere to store that id when it comes back. 
-        updateUserHouseId(houseId[0].id); 
-      },
-      error: function(error) {
-        console.log('error: ', error);
-      }
-    });
-  };
+  // var findHouse = function(event) {
+  //   // event.preventDefault();
+  //   var houseCode = $('#house-code').val();
+  //   //get request for house with provided houseCode
+  //   $.ajax({
+  //     url: '/houses/' + houseCode,
+  //     type: 'GET',
+  //     contentType: 'application/json',
+  //     success: function(houseId) {
+  //       //if successful, want to call updateUserHouseId
+  //       //with appropriate userId, adding the houseId
+  //       //Need somewhere to store that id when it comes back. 
+  //       // updateUserHouseId(houseId[0].id); 
+  //       updateHouseWithLandlordId(houseCode);
+  //     },
+  //     error: function(error) {
+  //       console.log('error: ', error);
+  //     }
+  //   });
+  // };
 
   // store session:
   getSession();
-
-  // routing to correct form:
-  // landlord
-  $('#show-landlord').on('click', function() {
-    window.location.href = '/landlordRegistration.html'
-  });
-
-  // tenant
-  $('#show-tenant').on('click', function() {
-    $('#create-house-div').show('slow');
-    $('#landlord-or-tenant').hide('slow');
-  });
 
   // create a house
   $('#create-house-submit').on('click', createHouse);
@@ -168,7 +174,7 @@ $(document).ready(function() {
     if (!$('#join-house-form').valid()) {
       return;
     }
-    findHouse();
+    updateHouseWithLandlordId($('#house-code').val());
   });
 
   // tenant

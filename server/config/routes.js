@@ -91,6 +91,7 @@ module.exports = function(app, express) {
   app.get('/properties/view/:houseId', landlordController.updateLandlordsCurrentHouse);
   app.put('/properties/add/:houseToken', landlordController.addProperty);
   app.post('/properties/create', houseController.createHouse);
+  app.put('/property/landlord/house', landlordController.giveLandlordDummyHouseID);
 
   app.use('/login', express.static('client/login'));
   app.use('/', Auth.checkUser, express.static('client'));
