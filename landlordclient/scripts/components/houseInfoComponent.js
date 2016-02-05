@@ -29,8 +29,8 @@ var HouseInfo = React.createClass({
   },
 
   render: function() {
-    var tenantList = this.state.tenants.map(function(tenant) {
-      return <User tenant={tenant} />
+    var tenantList = this.state.tenants.map(function(tenant, index) {
+      return <User key={index} tenant={tenant} />
     });
     return (
       <div className="message-container">
