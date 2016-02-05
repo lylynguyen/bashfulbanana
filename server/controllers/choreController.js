@@ -3,7 +3,7 @@ var jwt = require('jwt-simple');
 
 module.exports = {
   get: function (req, res) {
-    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
+    var token = JSON.parse(jwt.decode(req.headers.token, process.env.secret_code));
     var params = [token.houseId];
     choreModel.get(params, function (err, results) {
       if (err) {
@@ -14,7 +14,7 @@ module.exports = {
   },
 
   post: function (req, res) {
-    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
+    var token = JSON.parse(jwt.decode(req.headers.token, process.env.secret_code));
     var params = [token.userid, req.body.name, req.body.category, req.body.dueDate, token.houseId];
     choreModel.post(params, function (err, results) {
       if (err) {

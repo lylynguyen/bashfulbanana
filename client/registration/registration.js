@@ -19,18 +19,19 @@ $(document).ready(function() {
       data: JSON.stringify(house),
       contentType: 'application/json',
       success: function(data) {
+        console.log('new house added to the db');
         getHouseToken(data.insertId);
       }
     });
   };
 
   var getSession = function() {
-    localStorage.removeItem('obie');
     $.ajax({
       url: '/obie/',
       type: 'GET',
       contentType: 'application/json',
       success: function(session) {
+        console.log('got initial session from registration page');
         localStorage.setItem('obie', session);
       }.bind(this),
       error: function() {
@@ -46,7 +47,7 @@ $(document).ready(function() {
       headers: {token: localStorage.getItem('obie')},
       contentType: 'application/json',
       success: function(session) {
-        console.log('session: ', session);
+        console.log('updated the session: ', session);
         localStorage.setItem('obie', session);
         window.location.href ='/';
       }.bind(this),

@@ -4,21 +4,29 @@ var jwt = require('jwt-simple');
 
 module.exports = {
   updateToken: function(req, res) {
-    var encryptedToken = JSON.parse(req.headers.token);
-    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
+    var token = JSON.parse(jwt.decode(req.headers.token, process.env.secret_code));
+    console.log(typeof token);
     var params = [token.userid];
+    console.log("parms update token", params)
     houseModel.getHouseIdByUserId(params, function(err, results) {
       if(err) {
         res.sendStatus(500);
       } else {
         req.session.regenerate(function() {
-          var userToken = JSON.parse(jwt.decode(encryptedToken, process.env.secret_code));
-          userToken.houseId = results[0].houseId;
-          var encodedJwt = (jwt.encode(JSON.stringify(userToken), process.env.secret_code));
+          console.log("RESULTS", results);
+          token.houseId = results[0].houseId;
+          var encodedJwt = (jwt.encode(token, process.env.secret_code));
           req.session.jwt = encodedJwt;
           res.json(encodedJwt);
         });
       }
     });
-  }
+  },
+
+  updateAfterLeaveHouse: function(req, res) {
+    var token = JSON.parse(jwt.decode(req.headers.token, process.env.secret_code));
+    token.houseId = null;
+    var encodedToken = jwt.encode(token, process.env.secret_code);
+    res.json(encodedToken);
+  } 
 };

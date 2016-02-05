@@ -19,7 +19,7 @@ module.exports = {
   },
 
   createHouse: function(req, res) {
-    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
+    var token = JSON.parse(jwt.decode(req.headers.token, process.env.secret_code));
 
     //extract house name from req.body
     var name = req.body.name
@@ -49,13 +49,12 @@ module.exports = {
   },
 
   updateUserHouseId: function(req, res) {
-    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
-    //need a way to send houseId with the user. We have a param
-    //from the route, maybe we can send the houseId as data
-    //and extract it from req.body. First set params to userId
+    var token = JSON.parse(jwt.decode(req.headers.token, process.env.secret_code));
+    
     var houseId = req.body.houseId;
     var userId = token.userid;
     var params = [houseId, userId];
+    console.log("PARAMS", params);
     houseModel.updateHouseUserList(params, function(err, results) {
       if(err) {
         res.sendStatus(500);
@@ -76,7 +75,7 @@ module.exports = {
     })
   },
   getHouseCode: function(req, res) {
-    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
+    var token = JSON.parse(jwt.decode(req.headers.token, process.env.secret_code));
     var params = [token.houseId];
     console.log(params);
     houseModel.getHouseToken(params, function(err, results) {

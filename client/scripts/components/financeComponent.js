@@ -35,7 +35,11 @@ var FinanceContainer = React.createClass({
   },
 
   componentDidMount: function() {
-    this.loadData();
+    if (this.props.initialLoad) {
+      setTimeout(this.loadData, 500);
+    } else {
+      this.loadData();
+    }
     socket.on('bill', this.loadData);
   },
 

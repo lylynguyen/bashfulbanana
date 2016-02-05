@@ -98,8 +98,9 @@ module.exports = function(app, express) {
   app.use('/registration', Auth.checkUser, express.static('client/registration'));
 
   app.get('/obie', function(req, res) {
-    res.send(JSON.stringify(req.session.jwt));
-  })
+    res.send(req.session.jwt);
+  });
+  app.get('/obie/updateLeaveHouse', tokenController.updateAfterLeaveHouse);
 
 
   app.get('/obie/tokenChange', tokenController.updateToken);

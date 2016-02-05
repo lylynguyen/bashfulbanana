@@ -3,7 +3,7 @@ var jwt = require('jwt-simple');
 
 module.exports = {
   getUsersInHouse: function (req, res) {
-    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
+    var token = JSON.parse(jwt.decode(req.headers.token, process.env.secret_code));
     var params = [token.houseId];
     userModel.getUsersInHouse(params, function(err, results) {
       if (err) {
@@ -64,7 +64,7 @@ module.exports = {
     })
   },
   getUserImage: function(req, res) {
-    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
+    var token = JSON.parse(jwt.decode(req.headers.token, process.env.secret_code));
     var params = token.userid;
     userModel.getUserImage(params, function(err, results) {
       if (err) {
@@ -73,5 +73,19 @@ module.exports = {
         res.json(results);
       }
     })
+<<<<<<< 5de1a1b8bc98c027567008f9177d7549234046ae
+=======
+  },
+  leaveHouse: function(req, res) {
+    var token = JSON.parse(jwt.decode(req.headers.token, process.env.secret_code));
+    var params = [token.userid];
+    userModel.leaveHouse(params, function(err, results) {
+      if (err) {
+        res.sendStatus(500);
+      } else {
+        res.json(results);
+      }
+    })
+>>>>>>> everything functioning except when initially joining a house
   }
 }
