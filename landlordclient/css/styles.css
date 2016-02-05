@@ -344,5 +344,20 @@ div.chore-entry:hover {
   PUT ALL LANDLORD STUFF UNDER HERE
 */
 
+.add-property-button {
+  width: 100%;
+}
 
+.house-name-list {
+  margin-bottom: 0;
+  cursor: pointer;
+}
 
+.house-name-list:hover {
+  font-weight: 800;
+}
+
+.selected-house {
+  font-weight: 800;
+  color: #160098;
+}

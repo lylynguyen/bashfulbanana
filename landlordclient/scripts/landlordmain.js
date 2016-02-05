@@ -157,9 +157,9 @@ var App = React.createClass({
             <div className="side-bar-filler">
               <ImageContainer imageUrl={this.state.imageUrl}  />
               <div>
-                <h3>Your Properties</h3>
-                <LandlordHouses switchHouseView={this.switchHouseView} houses={this.state.landlordHouses} />
-                <button onClick={function(){context.setState({view: "PropertyAdder"})}}>Add House</button>
+                <h3 className="text-center">Your Properties</h3>
+                <LandlordHouses houseName={this.state.houseName} switchHouseView={this.switchHouseView} houses={this.state.landlordHouses} />
+                <button className="btn btn-default add-property-button" onClick={function(){context.setState({view: "PropertyAdder"})}}>Add Property</button>
               </div>
             </div>
           </div>
@@ -178,13 +178,24 @@ var LandlordHouses = React.createClass({
     this.props.switchHouseView(house.id);
   },
 
+// gives class of 'selected-house' to the current house that is being shown
+// will select multiple houses if they have the same name :(
+// can look at changing this to houseid or house token
+  isActive: function(houseName) {
+    var classes = "text-center"
+    if (this.props.houseName === houseName) {
+      classes + ' selected-house';
+    }
+    return classes;
+  },
+
   render: function() {
     var context = this;
     var houseList = this.props.houses.map(function(house, index) {
-      return <li onClick={context.selectHouse.bind(null, house)} key={index} houseInfo={house}>{house.name}</li>
+      return <li className={this.isActive(house.name)} onClick={context.selectHouse.bind(null, house)} key={index} houseInfo={house}><p className="lead house-name-list">{house.name}</p></li>
     })
     return (
-      <ul className="landlord-house-ul">
+      <ul className="landlord-house-ul text-center">
         {houseList}
       </ul>
     )
