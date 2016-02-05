@@ -97,7 +97,8 @@ $(document).ready(function() {
       data: JSON.stringify({houseId: houseId}),
       contentType: 'application/json',
       success: function(data) {
-        updateSession();
+        // updateSession();
+        window.location.href = '/logout';
       },
       error: function(error) {
         console.log('error: ', error);

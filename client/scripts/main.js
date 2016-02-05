@@ -116,7 +116,7 @@ var App = React.createClass({
       success: function(code) {
         // this.updateTokenAfterLeaveHouse();
         localStorage.removeItem('obie');
-        window.location.href="/logout";
+        window.location.href="/registration";
       }.bind(this),
       error: function() {
         console.log('error');
