@@ -73,8 +73,7 @@ module.exports = {
         res.json(results);
       }
     })
-<<<<<<< 5de1a1b8bc98c027567008f9177d7549234046ae
-=======
+
   },
   leaveHouse: function(req, res) {
     var token = JSON.parse(jwt.decode(req.headers.token, process.env.secret_code));
@@ -86,6 +85,5 @@ module.exports = {
         res.json(results);
       }
     })
->>>>>>> everything functioning except when initially joining a house
   }
 }
