@@ -34,7 +34,9 @@ module.exports = {
   },
   getUserImage: function(params, callback) {
     var queryStr = "SELECT userImageUrl, name FROM Users WHERE id=?";
+    console.log('query params: ', params);
     db.query(queryStr, params, function(err, results) {
+      console.log('getting user image and name: ', results);
       callback(err, results);
     });
   }

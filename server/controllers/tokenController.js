@@ -4,10 +4,9 @@ var jwt = require('jwt-simple');
 
 module.exports = {
   updateToken: function(req, res) {
-    var token = JSON.parse(jwt.decode(req.headers.token, process.env.secret_code));
-    console.log(typeof token);
+    var token = (jwt.decode(req.headers.token, process.env.secret_code));
+    console.log('UPDATE TOKEN TOKEN: ', token);
     var params = [token.userid];
-    console.log("parms update token:::::", params)
     houseModel.getHouseIdByUserId(params, function(err, results) {
       if(err) {
         res.sendStatus(500);
@@ -25,8 +24,10 @@ module.exports = {
   },
 
   updateAfterLeaveHouse: function(req, res) {
-    var token = JSON.parse(jwt.decode(req.headers.token, process.env.secret_code));
+    var token = (jwt.decode(req.headers.token, process.env.secret_code));
+    console.log('UPDATE AFTER LEAVE HOUSE TOKEN: ', token);
     token.houseId = null;
+    console.log('UPDATE AFTER LEAVE HOUSE, HOUSEID SHOULD BE NULL, TOKEN: ', token);
     var encodedToken = jwt.encode(token, process.env.secret_code);
     res.send(encodedToken);
   } 

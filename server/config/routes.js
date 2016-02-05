@@ -36,7 +36,7 @@ module.exports = function(app, express) {
       failureRedirect: '/login' //redirect to login eventually
   }), function(req, res) {
     return req.session.regenerate(function() {
-      var token = JSON.parse(jwt.decode(req.user, process.env.secret_code));
+      var token = jwt.decode(req.user, process.env.secret_code);
       req.session.jwt = req.user;
       if(!token.houseId) {
         res.redirect('/registration')

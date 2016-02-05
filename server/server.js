@@ -99,7 +99,7 @@ passport.use(new VenmoStrategy({
                 return done(error);
               } else {
                 jtObj['userid']=body;
-                var jwtObj = jwt.encode(JSON.stringify(jtObj), process.env.secret_code);
+                var jwtObj = jwt.encode(jtObj, process.env.secret_code);
                 return done(null, jwtObj);
               }
           });
@@ -121,7 +121,7 @@ passport.use(new VenmoStrategy({
                 jtObj['userid'] = userId;
                 jtObj['houseId'] = houseId;
                 jtObj['isLandlord'] = isLandlord;
-                var jwtObj = jwt.encode(JSON.stringify(jtObj), process.env.secret_code);
+                var jwtObj = jwt.encode(jtObj, process.env.secret_code);
                 return done(null, jwtObj);
               })
 
