@@ -16,10 +16,8 @@ module.exports = {
   },
   updateLandlordsCurrentHouse: function(req, res) {
     var houseId = req.params.houseId;
-    var reqSessionToken = (jwt.decode(req.session.jwt, process.env.secret_code));
     var obie = (jwt.decode(req.headers.token, process.env.secret_code));
     console.log('UPDATE LANDLORDS CURRENT HOUSE TOKEN: ', obie);
-    console.log('UPDATE LANDLORDS CURRENT HOUSE REQ.SESSION.TOKEN: ', reqSessionToken);
     obie.houseId = +houseId;
     console.log('updated token with different houseId: ', obie);
     console.log("houseId should be number: ", typeof obie.houseId);
