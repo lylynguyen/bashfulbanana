@@ -8,10 +8,12 @@ import NavBar from './components/navbarComponent'
 import MessageContainer from './components/messageComponent'
 import ChoreContainer from './components/choreComponent'
 import FinanceContainer from './components/financeComponent'
+import LandlordMessageContainer from './components/messageLandlordComponent'
 
 var navbar = {};
 navbar.links = [
   {render: "Message", text: "Messages"},
+  {render: "LandlordMessage", text: "Contact Landlord"},
   {render: "Finance", text: "Finances"},
   {render: "Chore", text: "Chores"}
 ];
@@ -211,7 +213,9 @@ var ContentContainer = React.createClass({
       return <ChoreContainer />
     } else if (this.props.view === 'Finances') {
       return <FinanceContainer initialLoad={this.props.initialLoad} />
-    }
+    } else if (this.props.view === 'Contact Landlord') {
+      return <LandlordMessageContainer />
+    } 
   }
 });
 

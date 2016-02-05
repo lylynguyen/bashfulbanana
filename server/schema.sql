@@ -148,11 +148,11 @@ ALTER TABLE `Payment` ADD FOREIGN KEY (userId) REFERENCES `Users` (`id`);
 -- Test Data
 -- ---
 
-INSERT INTO `House` (`id`,`name`) VALUES
-(1,'fun house');
+INSERT INTO `House` (`id`,`name`,`token`) VALUES
+(1,'Landlord House', 'QWERTY123');
 
-INSERT INTO `House` (`id`,`name`) VALUES
-(2,'less fun house');
+INSERT INTO `House` (`id`,`name`,`token`) VALUES
+(2,'less fun house', '12345');
 
 -- INSERT INTO `Users` (`id`,`name`,`password`,`houseId`) VALUES
 -- ('','','','');
