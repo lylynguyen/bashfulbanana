@@ -167,16 +167,16 @@ var ChoreForm = React.createClass({
       <div>
         <form className="message-form form-group" ref='choreForm' onSubmit={this.localSubmit}>
           <label htmlFor="chore-input">Chore Details</label>
-          <input type="text" name='chore' className="form-control" ref='choreName' placeholder="Chore"/>
+          <input type="text" name='chore' className="form-control" ref='choreName' placeholder="Chore" required/>
           <div className="chore-div chore-input-left col-xs-4">
           <label htmlFor="user-id">Username</label>
-            <select className="form-control username-input" ref='userId'>
+            <select className="form-control username-input" ref='userId' required>
               {userList}
             </select>
           </div>
           <div className="chore-div col-xs-4 chore-div-middle">
             <label htmlFor="category">Category</label>
-            <select name="category" id="category" className="form-control" ref="category" >
+            <select name="category" id="category" className="form-control" ref="category" required>
               <option value="kitchen">Kitchen</option>
               <option value="livingroom">Living Room</option>
               <option value="yard">Yard</option>
@@ -189,7 +189,7 @@ var ChoreForm = React.createClass({
           </div>
           <div className="chore-div chore-input-right col-xs-4">
             <label htmlFor="due-date">Due Date</label>
-            <input type="date" className="form-control" ref='dueDate' />
+            <input type="date" className="form-control" ref='dueDate' required/>
           </div>
           <div>
             <button className="btn btn-info submit-message-button text-center" type="submit">Submit</button>
