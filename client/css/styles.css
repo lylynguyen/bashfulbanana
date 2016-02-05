@@ -249,15 +249,14 @@ div.chore-entry:hover {
 .chore-div-middle {
   padding: 0 5px 0 5px;
 }
-
-/*.chore-input-left {
-  float:left;
-}
-
-.chore-input-right {
+.chore-image {
+  height: 40px;
+  width: 40px;
+  margin-top: 25px;
   float: right;
 }
-*/
+
+
 .username-input {
   width: 100%;
 }

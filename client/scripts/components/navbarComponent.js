@@ -72,10 +72,5 @@ navbar.links = [
   {render: "Chore", text: "Chores"}
 ];
 
-// render NavBar
-// ReactDOM.render(
-//   <NavBar {...navbar} />,
-//   document.getElementById("navbar")
-// );
 
 export default NavBar;

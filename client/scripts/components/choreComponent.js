@@ -5,6 +5,17 @@ import h from '../helpers';
 var socket = io();
 
 
+
+var image = {
+  kitchen: "../images/chores/kitchen56.svg",
+  bathroom: "../images/chores/bathroom3.svg",
+  laundryroom: "../images/chores/washing11.svg",
+  pets: "../images/chores/dog56.svg",
+  yard: "../images/chores/flowers12.svg",
+  livingroom: "../images/chores/livingroom8.svg",
+  bedroom: "../images/chores/bedroom3.svg"
+}
+
 var ChoreContainer = React.createClass({
   getInitialState: function () {
     return {
@@ -115,6 +126,7 @@ var ChoreEntry = React.createClass({
           </div>
           <div className="col-xs-6 chore-duedate">
             <p>{this.getDate()}</p>
+            <span><img className="chore-image" src={image[this.props.chore.category]}></img></span>
           </div>
         </div>
         <div className="row">
@@ -155,28 +167,29 @@ var ChoreForm = React.createClass({
       <div>
         <form className="message-form form-group" ref='choreForm' onSubmit={this.localSubmit}>
           <label htmlFor="chore-input">Chore Details</label>
-          <input type="text" name='chore' className="form-control" ref='choreName' placeholder="Chore"/>
+          <input type="text" name='chore' className="form-control" ref='choreName' placeholder="Chore" required/>
           <div className="chore-div chore-input-left col-xs-4">
           <label htmlFor="user-id">Username</label>
-            <select className="form-control username-input" ref='userId'>
+            <select className="form-control username-input" ref='userId' required>
               {userList}
             </select>
           </div>
           <div className="chore-div col-xs-4 chore-div-middle">
             <label htmlFor="category">Category</label>
-            <select name="category" id="category" className="form-control" ref="category" >
+            <select name="category" id="category" className="form-control" ref="category" required>
               <option value="kitchen">Kitchen</option>
-              <option value="living-room">Living Room</option>
+              <option value="livingroom">Living Room</option>
               <option value="yard">Yard</option>
-              <option value="laundry-room">Laundry Room</option>
+              <option value="laundryroom">Laundry Room</option>
               <option value="bathroom">Bathroom</option>
               <option value="bedroom">Bedroom</option>
+              <option value="pets">Pets</option>
               <option value="other">Other</option>
             </select>
           </div>
           <div className="chore-div chore-input-right col-xs-4">
             <label htmlFor="due-date">Due Date</label>
-            <input type="date" className="form-control" ref='dueDate' />
+            <input type="date" className="form-control" ref='dueDate' required/>
           </div>
           <div>
             <button className="btn btn-info submit-message-button text-center" type="submit">Submit</button>
