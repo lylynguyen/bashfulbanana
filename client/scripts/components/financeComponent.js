@@ -35,7 +35,11 @@ var FinanceContainer = React.createClass({
   },
 
   componentDidMount: function() {
-    this.loadData();
+    if (this.props.initialLoad) {
+      setTimeout(this.loadData, 500);
+    } else {
+      this.loadData();
+    }
     socket.on('bill', this.loadData);
   },
 
@@ -214,7 +218,6 @@ var FinanceContainer = React.createClass({
 var BillEntry = React.createClass({
   getDate: function() {
     var date = h.getDate(this.props.bill.dueDate);
-    console.log(date);
     return `${date.month}/${date.day}/${date.year}`;
   },
 

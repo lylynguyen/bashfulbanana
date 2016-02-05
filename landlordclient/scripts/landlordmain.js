@@ -21,12 +21,7 @@ navbar.landlordLinks = [
 var App = React.createClass({
   getInitialState: function() {
     console.log("in the correct one");
-    if (!localStorage.getItem('obie')) {
-      this.getSession();
-    }
     // setTimeout(this.getHouseCode, 500);
-    this.getHousesOwned();
-    this.getUsers();
     return {
       view: 'Pending Bills',
       houseCode: '',
@@ -35,6 +30,10 @@ var App = React.createClass({
       isLandlord: true,
       landlordHouses: [{name: "Robot House", address:"123 road lane", id:4}, {name: "Real World House", address:"466 road street", id: 8}, {name: "Full House", address: "69 road lane", id:5}]
     }
+  },
+
+  componentDidMount: function() {
+    this.getSession();
   },
 
   getHousesOwned: function() {
@@ -92,11 +91,11 @@ var App = React.createClass({
       type: 'GET',
       contentType: 'application/json',
       success: function(session) {
-        console.log('session: ', session);
         localStorage.setItem('obie', session);
         this.getUserImage();
-        // this.getHouseCode();
-        // this.getUsers();
+        this.getHousesOwned();
+        this.getHouseCode();
+        this.getUsers();
       }.bind(this),
       error: function() {
         console.log('error getting session');

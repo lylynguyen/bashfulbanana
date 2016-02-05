@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-
-
   $.ajax({
     url: '/obie/',
     type: 'GET',
@@ -21,18 +19,19 @@ $(document).ready(function() {
       data: JSON.stringify(house),
       contentType: 'application/json',
       success: function(data) {
+        console.log('new house added to the db');
         getHouseToken(data.insertId);
       }
     });
   };
 
   var getSession = function() {
-    localStorage.removeItem('obie');
     $.ajax({
       url: '/obie/',
       type: 'GET',
       contentType: 'application/json',
       success: function(session) {
+        console.log('got initial session from registration page');
         localStorage.setItem('obie', session);
       }.bind(this),
       error: function() {
@@ -48,7 +47,7 @@ $(document).ready(function() {
       headers: {token: localStorage.getItem('obie')},
       contentType: 'application/json',
       success: function(session) {
-        console.log('session: ', session);
+        console.log('updated the session: ', session);
         localStorage.setItem('obie', session);
         window.location.href ='/';
       }.bind(this),
@@ -98,7 +97,8 @@ $(document).ready(function() {
       data: JSON.stringify({houseId: houseId}),
       contentType: 'application/json',
       success: function(data) {
-        updateSession();
+        // updateSession();
+        window.location.href = '/logout';
       },
       error: function(error) {
         console.log('error: ', error);
@@ -129,6 +129,18 @@ $(document).ready(function() {
   // store session:
   getSession();
 
+  // routing to correct form:
+  // landlord
+  $('#show-landlord').on('click', function() {
+    window.location.href = '/registration/landlordRegistration.html'
+  });
+
+  // tenant
+  $('#show-tenant').on('click', function() {
+    $('#create-house-div').show('slow');
+    $('#landlord-or-tenant').hide('slow');
+  });
+
   // create a house
   $('#create-house-submit').on('click', createHouse);
 
@@ -141,6 +153,7 @@ $(document).ready(function() {
     findHouse();
   });
 
+  // tenant
   // show join house div on button click
   $('#join-house-btn').on('click', function(event) {
     event.preventDefault();

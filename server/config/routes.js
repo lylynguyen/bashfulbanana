@@ -36,7 +36,7 @@ module.exports = function(app, express) {
       failureRedirect: '/login' //redirect to login eventually
   }), function(req, res) {
     return req.session.regenerate(function() {
-      var token = JSON.parse(jwt.decode(req.user, process.env.secret_code));
+      var token = jwt.decode(req.user, process.env.secret_code);
       req.session.jwt = req.user;
       if(!token.houseId) {
         res.redirect('/registration')
@@ -60,6 +60,9 @@ module.exports = function(app, express) {
   //Messages
   app.get('/messages', messageController.get);
   app.post('/messages', messageController.post);
+  //Landlord Messages
+  app.get('/messages/landlord', messageController.getLandlordChat)
+  app.post('/messages/landlord', messageController.postToLandlordChat)
 
   //Chores
   app.get('/chores/', choreController.get);
@@ -88,15 +91,17 @@ module.exports = function(app, express) {
   app.get('/properties/view/:houseId', landlordController.updateLandlordsCurrentHouse);
   app.put('/properties/add/:houseToken', landlordController.addProperty);
   app.post('/properties/create', houseController.createHouse);
+  app.put('/property/landlord/house', landlordController.giveLandlordDummyHouseID);
 
   app.use('/login', express.static('client/login'));
   app.use('/', Auth.checkUser, express.static('client'));
   app.use('/landlord', Auth.checkUser, express.static('landlordclient'));
-  app.use('/registration', Auth.checkUser, express.static('client/registration.html'));
+  app.use('/registration', Auth.checkUser, express.static('client/registration'));
 
   app.get('/obie', function(req, res) {
-    res.send(JSON.stringify(req.session.jwt));
-  })
+    res.send(req.session.jwt);
+  });
+  app.get('/obie/updateLeaveHouse', tokenController.updateAfterLeaveHouse);
 
 
   app.get('/obie/tokenChange', tokenController.updateToken);

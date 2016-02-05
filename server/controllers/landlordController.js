@@ -3,8 +3,8 @@ var jwt = require('jwt-simple');
 
 module.exports = {
   getHousesOwned: function (req, res) {
-    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
-    console.log("USER id", token.userid);
+    var token = (jwt.decode(req.headers.token, process.env.secret_code)); 
+    console.log('GET HOUSES OWNED TOKEN: ', token);
     var params = [token.userid];
     landlordModel.getHousesOwned(params, function (err, results) {
       if (err) {
@@ -16,19 +16,37 @@ module.exports = {
   },
   updateLandlordsCurrentHouse: function(req, res) {
     var houseId = req.params.houseId;
-    var obie = JSON.parse(jwt.decode(req.session.jwt, process.env.secret_code));
-    obie.houseId = houseId;
-    res.send(JSON.stringify(jwt.encode(JSON.stringify(obie), process.env.secret_code)));
+    var reqSessionToken = (jwt.decode(req.session.jwt, process.env.secret_code));
+    var obie = (jwt.decode(req.headers.token, process.env.secret_code));
+    console.log('UPDATE LANDLORDS CURRENT HOUSE TOKEN: ', obie);
+    console.log('UPDATE LANDLORDS CURRENT HOUSE REQ.SESSION.TOKEN: ', reqSessionToken);
+    obie.houseId = +houseId;
+    console.log('updated token with different houseId: ', obie);
+    console.log("houseId should be number: ", typeof obie.houseId);
+    res.send(jwt.encode(obie, process.env.secret_code));
   },
+
   addProperty: function(req, res) {
-    var token = JSON.parse(jwt.decode(JSON.parse(req.headers.token), process.env.secret_code));
+    var token = (jwt.decode(req.headers.token, process.env.secret_code));
+    console.log('ADD PROPERTY TOKEN: ', token);
     var params = [token.userid, req.params.houseToken];
-    console.log(params, "PARRAMS")
     landlordModel.addProperty(params, function (err, results) {
       if (err) {
         res.sendStatus(500);
       } else {
         res.json(results);
+      }
+    });
+  },
+  giveLandlordDummyHouseID: function(req, res) {
+    var token = (jwt.decode(req.headers.token, process.env.secret_code));
+    console.log('GIVE LANDLORD DUMMY HOUSE ID TOKEN: ', token);
+    var params = [token.userid];
+    landlordModel.giveLandlordDummyHouseID(params, function(err, results) {
+      if (err) {
+        res.sendStatus(500);
+      } else {
+        res.json(results)
       }
     });
   }

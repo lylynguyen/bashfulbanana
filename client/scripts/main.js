@@ -8,10 +8,12 @@ import NavBar from './components/navbarComponent'
 import MessageContainer from './components/messageComponent'
 import ChoreContainer from './components/choreComponent'
 import FinanceContainer from './components/financeComponent'
+import LandlordMessageContainer from './components/messageLandlordComponent'
 
 var navbar = {};
 navbar.links = [
   {render: "Message", text: "Messages"},
+  {render: "LandlordMessage", text: "Contact Landlord"},
   {render: "Finance", text: "Finances"},
   {render: "Chore", text: "Chores"}
 ];
@@ -24,24 +26,24 @@ navbar.landlordLinks = [
 var App = React.createClass({
   getInitialState: function() {
     console.log('client view');
-    if (!localStorage.getItem('obie')) {
-      this.getSession();
-    }
-    this.getHouseCode();
-    this.getUsers();
     return {
       view: 'Finances',
       houseCode: '',
       users: [],
       houseName: '',
       isLandlord: false,
+      initialLoad: true,
       landlordHouses: [{name: "Robot House", address:"123 road lane", id:4}, {name: "Real World House", address:"466 road street", id: 8}, {name: "Full House", address: "69 road lane", id:5}]
     }
   },
 
+  componentDidMount: function() {
+    this.getSession();
+  },
+
   getUsers: function() {
     $.ajax({
-      url: 'http://localhost:8080/users/',
+      url: '/users/',
       type: 'GET',
       contentType: 'application/json',
       headers: {'token': localStorage.getItem('obie')},
@@ -71,7 +73,7 @@ var App = React.createClass({
   },
 
   getSession: function() {
-    localStorage.removeItem('obie');
+    // localStorage.removeItem('obie');
     $.ajax({
       url: '/obie/',
       type: 'GET',
@@ -79,6 +81,8 @@ var App = React.createClass({
       success: function(session) {
         console.log('session: ', session);
         localStorage.setItem('obie', session);
+        this.state.initialLoad = false;
+        this.setState({initialLoad: this.state.initialLoad});
         this.getUserImage();
         this.getHouseCode();
         this.getUsers();
@@ -104,6 +108,39 @@ var App = React.createClass({
       }
     });
   },
+
+  leaveHouse: function() {
+    $.ajax({
+      url: '/users/leave',
+      type: 'PUT',
+      contentType: 'application/json',
+      headers: {'token': localStorage.getItem('obie')},
+      success: function(code) {
+        // this.updateTokenAfterLeaveHouse();
+        localStorage.removeItem('obie');
+        window.location.href="/registration";
+      }.bind(this),
+      error: function() {
+        console.log('error');
+      }
+    });
+  },
+
+  updateTokenAfterLeaveHouse: function() {
+    $.ajax({
+      url: '/obie/updateLeaveHouse',
+      type: 'GET',
+      headers: {'token': localStorage.getItem('obie')},
+      contentType: 'application/json',
+      success: function(token) {
+        localStorage.setItem('obie', token);
+      }.bind(this),
+      error: function() {
+        console.log('error getting session');
+      }
+    });
+  },
+
   toggleHouseCode: function () {
     $('.toggle-house-code').toggle('slow');
   },
@@ -135,7 +172,7 @@ var App = React.createClass({
             </div>
           </div>
           <div className="col-xs-7 col-md-8 col-lg-8 interface-container main-bar-container">
-            <ContentContainer isLandlord={this.state.isLandlord} view={this.state.view} />
+            <ContentContainer initialLoad={this.state.initialLoad} isLandlord={this.state.isLandlord} view={this.state.view} />
           </div>
         </div>
       </div>
@@ -175,8 +212,10 @@ var ContentContainer = React.createClass({
     } else if (this.props.view === 'Chores') {
       return <ChoreContainer />
     } else if (this.props.view === 'Finances') {
-      return <FinanceContainer />
-    }
+      return <FinanceContainer initialLoad={this.props.initialLoad} />
+    } else if (this.props.view === 'Contact Landlord') {
+      return <LandlordMessageContainer />
+    } 
   }
 });
 

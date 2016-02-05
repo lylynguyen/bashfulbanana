@@ -4,8 +4,7 @@ import $ from 'jquery';
 
 var socket = io();
 
-
-var Notify = React.createClass({
+var LandlordMessageContainer = React.createClass({
 
   getInitialState: function() {
     setTimeout(this.loadMessages, 500);
@@ -20,12 +19,6 @@ var Notify = React.createClass({
     socket.on('message', context.loadMessages);
   },
 
-  componentWillMount: function () {
-    this.loadMessages();
-  },
-
-
-  // get messages for landlord chat
   loadMessages: function() {
     $.ajax({
       url: '/messages/landlord',
@@ -42,7 +35,6 @@ var Notify = React.createClass({
     })
   },
 
-  // send message to landlord chat
   formSubmit: function(message) {
     $.ajax({
       url: '/messages/landlord',
@@ -55,6 +47,7 @@ var Notify = React.createClass({
         socket.emit('message', message);
       }.bind(this)
     });
+
   },
 
   render: function() {
@@ -63,7 +56,7 @@ var Notify = React.createClass({
     })
     return (
       <div className="message-container">
-        <h2 className="text-center">Communicate With Tenants</h2>
+        <h2 className="text-center">Messages</h2>
         <div className="message-list">
           {messageList}
         </div>
@@ -129,5 +122,4 @@ var MessageForm = React.createClass({
   }
 })
 
-
-export default Notify;
+export default LandlordMessageContainer;
