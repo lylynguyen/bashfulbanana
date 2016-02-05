@@ -7,15 +7,17 @@ import NavBar from './components/navbarComponent'
 import HouseInfo from './components/houseInfoComponent'
 import Notify from './components/notifyComponent'
 import PendingBills from './components/pendingBillComponent'
+import HouseSpecificFinance from './components/houseSpecificFinanceComponent'
 import PropertyAdder from './components/addPropertyComponent'
 
 
 var navbar = {};
 
 navbar.landlordLinks = [
-  {render: "Bills", text: "Pending Bills"},
+  {render: "Bills", text: "Finance"},
   {render: "Communication", text: "Notify"},
-  {render: "Info", text: "House Info"}
+  {render: "Info", text: "House Info"},
+  {render: "House Bills", text: "House Bills"}
 ]
 
 var App = React.createClass({
@@ -23,7 +25,7 @@ var App = React.createClass({
     console.log("in the correct one");
     // setTimeout(this.getHouseCode, 500);
     return {
-      view: 'Pending Bills',
+      view: 'Finance',
       houseCode: '',
       users: [],
       houseName: '',
@@ -203,8 +205,8 @@ var Dummy = React.createClass({
 
 var ContentContainer = React.createClass({
   render: function() {
-    if (this.props.view === 'Pending Bills') {
-      return <PendingBills />
+    if (this.props.view === 'Finance') {
+      return <PendingBills view={this.props.view} />
     } else if (this.props.view === 'Notify') {
       return <Notify />
     } else if (this.props.view === 'House Info') {
@@ -213,6 +215,8 @@ var ContentContainer = React.createClass({
       return <Dummy />
     } else if (this.props.view === 'PropertyAdder') {
       return <PropertyAdder getHousesOwned={this.props.getHousesOwned} />
+    } else if (this.props.view === 'House Bills') {
+      return <HouseSpecificFinance />
     }
   }
 });
