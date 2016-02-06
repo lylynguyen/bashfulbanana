@@ -48,7 +48,7 @@ module.exports = {
   },
 
   getHouseToken: function(params, callback) {
-    var queryStr = 'SELECT token, name FROM House WHERE id = ?';
+    var queryStr = 'SELECT token, name, address FROM House WHERE id = ?';
     db.query(queryStr, params, function(err, results) {
       callback(err, results); 
     });

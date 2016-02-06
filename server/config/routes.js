@@ -88,6 +88,7 @@ module.exports = function(app, express) {
 
   //Landlord
   app.get('/properties/owned', Auth.isLoggedInUser, landlordController.getHousesOwned);
+  app.get('/properties/initial', Auth.isLoggedInUser, landlordController.getLandlordPropertyOnLogin);
   app.get('/properties/view/:houseId', Auth.isLoggedInUser, landlordController.updateLandlordsCurrentHouse);
   app.put('/properties/add/:houseToken', Auth.isLoggedInUser, landlordController.addProperty);
   app.post('/properties/create', Auth.isLoggedInUser, houseController.createHouse);

@@ -14,6 +14,20 @@ module.exports = {
       }
     });
   },
+
+  getLandlordPropertyOnLogin: function(req, res) {
+    var token = (jwt.decode(req.headers.token, process.env.secret_code)); 
+    var params = [token.userid];
+    landlordModel.getLandlordPropertyOnLogin(params, function (err, results) {
+      if (err) {
+        console.log('error getting landlord property on login', err);
+        res.sendStatus(500);
+      } else {
+        res.json(results);
+      }
+    });
+  },
+
   updateLandlordsCurrentHouse: function(req, res) {
     var houseId = req.params.houseId;
     var obie = (jwt.decode(req.headers.token, process.env.secret_code));
@@ -21,7 +35,12 @@ module.exports = {
     obie.houseId = +houseId;
     console.log('updated token with different houseId: ', obie);
     console.log("houseId should be number: ", typeof obie.houseId);
-    res.send(jwt.encode(obie, process.env.secret_code));
+    var token = jwt.encode(obie, process.env.secret_code)
+    var response = {
+      token: token,
+      houseId: houseId
+    };
+    res.send(response);
   },
 
   addProperty: function(req, res) {

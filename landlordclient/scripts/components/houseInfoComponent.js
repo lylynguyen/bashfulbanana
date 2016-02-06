@@ -9,7 +9,9 @@ var HouseInfo = React.createClass({
       tenants: []
     }
   },
+
   componentDidMount: function() {
+    console.log('current house passed in: ', this.props.currentHouse);
     this.getUsersInHouse();
   },
 
@@ -34,7 +36,8 @@ var HouseInfo = React.createClass({
     });
     return (
       <div className="message-container">
-        <h2 className="text-center">House Info</h2>
+        <h2 className="text-center">{this.props.currentHouse.name}</h2>
+        <p>{this.props.currentHouse.address}</p>
         <div className="message-list">
           <ul>{tenantList}</ul>
         </div>
@@ -47,9 +50,19 @@ var User = React.createClass({
   render: function() {
     return (
       <li>
-        {this.props.tenant.userImageUrl}
-        {this.props.tenant.name}
-        {this.props.tenant.email}
+        <div className="row">
+          <div className="col-xs-4 col-lg-2">
+             <img className="tenant-image" src={this.props.tenant.userImageUrl} alt=""/>
+          </div>
+          <div className="col-xs-8 col-lg-10">
+            <p>
+              {this.props.tenant.name}
+            </p>
+            <p>
+              {this.props.tenant.email}
+            </p>
+          </div>
+        </div>
       </li>
     )
   }

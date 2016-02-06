@@ -22,13 +22,14 @@ navbar.landlordLinks = [
 
 var App = React.createClass({
   getInitialState: function() {
-    console.log("in the correct one");
-    // setTimeout(this.getHouseCode, 500);
     return {
       view: 'Finance',
       houseCode: '',
       users: [],
       houseName: '',
+      currentHouse: {},
+      houseAddress: '',
+      initialLoad: true,
       isLandlord: true,
       landlordHouses: [{name: "Robot House", address:"123 road lane", id:4}, {name: "Real World House", address:"466 road street", id: 8}, {name: "Full House", address: "69 road lane", id:5}]
     }
@@ -46,8 +47,10 @@ var App = React.createClass({
       headers: {'token': localStorage.getItem('obie')},
       success: function(houses) {
         console.log("HOUSES OWNED", houses);
-        this.state.landlordHouses = houses;
-        this.setState({landlordHouses: this.state.landlordHouses});
+        this.setState({landlordHouses: houses});
+        this.setState({currentHouse: houses[0]});
+        this.setState({initialLoad: false});
+        this.switchHouseView(this.state.currentHouse.id);
       }.bind(this),
       error: function(err) {
         console.log(err);
@@ -87,7 +90,6 @@ var App = React.createClass({
   },
 
   getSession: function() {
-    localStorage.removeItem('obie');
     $.ajax({
       url: '/obie/',
       type: 'GET',
@@ -97,10 +99,7 @@ var App = React.createClass({
         if (!session) {
           window.location.href = '/login';
         }
-        this.getUserImage();
         this.getHousesOwned();
-        this.getHouseCode();
-        this.getUsers();
       }.bind(this),
       error: function() {
         if (!localStorage.getItem('obie')) {
@@ -111,31 +110,21 @@ var App = React.createClass({
     });
   },
 
-  getHouseCode: function() {
-    $.ajax({
-      url: '/housez/code',
-      type: 'GET',
-      contentType: 'application/json',
-      headers: {'token': localStorage.getItem('obie')},
-      success: function(code) {
-        console.log("house code", code);
-        this.setState({houseCode: code[0].token});
-        this.setState({houseName: code[0].name});
-      }.bind(this),
-      error: function() {
-        console.log('error');
-      }
-    });
-  },
   switchHouseView: function(houseId) {
-    console.log("HOUSEIDDDD", houseId);
     $.ajax({
       url: '/properties/view/' + houseId,
       type: 'GET',
       contentType: 'application/json',
       headers: {'token': localStorage.getItem('obie')},
-      success: function(code) {
-        localStorage.setItem('obie', code);
+      success: function(object) {
+        localStorage.setItem('obie', object.token);
+        var currentHouse = this.state.landlordHouses.filter(function(house, index) {
+          return house.id == object.houseId;
+        });
+        console.log('new current house: ', currentHouse);
+        this.setState({currentHouse: currentHouse[0]});
+        this.getUserImage();
+        this.getUsers();
         console.log("GREAT SUCCESS");
         var view = this.state.view;
         this.renderView('Dummy');
@@ -170,7 +159,7 @@ var App = React.createClass({
             </div>
           </div>
           <div className="col-xs-7 col-md-8 col-lg-8 interface-container main-bar-container">
-            <ContentContainer getHousesOwned={this.getHousesOwned} view={this.state.view} />
+            <ContentContainer initialLoad={this.state.initialLoad} getHousesOwned={this.getHousesOwned} view={this.state.view} currentHouse={this.state.currentHouse} />
           </div>
         </div>
       </div>
@@ -180,7 +169,6 @@ var App = React.createClass({
 
 var LandlordHouses = React.createClass({
   selectHouse: function(house) {
-    // console.log(this.props.houseInfo);
     this.props.switchHouseView(house.id);
   },
 
@@ -210,7 +198,8 @@ var LandlordHouses = React.createClass({
 
 var ImageContainer = React.createClass({
   render: function() {
-    return <img height="150" src="https://c1.staticflickr.com/3/2670/3754029973_2b521f68bd_z.jpg?zz=1" />
+    // var imageNumber = Math.floor(Math.random()*23) + 1;
+    return <img height="120px" src={`../images/buildings/building10.png`} />
   }
 });
 
@@ -223,17 +212,17 @@ var Dummy = React.createClass({
 var ContentContainer = React.createClass({
   render: function() {
     if (this.props.view === 'Finance') {
-      return <PendingBills view={this.props.view} />
+      return <PendingBills currentHouse={this.props.currentHouse} initialLoad={this.props.initialLoad} view={this.props.view} />
     } else if (this.props.view === 'Notify') {
-      return <Notify />
+      return <Notify currentHouse={this.props.currentHouse} />
     } else if (this.props.view === 'House Info') {
-      return <HouseInfo />
+      return <HouseInfo currentHouse={this.props.currentHouse} />
     } else if (this.props.view === 'Dummy') {
       return <Dummy />
     } else if (this.props.view === 'PropertyAdder') {
-      return <PropertyAdder getHousesOwned={this.props.getHousesOwned} />
+      return <PropertyAdder currentHouse={this.props.currentHouse} getHousesOwned={this.props.getHousesOwned} />
     } else if (this.props.view === 'House Bills') {
-      return <HouseSpecificFinance />
+      return <HouseSpecificFinance currentHouse={this.props.currentHouse} />
     }
   }
 });
