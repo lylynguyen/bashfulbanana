@@ -246,15 +246,25 @@ div.chore-entry:hover {
   padding: 0;
 }
 
+.chore-complete {
+  float: right;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
 .chore-div-middle {
   padding: 0 5px 0 5px;
 }
 .chore-image {
-  height: 80px;
-  width: 80px;
+  height: 50px;
+  width: 50px;
   margin-top: 10px;
   margin-right: 25px;
   float: right;
+}
+.chore-name {
+  margin-top: 0px;
+  margin-bottom:5px;
 }
 
 

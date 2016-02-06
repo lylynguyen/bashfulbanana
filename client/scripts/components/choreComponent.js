@@ -134,19 +134,25 @@ var ChoreEntry = React.createClass({
   render: function () {
     return (
       <div className="chore-entry">
-          <div className="col-sm-11 col-md-11">
-            <div className="thumbnail">
+      <div className="thumbnail col-sm-12 col-md-12">
+          <div className="col-sm-8 col-md-8">
+            <div >
               <div>
                 <img className="chore-image" src={image[this.props.chore.category]}></img>
               </div>
               <div className="caption">
-                <h3>{this.props.chore.chorename}</h3>
-                <p>{this.props.chore.name}</p>
-                <p>{this.getDate()}</p>
-                <p><button type='button' className='btn btn-info' onClick={this.updateChoreStatus}>Completed</button></p>
+                <span><h4 className="chore-name">{this.props.chore.chorename}</h4> {this.props.chore.name} </span>
+                <span>
+                  {this.getDate()}
+                  
+                </span>
               </div>
             </div>
           </div>
+          <div className="col-sm-4 col-md-4">
+            <button type='button' className='btn btn-info chore-complete' onClick={this.updateChoreStatus}>Completed</button>
+          </div>
+      </div>
       </div>
     )
   }
