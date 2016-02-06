@@ -36,12 +36,6 @@ var App = React.createClass({
     }
   },
 
-  componentWillMount: function() {
-    // if (!localStorage.getItem('obie')) {
-    //   window.location.href = '/login';
-    // }
-  },
-
   componentDidMount: function() {
     this.getSession();
   },
@@ -78,15 +72,15 @@ var App = React.createClass({
   },
 
   getSession: function() {
-    // localStorage.removeItem('obie');
     $.ajax({
       url: '/obie/',
       type: 'GET',
       contentType: 'application/json',
       success: function(session) {
         console.log('session: ', session);
+        console.log('typeof session', session);
         if (!session) {
-          window.location.href = '/login';
+          setTimeout(function() {window.location.href = '/login';}, 5000);
         }
         localStorage.setItem('obie', session);
         this.state.initialLoad = false;
@@ -97,7 +91,8 @@ var App = React.createClass({
       }.bind(this),
       error: function() {
         if (!localStorage.getItem('obie')) {
-          window.location.href = '/login';
+          console.log('no session:')
+          setTimeout(function() {window.location.href = '/login';}, 5000);
         }
         console.log('error getting session');
       }

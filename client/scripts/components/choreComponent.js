@@ -31,11 +31,10 @@ var ChoreContainer = React.createClass({
   },
 
   getUsers: function() {
-    var token = localStorage.getItem('obie');
     $.ajax({
       //eventually need to replace 1 with houseId. 
       url: '/users/',
-      headers: {'token': token},
+      headers: {'token': localStorage.getItem('obie')},
       type: 'GET',
       contentType: 'application/json',
       success: function(users) {
@@ -46,11 +45,10 @@ var ChoreContainer = React.createClass({
   },
 
   loadChores: function () {
-    var token = localStorage.getItem('obie'); 
     $.ajax({
       //eventually need to pass in :houseId instead of 1
       url: '/chores/',
-      headers: {'token': token},
+      headers: {'token': localStorage.getItem('obie')},
       type: 'GET',
       contentType: 'application/json',
       success: function (chores) {

@@ -249,6 +249,7 @@ var BillEntry = React.createClass({
     $.ajax({
       url: '/payment/' + paymentId,
       type: 'PUT',
+      headers: {'token': localStorage.getItem('obie')},
       contentType: 'application/json',
       success: function(data) {
         console.log("payment marked");

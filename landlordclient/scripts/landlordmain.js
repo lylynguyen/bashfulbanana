@@ -94,12 +94,18 @@ var App = React.createClass({
       contentType: 'application/json',
       success: function(session) {
         localStorage.setItem('obie', session);
+        if (!session) {
+          window.location.href = '/login';
+        }
         this.getUserImage();
         this.getHousesOwned();
         this.getHouseCode();
         this.getUsers();
       }.bind(this),
       error: function() {
+        if (!localStorage.getItem('obie')) {
+          window.location.href = '/login';
+        }
         console.log('error getting session');
       }
     });
@@ -192,7 +198,7 @@ var LandlordHouses = React.createClass({
   render: function() {
     var context = this;
     var houseList = this.props.houses.map(function(house, index) {
-      return <li className={this.isActive(house.name)} onClick={context.selectHouse.bind(null, house)} key={index} houseInfo={house}><p className="lead house-name-list">{house.name}</p></li>
+      return <li className={context.isActive(house.name)} onClick={context.selectHouse.bind(null, house)} key={index} houseInfo={house}><p className="lead house-name-list">{house.name}</p></li>
     })
     return (
       <ul className="landlord-house-ul text-center">

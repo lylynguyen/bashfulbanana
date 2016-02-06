@@ -4,6 +4,7 @@ $(document).ready(function() {
     url: '/obie/',
     type: 'GET',
     contentType: 'application/json',
+    headers: {token: localStorage.getItem('obie')},
     success: function(session) {
       localStorage.setItem('obie', session);
     },
@@ -18,6 +19,7 @@ $(document).ready(function() {
       type: 'POST',
       data: JSON.stringify(house),
       contentType: 'application/json',
+      headers: {token: localStorage.getItem('obie')},
       success: function(data) {
         console.log('new house added to the db');
         getHouseToken(data.insertId);
@@ -62,6 +64,7 @@ $(document).ready(function() {
       url: '/houses/token/'+houseId,
       type: 'GET',
       contentType: 'application/json',
+      headers: {token: localStorage.getItem('obie')},
       success: function(data) {
         var token = data[0].token; 
         // alert('Your token is ' + token);
@@ -93,9 +96,9 @@ $(document).ready(function() {
     $.ajax({
       url: '/houses/users',
       type: 'PUT',
-      headers: {token: localStorage.getItem('obie')},
       data: JSON.stringify({houseId: houseId}),
       contentType: 'application/json',
+      headers: {token: localStorage.getItem('obie')},
       success: function(data) {
         // updateSession();
         window.location.href = '/logout';
@@ -114,6 +117,7 @@ $(document).ready(function() {
       url: '/houses/' + houseCode,
       type: 'GET',
       contentType: 'application/json',
+      headers: {token: localStorage.getItem('obie')},
       success: function(houseId) {
         //if successful, want to call updateUserHouseId
         //with appropriate userId, adding the houseId

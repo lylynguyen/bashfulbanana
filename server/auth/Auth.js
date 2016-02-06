@@ -16,14 +16,15 @@ module.exports = {
     }
   }, 
 
-  hasJwt: function(req, res) {
+  // make sure user has a valid token with a userId
+  isLoggedInUser: function(req, res, next) {
     var token = jwt.decode(req.headers.token, process.env.secret_code);
-    if (req.headers.token) {
+    if (token.userid && token.houseId) {
       next();
+    } else if (token.userid) {
+      res.resirect('/registration')
     } else {
-
+      res.redirect('/login')
     }
-  }
-
-  
+  }  
 };

@@ -87,12 +87,11 @@ var houseSpecificFinance = React.createClass({
   },
 
   loadBills: function() {
-    var token = localStorage.getItem('obie'); 
     $.ajax({
       url: '/payment/pay',
       type: 'GET',
       contentType: 'application/json',
-      headers: {'token': token},
+      headers: {'token': localStorage.getItem('obie')},
       success: function(bills) {
         console.log("bills", bills)
         this.state.bills = bills; 
@@ -105,12 +104,11 @@ var houseSpecificFinance = React.createClass({
   },
   
   loadPayments: function () {
-    var token = localStorage.getItem('obie');
     $.ajax({
       url: '/payment/owed',
       type: 'GET',
       contentType: 'application/json',
-      headers: {'token': token},
+      headers: {'token': localStorage.getItem('obie')},
       success: function(payments) {
         this.setState({paymentsOwed: payments});
       }.bind(this),
@@ -178,6 +176,7 @@ var BillEntry = React.createClass({
     $.ajax({
       url: '/payment/' + paymentId,
       type: 'PUT',
+      headers: {'token': localStorage.getItem('obie')},
       contentType: 'application/json',
       success: function(data) {
         console.log("payment marked");

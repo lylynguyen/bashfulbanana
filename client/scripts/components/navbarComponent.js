@@ -20,8 +20,7 @@ var NavBar = React.createClass({
 
 var NavMenu = React.createClass({
   logout: function() {
-    window.localStorage.removeItem('userId');
-    window.localStorage.removeItem('houseId');
+    window.localStorage.removeItem('obie');
     window.location.href = "/logout";
   },
   render: function(){

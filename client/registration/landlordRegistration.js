@@ -4,6 +4,7 @@ $(document).ready(function() {
     url: '/obie/',
     type: 'GET',
     contentType: 'application/json',
+    headers: {token: localStorage.getItem('obie')},
     success: function(session) {
       localStorage.setItem('obie', session);
     },
@@ -18,6 +19,7 @@ $(document).ready(function() {
       type: 'POST',
       data: JSON.stringify(house),
       contentType: 'application/json',
+      headers: {token: localStorage.getItem('obie')},
       success: function(data) {
         getHouseToken(data.insertId);
       }
@@ -61,6 +63,7 @@ $(document).ready(function() {
       url: '/houses/token/'+houseId,
       type: 'GET',
       contentType: 'application/json',
+      headers: {token: localStorage.getItem('obie')},
       success: function(data) {
         var token = data[0].token; 
         // alert('Your token is ' + token);
