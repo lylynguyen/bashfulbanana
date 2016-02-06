@@ -201,7 +201,7 @@ var LandlordHouses = React.createClass({
 
 var ImageContainer = React.createClass({
   render: function() {
-    return <img height="150" src="https://c1.staticflickr.com/3/2670/3754029973_2b521f68bd_z.jpg?zz=1" />
+    return <img height="120px" src="../images/buildings/building10.png" />
   }
 });
 

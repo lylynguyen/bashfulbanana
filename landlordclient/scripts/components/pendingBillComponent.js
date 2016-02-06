@@ -10,23 +10,29 @@ var formatPrice = function(cents) {
 
 var pendingBills = React.createClass({
   getInitialState: function() {
+    return {
+      bills: [],
+      paymentsOwed: [], 
+      billHistory: [],
+      paymentHistory: [],
+      users: [],
+    }
+  },
+
+  componentDidMount: function() {
+    if (this.props.initialLoad) {
+      setTimeout(this.loadData, 500)
+    } else {
+      this.loadData();
+    }
+  },
+
+  loadData: function() {
     this.loadBills();
     this.getUsers(); 
     this.loadPayments();
     this.loadBillHistory();
     this.loadPaymentHistory();
-    var userId = localStorage.getItem('userId');
-    this.userId = userId;
-    return {
-      bills: [],
-      // payments: [],
-      paymentsOwed: [], 
-      billHistory: [],
-      paymentHistory: [],
-      users: [],
-      //eventually need to get real houseId/userId - use Justin's login to query
-      //database with userId to get that user's houseId
-    }
   },
 
   loadBillHistory: function() {
