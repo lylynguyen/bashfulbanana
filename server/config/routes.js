@@ -94,9 +94,9 @@ module.exports = function(app, express) {
   app.put('/property/landlord/house', landlordController.giveLandlordDummyHouseID);
 
   app.use('/login', express.static('client/login'));
-  app.use('/', Auth.checkUser, express.static('client'));
-  app.use('/landlord', Auth.checkUser, express.static('landlordclient'));
-  app.use('/registration', Auth.checkUser, express.static('client/registration'));
+  app.use('/', express.static('client'));
+  app.use('/landlord', express.static('landlordclient'));
+  app.use('/registration', express.static('client/registration'));
 
   app.get('/obie', function(req, res) {
     res.send(req.session.jwt);
