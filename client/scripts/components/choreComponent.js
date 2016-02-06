@@ -115,10 +115,7 @@ var ChoreEntry = React.createClass({
     })
   },
 
-  render: function () {
-    return (
-      <div className="chore-entry">
-        <div className="row">
+/* <div className="row">
           <div className="col-xs-6 chore-id">
             <p>{this.props.chore.chorename}</p>
           </div>
@@ -132,7 +129,30 @@ var ChoreEntry = React.createClass({
             <p>{this.props.chore.name}</p>
           </div>
         </div>
-        <button type='button' className='btn btn-info' onClick={this.updateChoreStatus}>Completed</button>
+        <button type='button' className='btn btn-info' onClick={this.updateChoreStatus}>Completed</button> */
+
+  render: function () {
+    return (
+      <div className="chore-entry">
+      <div className="thumbnail col-sm-12 col-md-12">
+          <div className="col-sm-8 col-md-8">
+            <div >
+              <div>
+                <img className="chore-image" src={image[this.props.chore.category]}></img>
+              </div>
+              <div className="caption">
+                <span><h4 className="chore-name">{this.props.chore.chorename}</h4> {this.props.chore.name} </span>
+                <span>
+                  {this.getDate()}
+                  
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="col-sm-4 col-md-4">
+            <button type='button' className='btn btn-info chore-complete' onClick={this.updateChoreStatus}>Completed</button>
+          </div>
+      </div>
       </div>
     )
   }
@@ -165,7 +185,7 @@ var ChoreForm = React.createClass({
       <div>
         <form className="message-form form-group" ref='choreForm' onSubmit={this.localSubmit}>
           <label htmlFor="chore-input">Chore Details</label>
-          <input type="text" name='chore' className="form-control" ref='choreName' placeholder="Chore" required/>
+          <input maxlength="29" type="text" name='chore' className="form-control" ref='choreName' placeholder="Chore" required/>
           <div className="chore-div chore-input-left col-xs-4">
           <label htmlFor="user-id">Username</label>
             <select className="form-control username-input" ref='userId' required>

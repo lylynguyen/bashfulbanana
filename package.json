@@ -26,6 +26,7 @@
     "express-session": "^1.12.1",
     "fs": "0.0.2",
     "jquery": "^2.2.0",
+    "jquery-validation": "^1.14.0",
     "jwt-simple": "^0.4.1",
     "mysql": "^2.10.0",
     "passport": "^0.3.2",

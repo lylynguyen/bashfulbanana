@@ -61,7 +61,7 @@ DROP TABLE IF EXISTS `Chores`;
 CREATE TABLE `Chores` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `userId` INT,
-  `name` VARCHAR(20) NOT NULL,
+  `name` VARCHAR(30) NOT NULL,
   `category` VARCHAR(20) NOT NULL,
   `completed` TINYINT NOT NULL DEFAULT 0,
   `dueDate` DATE NULL,
