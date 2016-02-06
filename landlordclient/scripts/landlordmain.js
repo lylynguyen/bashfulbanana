@@ -7,15 +7,17 @@ import NavBar from './components/navbarComponent'
 import HouseInfo from './components/houseInfoComponent'
 import Notify from './components/notifyComponent'
 import PendingBills from './components/pendingBillComponent'
+import HouseSpecificFinance from './components/houseSpecificFinanceComponent'
 import PropertyAdder from './components/addPropertyComponent'
 
 
 var navbar = {};
 
 navbar.landlordLinks = [
-  {render: "Bills", text: "Pending Bills"},
+  {render: "Bills", text: "Finance"},
   {render: "Communication", text: "Notify"},
-  {render: "Info", text: "House Info"}
+  {render: "Info", text: "House Info"},
+  {render: "House Bills", text: "House Bills"}
 ]
 
 var App = React.createClass({
@@ -23,7 +25,7 @@ var App = React.createClass({
     console.log("in the correct one");
     // setTimeout(this.getHouseCode, 500);
     return {
-      view: 'Pending Bills',
+      view: 'Finance',
       houseCode: '',
       users: [],
       houseName: '',
@@ -92,12 +94,18 @@ var App = React.createClass({
       contentType: 'application/json',
       success: function(session) {
         localStorage.setItem('obie', session);
+        if (!session) {
+          window.location.href = '/login';
+        }
         this.getUserImage();
         this.getHousesOwned();
         this.getHouseCode();
         this.getUsers();
       }.bind(this),
       error: function() {
+        if (!localStorage.getItem('obie')) {
+          window.location.href = '/login';
+        }
         console.log('error getting session');
       }
     });
@@ -155,9 +163,9 @@ var App = React.createClass({
             <div className="side-bar-filler">
               <ImageContainer imageUrl={this.state.imageUrl}  />
               <div>
-                <h3>Your Properties</h3>
-                <LandlordHouses switchHouseView={this.switchHouseView} houses={this.state.landlordHouses} />
-                <button onClick={function(){context.setState({view: "PropertyAdder"})}}>Add House</button>
+                <h3 className="text-center">Your Properties</h3>
+                <LandlordHouses houseName={this.state.houseName} switchHouseView={this.switchHouseView} houses={this.state.landlordHouses} />
+                <button className="btn btn-default add-property-button" onClick={function(){context.setState({view: "PropertyAdder"})}}>Add Property</button>
               </div>
             </div>
           </div>
@@ -176,13 +184,24 @@ var LandlordHouses = React.createClass({
     this.props.switchHouseView(house.id);
   },
 
+// gives class of 'selected-house' to the current house that is being shown
+// will select multiple houses if they have the same name :(
+// can look at changing this to houseid or house token
+  isActive: function(houseName) {
+    var classes = "text-center"
+    if (this.props.houseName === houseName) {
+      classes + ' selected-house';
+    }
+    return classes;
+  },
+
   render: function() {
     var context = this;
     var houseList = this.props.houses.map(function(house, index) {
-      return <li onClick={context.selectHouse.bind(null, house)} key={index} houseInfo={house}>{house.name}</li>
+      return <li className={context.isActive(house.name)} onClick={context.selectHouse.bind(null, house)} key={index} houseInfo={house}><p className="lead house-name-list">{house.name}</p></li>
     })
     return (
-      <ul className="landlord-house-ul">
+      <ul className="landlord-house-ul text-center">
         {houseList}
       </ul>
     )
@@ -203,8 +222,8 @@ var Dummy = React.createClass({
 
 var ContentContainer = React.createClass({
   render: function() {
-    if (this.props.view === 'Pending Bills') {
-      return <PendingBills />
+    if (this.props.view === 'Finance') {
+      return <PendingBills view={this.props.view} />
     } else if (this.props.view === 'Notify') {
       return <Notify />
     } else if (this.props.view === 'House Info') {
@@ -213,6 +232,8 @@ var ContentContainer = React.createClass({
       return <Dummy />
     } else if (this.props.view === 'PropertyAdder') {
       return <PropertyAdder getHousesOwned={this.props.getHousesOwned} />
+    } else if (this.props.view === 'House Bills') {
+      return <HouseSpecificFinance />
     }
   }
 });

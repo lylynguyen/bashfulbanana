@@ -25,7 +25,6 @@ navbar.landlordLinks = [
 
 var App = React.createClass({
   getInitialState: function() {
-    console.log('client view');
     return {
       view: 'Finances',
       houseCode: '',
@@ -73,13 +72,16 @@ var App = React.createClass({
   },
 
   getSession: function() {
-    // localStorage.removeItem('obie');
     $.ajax({
       url: '/obie/',
       type: 'GET',
       contentType: 'application/json',
       success: function(session) {
         console.log('session: ', session);
+        console.log('typeof session', session);
+        if (!session) {
+          setTimeout(function() {window.location.href = '/login';}, 5000);
+        }
         localStorage.setItem('obie', session);
         this.state.initialLoad = false;
         this.setState({initialLoad: this.state.initialLoad});
@@ -88,6 +90,10 @@ var App = React.createClass({
         this.getUsers();
       }.bind(this),
       error: function() {
+        if (!localStorage.getItem('obie')) {
+          console.log('no session:')
+          setTimeout(function() {window.location.href = '/login';}, 5000);
+        }
         console.log('error getting session');
       }
     });

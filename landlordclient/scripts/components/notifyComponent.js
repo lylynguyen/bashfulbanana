@@ -33,8 +33,8 @@ var Notify = React.createClass({
       contentType: 'application/json',
       headers: {'token': localStorage.getItem('obie')},
       success: function(messages) {
-        this.setState({messages: messages});
-        console.log(messages);
+        this.state.messages = messages;
+        this.setState({messages: this.state.messages});
       }.bind(this),
       error: function(err) {
         console.log(err);

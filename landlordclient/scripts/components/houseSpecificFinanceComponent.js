@@ -8,13 +8,11 @@ var formatPrice = function(cents) {
 };
 
 
-var pendingBills = React.createClass({
+var houseSpecificFinance = React.createClass({
   getInitialState: function() {
     this.loadBills();
     this.getUsers(); 
     this.loadPayments();
-    this.loadBillHistory();
-    this.loadPaymentHistory();
     var userId = localStorage.getItem('userId');
     this.userId = userId;
     return {
@@ -29,35 +27,8 @@ var pendingBills = React.createClass({
     }
   },
 
-  loadBillHistory: function() {
-    $.ajax({
-      url: '/payment/completed',
-      type: 'GET',
-      headers: {'token': localStorage.getItem('obie')},
-      contentType: 'application/json',
-      success: function(bills) {
-        this.state.billHistory = bills;
-        this.setState({billHistory: this.state.billHistory});
-      }.bind(this)
-    });
-  },
-
-  loadPaymentHistory: function() {
-    $.ajax({
-      url: '/payment/completed/owed',
-      headers: {'token': localStorage.getItem('obie')},
-      type: 'GET',
-      contentType: 'application/json',
-      success: function(payments) {
-        this.state.paymentHistory = payments; 
-        this.setState({paymentHistory: this.state.paymentHistory}); 
-      }.bind(this)
-    });
-  },
-
   getUsers: function() {
     $.ajax({
-      //eventually need to replace 1 with houseId. 
       url: '/users/',
       type: 'GET',
       contentType: 'application/json',
@@ -68,16 +39,6 @@ var pendingBills = React.createClass({
       }.bind(this)
     });
   },
-
-  //addBill is a function that will take a new created bill and post it
-  //to the database. However, we don't have that route set up yet,
-  //and need to verify schema as well. This should go in finance container. 
-
-  //userId will be the user who created the bill
-  //total 
-  //name
-  //dueDate
-  //also need info on who owes what for the bill (checklist)
   
   addBill: function(bill) {
     console.log("Add Bill")
@@ -110,14 +71,9 @@ var pendingBills = React.createClass({
   },
 
   createPayments: function(billId) {
-    // event.preventDefault();
     var users = this.state.users;
-    //iterate through users
     for(var i = 0; i < users.length; i++) {
-      //console.log('USER', users[i]);
-      //find the ones selected
       if(users[i].selected === true) {
-        //create payment object
         var payment = {
           billId: billId, //need to figure this out
           userId: users[i].id,
@@ -126,25 +82,16 @@ var pendingBills = React.createClass({
         this.addPayment(payment);
         this.getUsers();
         setTimeout(this.loadPayments, 500);
-        // console.log(users[i]);
-        // console.log('PAYMENT', payment)
       }
     }
   },
 
-  // name
-  // total
-  // dueDate
-  // payee_username
-  // payee_userId
-
   loadBills: function() {
-    var token = localStorage.getItem('obie'); 
     $.ajax({
       url: '/payment/pay',
       type: 'GET',
       contentType: 'application/json',
-      headers: {'token': token},
+      headers: {'token': localStorage.getItem('obie')},
       success: function(bills) {
         console.log("bills", bills)
         this.state.bills = bills; 
@@ -157,12 +104,11 @@ var pendingBills = React.createClass({
   },
   
   loadPayments: function () {
-    var token = localStorage.getItem('obie');
     $.ajax({
       url: '/payment/owed',
       type: 'GET',
       contentType: 'application/json',
-      headers: {'token': token},
+      headers: {'token': localStorage.getItem('obie')},
       success: function(payments) {
         this.setState({paymentsOwed: payments});
       }.bind(this),
@@ -180,31 +126,12 @@ var pendingBills = React.createClass({
     var paymentsOwedList = this.state.paymentsOwed.map(function(item, i) {
       return <PaymentOwedEntry key={i} paymentOwed={item} />
     });
-    var billHistoryList = this.state.billHistory.map(function(item, i) {
-      return <BillHistory key={i} history={item} />
-    });
-    var paymentHistoryList = this.state.paymentHistory.map(function(item, i) {
-      return <PaymentHistory key={i} history={item} />
-    });
     return (
       <div className="finance-container">
-        <h2 className="text-center">Finance</h2>
+        <h2 className="text-center">Pending Charges</h2>
         <div className="finance-list">
           <div className='bill-list'>
-            <h4 className="text-center">Bills Tenant</h4>
             {billList}
-          </div>
-          <div className='payments-owed-list'>
-            <h4 className="text-center">Payments Owed</h4>
-            {paymentsOwedList}
-          </div>
-          <div className='bill-history-list'>
-            <h4 className="text-center">Bill History</h4>
-            {billHistoryList}
-          </div>
-          <div className='payment-history-list'>
-            <h4 className="text-center">Payment History</h4>
-            {paymentHistoryList}
           </div>
         </div>
         <BillForm createPayments={this.createPayments} addPayment={this.addPayment} addBill={this.addBill} users={this.state.users}/>
@@ -280,27 +207,7 @@ var PaymentOwedEntry = React.createClass({
   render: function() {
     return (
       <div>
-        {this.props.paymentOwed.ower} owes you ${this.props.paymentOwed.amount} for {this.props.paymentOwed.billName}
-      </div>
-    )
-  }
-})
-
-var BillHistory = React.createClass({
-  render: function() {
-    return (
-      <div>
-        You paid {this.props.history.whoIsOwed} ${this.props.history.amount} for {this.props.history.billName} 
-      </div>
-    )
-  }
-})
-
-var PaymentHistory = React.createClass({
-  render: function() {
-    return (
-      <div>
-        {this.props.history.ower} paid you ${this.props.history.amount} for {this.props.history.billName}
+        {this.props.paymentOwed.ower} owes you {this.props.paymentOwed.amount} for {this.props.paymentOwed.billName}
       </div>
     )
   }
@@ -467,4 +374,4 @@ var UserEntry = React.createClass({
   }
 })
 
-export default pendingBills;
+export default houseSpecificFinance;

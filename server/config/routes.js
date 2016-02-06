@@ -58,45 +58,45 @@ module.exports = function(app, express) {
   //app.get('/users/house', userController.checkIfUserHasHouse)
 
   //Messages
-  app.get('/messages', messageController.get);
-  app.post('/messages', messageController.post);
+  app.get('/messages', Auth.isLoggedInUser, messageController.get);
+  app.post('/messages', Auth.isLoggedInUser, messageController.post);
   //Landlord Messages
-  app.get('/messages/landlord', messageController.getLandlordChat)
-  app.post('/messages/landlord', messageController.postToLandlordChat)
+  app.get('/messages/landlord', Auth.isLoggedInUser, messageController.getLandlordChat)
+  app.post('/messages/landlord', Auth.isLoggedInUser, messageController.postToLandlordChat)
 
   //Chores
-  app.get('/chores/', choreController.get);
-  app.post('/chores', choreController.post);
-  app.put('/chores/:choreId', choreController.put);
-  app.delete('/chores/:choreId', choreController.delete);
+  app.get('/chores/', Auth.isLoggedInUser, choreController.get);
+  app.post('/chores', Auth.isLoggedInUser, choreController.post);
+  app.put('/chores/:choreId', Auth.isLoggedInUser, choreController.put);
+  app.delete('/chores/:choreId', Auth.isLoggedInUser, choreController.delete);
 
   //Payments
-  app.get('/payment/pay', paymentController.getWhatYouOwe);
-  app.get('/payment/owed', paymentController.getWhatIsOwedToYou);
-  app.get('/payment/completed', paymentController.getWhatYouHavePaid);
-  app.get('/payment/completed/owed', paymentController.getWhatHasBeenPaidToYou);
-  app.post('/payment', paymentController.postPayment);
-  app.post('/payment/bill', paymentController.postBill);
-  app.put('/payment/:paymentId', paymentController.markPaymentAsPaid);
+  app.get('/payment/pay', Auth.isLoggedInUser, paymentController.getWhatYouOwe);
+  app.get('/payment/owed', Auth.isLoggedInUser, paymentController.getWhatIsOwedToYou);
+  app.get('/payment/completed', Auth.isLoggedInUser, paymentController.getWhatYouHavePaid);
+  app.get('/payment/completed/owed', Auth.isLoggedInUser, paymentController.getWhatHasBeenPaidToYou);
+  app.post('/payment', Auth.isLoggedInUser, paymentController.postPayment);
+  app.post('/payment/bill', Auth.isLoggedInUser, paymentController.postBill);
+  app.put('/payment/:paymentId', Auth.isLoggedInUser, paymentController.markPaymentAsPaid);
 
   //Houses
-  app.post('/houses', houseController.postHouse);
-  app.get('/houses/:token', houseController.getHousebyHouseId);
   app.put('/houses/users', houseController.updateUserHouseId);
-  app.get('/houses/token/:houseId', houseController.getHouseToken);
-  app.get('/housez/code', houseController.getHouseCode);
+  app.get('/houses/:token', houseController.getHousebyHouseId);
+  app.post('/houses', houseController.postHouse);
+  app.get('/houses/token/:houseId', Auth.isLoggedInUser, houseController.getHouseToken);
+  app.get('/housez/code', Auth.isLoggedInUser, houseController.getHouseCode);
 
   //Landlord
-  app.get('/properties/owned', landlordController.getHousesOwned);
-  app.get('/properties/view/:houseId', landlordController.updateLandlordsCurrentHouse);
-  app.put('/properties/add/:houseToken', landlordController.addProperty);
-  app.post('/properties/create', houseController.createHouse);
-  app.put('/property/landlord/house', landlordController.giveLandlordDummyHouseID);
+  app.get('/properties/owned', Auth.isLoggedInUser, landlordController.getHousesOwned);
+  app.get('/properties/view/:houseId', Auth.isLoggedInUser, landlordController.updateLandlordsCurrentHouse);
+  app.put('/properties/add/:houseToken', Auth.isLoggedInUser, landlordController.addProperty);
+  app.post('/properties/create', Auth.isLoggedInUser, houseController.createHouse);
+  app.put('/property/landlord/house', Auth.isLoggedInUser, landlordController.giveLandlordDummyHouseID);
 
   app.use('/login', express.static('client/login'));
-  app.use('/', Auth.checkUser, express.static('client'));
-  app.use('/landlord', Auth.checkUser, express.static('landlordclient'));
-  app.use('/registration', Auth.checkUser, express.static('client/registration'));
+  app.use('/', express.static('client'));
+  app.use('/landlord', express.static('landlordclient'));
+  app.use('/registration', express.static('client/registration'));
 
   app.get('/obie', function(req, res) {
     res.send(req.session.jwt);
