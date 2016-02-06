@@ -153,7 +153,7 @@ var App = React.createClass({
               <ImageContainer imageUrl={this.state.imageUrl}  />
               <div>
                 <h3 className="text-center">Your Properties</h3>
-                <LandlordHouses houseName={this.state.houseName} switchHouseView={this.switchHouseView} houses={this.state.landlordHouses} />
+                <LandlordHouses currentHouse={this.state.currentHouse} switchHouseView={this.switchHouseView} houses={this.state.landlordHouses} />
                 <button className="btn btn-default add-property-button" onClick={function(){context.setState({view: "PropertyAdder"})}}>Add Property</button>
               </div>
             </div>
@@ -175,10 +175,11 @@ var LandlordHouses = React.createClass({
 // gives class of 'selected-house' to the current house that is being shown
 // will select multiple houses if they have the same name :(
 // can look at changing this to houseid or house token
-  isActive: function(houseName) {
-    var classes = "text-center"
-    if (this.props.houseName === houseName) {
-      classes + ' selected-house';
+  isActive: function(houseId) {
+    var classes = "lead house-name-list"
+    console.log(this.props.currentHouse, houseId);
+    if (this.props.currentHouse.id === houseId) {
+      classes = classes + ' selected-house';
     }
     return classes;
   },
@@ -186,7 +187,7 @@ var LandlordHouses = React.createClass({
   render: function() {
     var context = this;
     var houseList = this.props.houses.map(function(house, index) {
-      return <li className={context.isActive(house.name)} onClick={context.selectHouse.bind(null, house)} key={index} houseInfo={house}><p className="lead house-name-list">{house.name}</p></li>
+      return <li className="text-center" onClick={context.selectHouse.bind(null, house)} key={index} houseInfo={house}><p className={context.isActive(house.id)}>{house.name}</p></li>
     })
     return (
       <ul className="landlord-house-ul text-center">
@@ -199,7 +200,7 @@ var LandlordHouses = React.createClass({
 var ImageContainer = React.createClass({
   render: function() {
     // var imageNumber = Math.floor(Math.random()*23) + 1;
-    return <img height="120px" src={`../images/buildings/building10.png`} />
+    return <img height="120px" src={`../images/buildings/building23.png`} />
   }
 });
 
