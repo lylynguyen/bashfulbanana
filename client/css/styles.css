@@ -250,9 +250,10 @@ div.chore-entry:hover {
   padding: 0 5px 0 5px;
 }
 .chore-image {
-  height: 40px;
-  width: 40px;
-  margin-top: 25px;
+  height: 80px;
+  width: 80px;
+  margin-top: 10px;
+  margin-right: 25px;
   float: right;
 }
 

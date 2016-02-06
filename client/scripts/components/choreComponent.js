@@ -115,10 +115,7 @@ var ChoreEntry = React.createClass({
     })
   },
 
-  render: function () {
-    return (
-      <div className="chore-entry">
-        <div className="row">
+/* <div className="row">
           <div className="col-xs-6 chore-id">
             <p>{this.props.chore.chorename}</p>
           </div>
@@ -132,7 +129,24 @@ var ChoreEntry = React.createClass({
             <p>{this.props.chore.name}</p>
           </div>
         </div>
-        <button type='button' className='btn btn-info' onClick={this.updateChoreStatus}>Completed</button>
+        <button type='button' className='btn btn-info' onClick={this.updateChoreStatus}>Completed</button> */
+
+  render: function () {
+    return (
+      <div className="chore-entry">
+          <div className="col-sm-11 col-md-11">
+            <div className="thumbnail">
+              <div>
+                <img className="chore-image" src={image[this.props.chore.category]}></img>
+              </div>
+              <div className="caption">
+                <h3>{this.props.chore.chorename}</h3>
+                <p>{this.props.chore.name}</p>
+                <p>{this.getDate()}</p>
+                <p><button type='button' className='btn btn-info' onClick={this.updateChoreStatus}>Completed</button></p>
+              </div>
+            </div>
+          </div>
       </div>
     )
   }
@@ -165,7 +179,7 @@ var ChoreForm = React.createClass({
       <div>
         <form className="message-form form-group" ref='choreForm' onSubmit={this.localSubmit}>
           <label htmlFor="chore-input">Chore Details</label>
-          <input type="text" name='chore' className="form-control" ref='choreName' placeholder="Chore" required/>
+          <input maxlength="29" type="text" name='chore' className="form-control" ref='choreName' placeholder="Chore" required/>
           <div className="chore-div chore-input-left col-xs-4">
           <label htmlFor="user-id">Username</label>
             <select className="form-control username-input" ref='userId' required>
