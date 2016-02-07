@@ -26,7 +26,6 @@
     // if token in local storage
     if (localStorage.getItem('obie')) {
       // update session on server using current local storage
-      alert('has local storage')
       $.ajax({
         url: '/obie/update',
         type: 'GET',
@@ -35,7 +34,6 @@
         success: function(token) {
           localStorage.setItem('obie', token)
           console.log('shoudl be a token: ', token);
-          alert('new token');
           redirect();
         },
         error: function() {
@@ -44,8 +42,6 @@
       })
     } else {
       // get session on server
-      alert('NO local storage')
-
       $.ajax({
         url: '/obie/',
         type: 'GET',
