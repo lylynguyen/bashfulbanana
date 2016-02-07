@@ -178,6 +178,9 @@ div.message-entry:hover {
 /*
   Chore Container Styles
 */
+.chore-date {
+  font-size: 12px;
+}
 
 .chore-header {
   padding-bottom: 30px;
@@ -271,6 +274,9 @@ div.chore-entry:hover {
 }
 .chore-name {
   margin-top: 0px;
+  margin-bottom:5px;
+}
+.chore-name-user {
   margin-bottom:5px;
 }
 
