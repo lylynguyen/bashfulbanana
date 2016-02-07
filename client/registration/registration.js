@@ -13,19 +13,6 @@ $(document).ready(function() {
     }
   });
 
-  var addHouse = function(house) {
-    $.ajax({
-      url: '/houses',
-      type: 'POST',
-      data: JSON.stringify(house),
-      contentType: 'application/json',
-      headers: {token: localStorage.getItem('obie')},
-      success: function(data) {
-        console.log('new house added to the db');
-        getHouseToken(data.insertId);
-      }
-    });
-  };
 
   var getSession = function() {
     $.ajax({
@@ -66,8 +53,9 @@ $(document).ready(function() {
       contentType: 'application/json',
       headers: {token: localStorage.getItem('obie')},
       success: function(data) {
+        console.log(token);
         var token = data[0].token; 
-        // alert('Your token is ' + token);
+        alert('Your token is ' + token);
         $('#house-code').val(token); 
       },
       error: function(error) {
@@ -90,7 +78,19 @@ $(document).ready(function() {
     addHouse(house);
   };
 
-  
+  var addHouse = function(house) {
+    $.ajax({
+      url: '/houses',
+      type: 'POST',
+      data: JSON.stringify(house),
+      contentType: 'application/json',
+      headers: {token: localStorage.getItem('obie')},
+      success: function(data) {
+        console.log('new house added to the db');
+        getHouseToken(data.insertId);
+      }
+    });
+  };
   
   var updateUserHouseId = function(houseId) {
     $.ajax({
@@ -156,6 +156,10 @@ $(document).ready(function() {
     }
     findHouse();
   });
+
+
+
+
 
   // tenant
   // show join house div on button click

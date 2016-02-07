@@ -79,16 +79,17 @@ module.exports = function(app, express) {
   app.put('/houses/users', houseController.updateUserHouseId);
   app.get('/houses/:token', houseController.getHousebyHouseId);
   app.post('/houses', houseController.postHouse);
-  app.get('/houses/token/:houseId', Auth.isLoggedInUser, houseController.getHouseToken);
-  app.get('/housez/code', Auth.isLoggedInUser, houseController.getHouseCode);
+  app.get('/houses/token/:houseId', houseController.getHouseToken);
+  app.get('/housez/code', houseController.getHouseCode);
 
   //Landlord
-  app.get('/properties/owned', Auth.isLoggedInUser, landlordController.getHousesOwned);
-  app.get('/properties/initial', Auth.isLoggedInUser, landlordController.getLandlordPropertyOnLogin);
-  app.get('/properties/view/:houseId', Auth.isLoggedInUser, landlordController.updateLandlordsCurrentHouse);
-  app.put('/properties/add/:houseToken', Auth.isLoggedInUser, landlordController.addProperty);
-  app.post('/properties/create', Auth.isLoggedInUser, houseController.createHouse);
-  app.put('/property/landlord/house', Auth.isLoggedInUser, landlordController.giveLandlordDummyHouseID);
+  app.get('/properties/owned', landlordController.getHousesOwned);
+  app.get('/properties/initial', landlordController.getLandlordPropertyOnLogin);
+  app.get('/properties/view/:houseId', landlordController.updateLandlordsCurrentHouse);
+  app.put('/properties/add/:houseToken', landlordController.addProperty);
+  app.post('/properties/create', houseController.createHouse);
+  app.put('/property/landlord/house', landlordController.giveLandlordDummyHouseID);
+  app.get('/property/landlord/tokenUpdate', landlordController.updateLandlordsToken);
 
   app.get('/direct', Auth.decodeJwt, function(req, res) {
     console.log('has token: ', req.user);

@@ -55,6 +55,7 @@ module.exports = {
       }
     });
   },
+
   giveLandlordDummyHouseID: function(req, res) {
     var token = (jwt.decode(req.headers.token, process.env.secret_code));
     console.log('GIVE LANDLORD DUMMY HOUSE ID TOKEN: ', token);
@@ -66,5 +67,15 @@ module.exports = {
         res.json(results)
       }
     });
+  },
+
+  updateLandlordsToken: function(req,res) {
+    var token = (jwt.decode(req.headers.token, process.env.secret_code));
+    token.isLandlord = 1;
+    var encodedToken = (jwt.encode(token, process.env.secret_code));
+    res.json(encodedToken);
   }
 }
+
+
+

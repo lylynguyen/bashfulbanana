@@ -36,7 +36,10 @@ var App = React.createClass({
   },
 
   componentDidMount: function() {
-    this.getSession();
+    // this.getSession();
+    this.getHousesOwned();
+    this.getUsers();
+    this.getUserImage();
   },
 
   getHousesOwned: function() {
