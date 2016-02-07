@@ -279,10 +279,20 @@ var BillEntry = React.createClass({
 }); 
 
 var PaymentOwedEntry = React.createClass({
+  getDate: function() {
+    var date = h.getDate(this.props.paymentOwed.dueDate);
+    return `${date.month}/${date.day}/${date.year}`;
+  },
   render: function() {
     return (
-      <div>
-        {this.props.paymentOwed.ower} owes you ${this.props.paymentOwed.amount} for {this.props.paymentOwed.billName}
+      <div className="bill-entry-container">
+        <div className="row">
+          <div className="col-xs-8">
+            <p><span className="who-is-owed">{this.props.paymentOwed.ower}</span> owes you </p> 
+            <p><span className="who-is-owed">{formatPrice(this.props.paymentOwed.amount * 100)}</span> for <span className="who-is-owed">{this.props.paymentOwed.billName}</span></p>
+            <p> by {this.getDate()}</p>
+          </div>
+        </div>
       </div>
     )
   }

@@ -196,12 +196,8 @@ var pendingBills = React.createClass({
       <div className="finance-container">
         <h2 className="text-center">Finance</h2>
         <div className="finance-list">
-          <div className='bill-list'>
-            <h4 className="text-center">Bills Tenant</h4>
-            {billList}
-          </div>
           <div className='payments-owed-list'>
-            <h4 className="text-center">Payments Owed</h4>
+            <h4 className="text-center">Pending Payments</h4>
             {paymentsOwedList}
           </div>
           <div className='bill-history-list'>

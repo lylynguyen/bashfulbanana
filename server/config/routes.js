@@ -9,6 +9,7 @@ var Auth = require('../auth/Auth.js');
 var passport = require('passport');
 var session = require('express-session');
 var jwt = require('jwt-simple');
+var request = require('request');
 
 
 
@@ -38,13 +39,7 @@ module.exports = function(app, express) {
     return req.session.regenerate(function() {
       var token = jwt.decode(req.user, process.env.secret_code);
       req.session.jwt = req.user;
-      if(!token.houseId) {
-        res.redirect('/registration')
-      } else if (!token.isLandlord) {
-        res.redirect('/');
-      } else if (token.isLandlord) {
-        res.redirect('/landlord');
-      }
+      res.redirect('/saveToken')
     });
   });
 
@@ -55,6 +50,7 @@ module.exports = function(app, express) {
   app.post('/users', userController.postUser);
   app.put('/users', userController.putUser);
   app.get('/users/images', userController.getUserImage);
+  app.get('/users/houseId', userController.getHouseIdwithUserId)
   //app.get('/users/house', userController.checkIfUserHasHouse)
 
   //Messages
@@ -94,13 +90,68 @@ module.exports = function(app, express) {
   app.post('/properties/create', Auth.isLoggedInUser, houseController.createHouse);
   app.put('/property/landlord/house', Auth.isLoggedInUser, landlordController.giveLandlordDummyHouseID);
 
+  app.get('/direct', Auth.decodeJwt, function(req, res) {
+    console.log('has token: ', req.user);
+    if (!req.user || !req.user.userid) {
+      console.log('redirect to login')
+      res.json('login');
+    } else if (!req.user.houseId) {
+      console.log('redirect to registration')
+      res.json('registration');
+    } else if (req.user.isLandlord) {
+      console.log('redirect to landlord') 
+      res.json('landlord');
+    } else if (!req.user.isLandlord) {
+      console.log('redirect to tenant')
+      res.json('tenant');
+    } else {
+      res.sendStatus(404);
+    }
+  });
+
+  app.use('/saveToken', express.static('client/auth'));
   app.use('/login', express.static('client/login'));
-  app.use('/', express.static('client'));
+  // add middleware
+    // if landlord redirect to /landlord
+    // if user call next()
+    // if neither, send to login
+  app.use('/', function(req, res, next) {
+    console.log('hit root..');
+    next();
+  }, express.static('client/auth'));
+  app.use('/tenant', express.static('client'));
+  // add similar middleware here
   app.use('/landlord', express.static('landlordclient'));
   app.use('/registration', express.static('client/registration'));
 
   app.get('/obie', function(req, res) {
     res.send(req.session.jwt);
+  });
+  app.get('/obie/update', function(req, res) {
+    console.log('HIT GET: OBIE/UPDATE')
+    var token = jwt.decode(req.headers.token, process.env.secret_code);
+
+    if (!token.houseId) {
+      request({
+        url: process.env.Base_URL +'/users/houseId',
+        method: 'GET',
+        headers: {token: req.headers.token}
+      }, function(error, response, body) {
+        console.log('body: ', body);
+        token.houseId = JSON.parse(body)[0].houseId;
+        console.log('new token, should have houseId: ', token);
+        console.log('2... new token, should have houseId: ', token);
+        var encodedToken = jwt.encode(token, process.env.secret_code);
+        req.session.regenerate(function() {
+          req.session.jwt = encodedToken;
+        });
+        res.json(encodedToken);
+      });
+    } else {
+      var encodedToken = jwt.encode(token, process.env.secret_code);
+      res.json(encodedToken);
+    }
+
   });
   app.get('/obie/updateLeaveHouse', tokenController.updateAfterLeaveHouse);
 

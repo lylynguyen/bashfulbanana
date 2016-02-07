@@ -101,7 +101,7 @@ $(document).ready(function() {
       contentType: 'application/json',
       success: function(data) {
         console.log('updated landlord houseid');
-        window.location.href = '/logout';
+        window.location.href = '/';
       },
       error: function(error) {
         console.log('error: ', error);

@@ -7,13 +7,13 @@ var socket = io();
 
 
 var image = {
-  kitchen: "../images/chores/kitchen56.svg",
-  bathroom: "../images/chores/bathroom3.svg",
-  laundryroom: "../images/chores/washing11.svg",
-  pets: "../images/chores/dog56.svg",
-  yard: "../images/chores/flowers12.svg",
-  livingroom: "../images/chores/livingroom8.svg",
-  bedroom: "../images/chores/bedroom3.svg"
+  kitchen: "./images/chores/kitchen56.svg",
+  bathroom: "./images/chores/bathroom3.svg",
+  laundryroom: "./images/chores/washing11.svg",
+  pets: "./images/chores/dog56.svg",
+  yard: "./images/chores/flowers12.svg",
+  livingroom: "./images/chores/livingroom8.svg",
+  bedroom: "./images/chores/bedroom3.svg"
 }
 
 var ChoreContainer = React.createClass({

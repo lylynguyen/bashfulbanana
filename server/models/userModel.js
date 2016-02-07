@@ -39,6 +39,12 @@ module.exports = {
       console.log('getting user image and name: ', results);
       callback(err, results);
     });
+  },
+  getHouseIdwithUserId: function(params, callback) {
+    var queryStr = "SELECT houseId from Users where id=?";
+    db.query(queryStr, params, function(err, results) {
+      callback(err, results);
+    });
   }
 }
 

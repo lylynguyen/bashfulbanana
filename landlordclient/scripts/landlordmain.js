@@ -200,7 +200,7 @@ var LandlordHouses = React.createClass({
 var ImageContainer = React.createClass({
   render: function() {
     // var imageNumber = Math.floor(Math.random()*23) + 1;
-    return <img height="120px" src={`../images/buildings/building23.png`} />
+    return <img height="120px" src={`./images/buildings/building23.png`} />
   }
 });
 

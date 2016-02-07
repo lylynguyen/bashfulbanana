@@ -101,7 +101,7 @@ $(document).ready(function() {
       headers: {token: localStorage.getItem('obie')},
       success: function(data) {
         // updateSession();
-        window.location.href = '/logout';
+        window.location.href = '/';
       },
       error: function(error) {
         console.log('error: ', error);
