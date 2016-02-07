@@ -141,9 +141,9 @@ var ChoreEntry = React.createClass({
                 <img className="chore-image" src={image[this.props.chore.category]}></img>
               </div>
               <div className="caption">
-                <span><h4 className="chore-name">{this.props.chore.chorename}</h4> {this.props.chore.name} </span>
-                <span>
-                  {this.getDate()}
+                <span><h4 className="chore-name">{this.props.chore.chorename}</h4> <p className="chore-name-user">{this.props.chore.name}</p> </span>
+                <span >
+                  <p className="chore-date">{this.getDate()}</p>
                   
                 </span>
               </div>
