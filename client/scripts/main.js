@@ -37,7 +37,16 @@ var App = React.createClass({
   },
 
   componentDidMount: function() {
-    this.getSession();
+    // this.getSession();
+    this.getUserImage();
+    this.getHouseCode();
+    this.getUsers();
+  },
+
+  componentWillMount: function() {
+    if (!localStorage.getItem('obie')) {
+      window.location.href = '/login';
+    }
   },
 
   getUsers: function() {
@@ -79,9 +88,9 @@ var App = React.createClass({
       success: function(session) {
         console.log('session: ', session);
         console.log('typeof session', session);
-        if (!session) {
-          setTimeout(function() {window.location.href = '/login';}, 5000);
-        }
+        // if (!session) {
+        //   window.location.href = '/login';
+        // }
         localStorage.setItem('obie', session);
         this.state.initialLoad = false;
         this.setState({initialLoad: this.state.initialLoad});
@@ -90,10 +99,10 @@ var App = React.createClass({
         this.getUsers();
       }.bind(this),
       error: function() {
-        if (!localStorage.getItem('obie')) {
-          console.log('no session:')
-          setTimeout(function() {window.location.href = '/login';}, 5000);
-        }
+        // if (!localStorage.getItem('obie')) {
+        //   console.log('no session:')
+        //   window.location.href = '/login';
+        // }
         console.log('error getting session');
       }
     });
@@ -201,7 +210,7 @@ var LandlordHouses = React.createClass({
 
 var ImageContainer = React.createClass({
   render: function() {
-    return <img height="120px" src="../images/buildings/building10.png" />
+    return <img height="120px" src="./images/buildings/building23.png" />
   }
 });
 

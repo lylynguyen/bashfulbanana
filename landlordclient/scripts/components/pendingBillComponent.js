@@ -196,12 +196,8 @@ var pendingBills = React.createClass({
       <div className="finance-container">
         <h2 className="text-center">Finance</h2>
         <div className="finance-list">
-          <div className='bill-list'>
-            <h4 className="text-center">Bills Tenant</h4>
-            {billList}
-          </div>
           <div className='payments-owed-list'>
-            <h4 className="text-center">Payments Owed</h4>
+            <h4 className="text-center">Pending Payments</h4>
             {paymentsOwedList}
           </div>
           <div className='bill-history-list'>
@@ -213,7 +209,6 @@ var pendingBills = React.createClass({
             {paymentHistoryList}
           </div>
         </div>
-        <BillForm createPayments={this.createPayments} addPayment={this.addPayment} addBill={this.addBill} users={this.state.users}/>
       </div>
     )
   }
@@ -307,142 +302,6 @@ var PaymentHistory = React.createClass({
     return (
       <div>
         {this.props.history.ower} paid you ${this.props.history.amount} for {this.props.history.billName}
-      </div>
-    )
-  }
-})
-
-var BillForm = React.createClass({
-  getInitialState: function() {
-    return {
-      splitEvenly: false
-    }
-  },
-  splitEvenly: function(event) {
-    event.preventDefault();
-    console.log("SPLIT EVENLY");
-    //access this.refs.amount.value
-    var amount = this.refs.total.value;
-    //divide total by number of roommates 
-    var costPerUser = amount/this.props.users.length;
-    var costPerUser = Math.ceil(costPerUser * 100) / 100;
-    //iterate through users
-    for(var i = 0; i < this.props.users.length; i++) {
-      //set the user total to costPerUser
-      this.props.users[i].total = costPerUser;
-      //invert selected property
-      this.props.users[i].selected = true;
-    };
-    console.log('USERS', this.props.users);
-    this.createBill();
-  },
-  customSplit: function(event) {
-    event.preventDefault();
-    console.log("CUSTOM SPLIT");
-    var updateSplitEvenly = this.state.splitEvenly ? false : true;
-    if (this.state.splitEvenly) {
-      updateSplitEvenly = false;
-      $('.interface-container').css('min-height', '330px')
-    } else {
-      updateSplitEvenly = true;
-      $('.interface-container').css('min-height', '590px')
-    }
-    this.setState({
-      splitEvenly: updateSplitEvenly
-    });
-  },
-  createBill: function(event) {
-    //prevent default event action
-    console.log("CREATE BILL");
-    if (event) {
-      event.preventDefault();
-    }
-    var totalsArray = this.props.users.map(function(item, i) {
-      return parseInt(item.total); 
-    });
-    var customTotal = totalsArray.reduce(function(acc, curr) {
-      if (!curr) {
-        curr = 0;
-      }
-      return acc += curr; 
-    }, 0); 
-    //var userId = localStorage.getItem('userId');
-    //create bill object based on user input
-    var bill = {
-      //on top of these, need access to the userId of
-      //the person who created and access to all of the
-      //users checked on the form and what they owe.
-      //think about creating separate payment objects
-      //in a different payment function for these. 
-      //userId: userId,
-      total: this.refs.total.value,
-      name: this.refs.name.value,
-      dueDate: this.refs.dueDate.value
-    };
-    if(customTotal !== parseInt(bill.total)) {
-      // $('<div id="failure" class="alert alert-danger"><strong>Nerd!</strong> Get better at math.</div>').insertBefore('#bill-submit');
-      $('#failure').show();
-    } else {
-      //call addBill with this object. 
-      this.props.addBill(bill); 
-      //reset input fields
-      this.refs.billForm.reset();
-      $( "#failure" ).hide();
-      this.state.splitEvenly = false;
-      // this.setState({
-      //   splitEvenly: this.state.splitEvenly
-      // });
-      // $('.interface-container').css('min-height', '330px')
-    }
-  },
-
-  render: function() {
-    var userList = this.props.users.map(function(item, i) {
-      item.selected = false; 
-      return <UserEntry key={i} user={item} />
-    }); 
-    return (
-      <div className='bill-form'>
-        <form action="submit" ref='billForm' className="form-group form-bottom" onSubmit=''>
-          <div className='input'>
-            <div className="input-group full-width-input">
-              <label htmlFor="bill-name">Bill Name</label>
-              <input type="text" id="bill-name" ref='name' className="form-control" />
-            </div>
-            <div className="row">
-              <div className="col-sm-6">
-                <label htmlFor="bill-amount">Total</label> 
-                <div className="input-group">
-                  <div className="input-group-addon">$</div>
-                  <input type="number" id="bill-amount" ref='total' className="form-control" />
-                </div>
-              </div>
-              <div className="col-sm-6">
-                <div className="input-group">
-                  <label htmlFor="bill-due-date">Due Date</label>
-                  <input type="date" id="bill-due-date" ref='dueDate' className="form-control" />
-                </div>
-              </div>
-            </div>
-            <button className="btn btn-info btn-left" onClick={this.splitEvenly}>Split Evenly</button>
-            <button className="btn btn-info btn-right" onClick={this.customSplit}>Custom Split</button>
-            {this.state.splitEvenly ? <CustomSplitForm createBill={this.createBill} userList={userList} users={this.props.users} /> : null}
-          </div>
-        </form>
-      </div>
-    )
-  }
-});
-
-var CustomSplitForm = React.createClass({
-  render: function() {
-    return (
-      <div className="custom-split-container">
-        <ul className='split-bill-user-list'>
-          {this.props.userList}
-        </ul>
-        <div id="failure" className="alert alert-danger"><strong>Nerd!</strong> Get better at math.</div>
-        <button id='bill-submit' className="btn btn-info" onClick={this.props.createBill}>Submit Bill</button>
       </div>
     )
   }

@@ -90,5 +90,16 @@ module.exports = {
         res.json(results);
       }
     })
+  },
+  getHouseIdwithUserId: function(req, res) {
+    var token = (jwt.decode(req.headers.token, process.env.secret_code));
+    params = [token.userid];
+    userModel.getHouseIdwithUserId(params, function(err, results) {
+      if (err) {
+        res.sendStatus(500);
+      } else {
+        res.json(results);
+      }
+    })
   }
 }

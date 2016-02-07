@@ -101,7 +101,23 @@ $(document).ready(function() {
       contentType: 'application/json',
       success: function(data) {
         console.log('updated landlord houseid');
-        window.location.href = '/logout';
+        updateLandLordToken(); 
+      },
+      error: function(error) {
+        console.log('error: ', error);
+      }
+    });
+  };
+
+  var updateLandLordToken = function() {
+    $.ajax({
+      url: '/property/landlord/tokenUpdate',
+      type: 'GET',
+      contentType: 'application/json',
+      headers: {token: localStorage.getItem('obie')},
+      success: function(data) {
+        localStorage.setItem('obie', data);
+        window.location.href = '/';
       },
       error: function(error) {
         console.log('error: ', error);

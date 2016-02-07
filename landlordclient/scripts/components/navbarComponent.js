@@ -40,7 +40,7 @@ var NavMenu = React.createClass({
     return (
       <ul className="nav navbar-nav flexbox">
         <li className="flex-children">
-          <img src="../../images/obie_logo.png" height="30px" />
+          <img src="./images/obie_logo.png" height="30px" />
         </li>
         {links}
         <li>

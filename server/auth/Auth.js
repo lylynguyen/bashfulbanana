@@ -14,17 +14,75 @@ module.exports = {
     } else {
       next();
     }
-  }, 
+  },
+
+  decodeJwt: function(req, res, next) {
+    console.log('decoding jwt.. req.headers.token: ', req.headers.token);
+    if (!req.headers.token) {
+      console.log('no header, redirecting to /login')
+      res.send('login');
+    } else {
+      console.log('valid header..')
+      var token = jwt.decode(req.headers.token, process.env.secret_code);
+      req.user = token;
+      next();
+    }
+  },
+
+  rootDecodeJwt: function(req, res, next) {
+    console.log('decoding jwt.. req.headers.token: ', req.headers.token);
+    if (!req.headers.token) {
+      console.log('no header, redirecting to /login')
+      res.send('login');
+    } else {
+      console.log('valid header..')
+      var token = jwt.decode(req.headers.token, process.env.secret_code);
+      req.user = token;
+      next();
+    }
+  },
 
   // make sure user has a valid token with a userId
   isLoggedInUser: function(req, res, next) {
     var token = jwt.decode(req.headers.token, process.env.secret_code);
+    // store in token if they're landlord
+    // or change this to query for their status
+    // check if req is an ajax request, send a status code instead
     if (token.userid && token.houseId) {
+      // if (is landlord)
+        // redirect to /landlord
       next();
     } else if (token.userid) {
-      res.resirect('/registration')
+      res.redirect('/registration')
     } else {
       res.redirect('/login')
     }
-  }  
+  },
+
+
+  // middleware to '/'
+  authToTenant: function(req, res, next) {
+    if (!req.user.userId) {
+      res.redirect('/login');
+    } else if (!req.user.houseId) {
+      res.redirect('/registration');
+    } else if (req.user.isLandlord) {
+      res.redirect('/landlord');
+    } else if (!req.user.isLandlord) {
+      next();
+    }
+  },
+
+  // middleware for /landlord
+  authToLandlord: function(req, res, next) {
+    if (!req.user.userId) {
+      res.redirect('/login');
+    } else if (!req.user.houseId) {
+      res.redirect('/registration');
+    } else if (!req.user.isLandlord) {
+      res.redirect('/');
+    } else if (req.user.isLandlord) {
+      next();
+    }
+  }
 };
