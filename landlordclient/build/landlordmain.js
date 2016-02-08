@@ -81,13 +81,13 @@ var PropertyAdder = _react2['default'].createClass({
             { htmlFor: 'house-name' },
             'Property Nickname'
           ),
-          _react2['default'].createElement('input', { className: 'form-control propertyAdder-input', id: 'house-name', ref: 'houseName', type: 'text', placeholder: 'House Name' }),
+          _react2['default'].createElement('input', { className: 'form-control propertyAdder-input', id: 'house-name', ref: 'houseName', type: 'text', placeholder: '4F Grand' }),
           _react2['default'].createElement(
             'label',
             { htmlFor: 'house-address' },
             'Address'
           ),
-          _react2['default'].createElement('input', { className: 'form-control propertyAdder-input', id: 'house-address', ref: 'address', type: 'text', placeholder: 'Address' }),
+          _react2['default'].createElement('input', { className: 'form-control propertyAdder-input', id: 'house-address', ref: 'address', type: 'text', placeholder: '510 Grand Ave, apt 4F, Oakland, CA' }),
           _react2['default'].createElement(
             'button',
             { className: 'btn btn-info', type: 'submit' },
@@ -106,7 +106,12 @@ var PropertyAdder = _react2['default'].createClass({
         _react2['default'].createElement(
           'div',
           { className: 'form-group propertAdder-form' },
-          _react2['default'].createElement('input', { className: 'form-control propertyAdder-input', ref: 'houseCode', type: 'text', placeholder: 'Add House With Token' }),
+          _react2['default'].createElement(
+            'label',
+            { htmlFor: 'house-code' },
+            'Join house with the house code'
+          ),
+          _react2['default'].createElement('input', { className: 'form-control propertyAdder-input', id: 'house-code', ref: 'houseCode', type: 'text', placeholder: 'ex: 52FSEN6NQ9Z' }),
           _react2['default'].createElement(
             'button',
             { className: 'btn btn-info', type: 'submit' },
@@ -561,9 +566,11 @@ var PaymentOwedEntry = _react2['default'].createClass({
       _react2['default'].createElement(
         'p',
         null,
+        _react2['default'].createElement('span', { className: 'glyphicon glyphicon-unchecked' }),
         _react2['default'].createElement(
           'span',
           { className: 'who-is-owed' },
+          ' ',
           this.props.paymentOwed.ower
         ),
         ' owes you',
@@ -36028,4 +36035,3 @@ module.exports = warning;
 
 
 },{"_process":65}]},{},[8])
-
