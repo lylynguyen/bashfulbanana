@@ -1029,7 +1029,7 @@ var Notify = _react2['default'].createClass({
       _react2['default'].createElement(
         'h2',
         { className: 'text-center' },
-        'Communicate with ' + this.props.currentHouse.name
+        'Chat with ' + this.props.currentHouse.name
       ),
       _react2['default'].createElement(
         'div',
@@ -1739,7 +1739,6 @@ var App = _react2['default'].createClass({
   },
 
   componentDidMount: function componentDidMount() {
-    // this.getSession();
     this.getHousesOwned();
     this.getUsers();
     this.getUserImage();
@@ -1868,9 +1867,9 @@ var App = _react2['default'].createClass({
               'div',
               null,
               _react2['default'].createElement(
-                'h3',
+                'h4',
                 { className: 'text-center' },
-                'Your Properties'
+                'Choose Property:'
               ),
               _react2['default'].createElement(LandlordHouses, { currentHouse: this.state.currentHouse, switchHouseView: this.switchHouseView, houses: this.state.landlordHouses }),
               _react2['default'].createElement(
@@ -1937,7 +1936,6 @@ var ImageContainer = _react2['default'].createClass({
   displayName: 'ImageContainer',
 
   render: function render() {
-    // var imageNumber = Math.floor(Math.random()*23) + 1;
     return _react2['default'].createElement('img', { height: '120px', src: './images/buildings/building23.png' });
   }
 });
@@ -36030,3 +36028,4 @@ module.exports = warning;
 
 
 },{"_process":65}]},{},[8])
+
