@@ -303,6 +303,8 @@ var _helpers = require('../helpers');
 
 var _helpers2 = _interopRequireDefault(_helpers);
 
+var socket = io();
+
 var formatPrice = function formatPrice(cents) {
   return '$' + (cents / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
@@ -323,6 +325,7 @@ var houseSpecificFinance = _react2['default'].createClass({
   componentDidMount: function componentDidMount() {
     this.getUsers();
     this.loadPayments();
+    socket.on('bill', this.loadPayments);
   },
 
   getUsers: function getUsers() {
@@ -349,6 +352,7 @@ var houseSpecificFinance = _react2['default'].createClass({
       success: (function (id) {
         this.createPayments(id);
         this.loadBills();
+        socket.emit('bill');
       }).bind(this)
     });
   },
@@ -363,6 +367,7 @@ var houseSpecificFinance = _react2['default'].createClass({
       contentType: 'application/json',
       success: function success(data) {
         // this.loadPayments()
+        socket.emit('bill');
         console.log("payment added");
       }
     });
