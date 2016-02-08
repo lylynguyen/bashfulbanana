@@ -1064,7 +1064,11 @@ var MessageEntry = _react2['default'].createClass({
             'div',
             { className: 'profile-image' },
             _react2['default'].createElement('img', { src: this.props.message.userImageUrl || "http://www.getparade.com/media/imagic/square3.jpg", width: '50px', alt: 'user venmo image' })
-          ),
+          )
+        ),
+        _react2['default'].createElement(
+          'div',
+          { className: 'col-xs-9 message-right-container' },
           _react2['default'].createElement(
             'div',
             { className: 'username' },
@@ -1073,11 +1077,7 @@ var MessageEntry = _react2['default'].createClass({
               null,
               this.props.message.name
             )
-          )
-        ),
-        _react2['default'].createElement(
-          'div',
-          { className: 'col-xs-9 message-right-container' },
+          ),
           _react2['default'].createElement(
             'div',
             { className: 'message-text' },
@@ -36027,5 +36027,6 @@ if (process.env.NODE_ENV !== 'production') {
 module.exports = warning;
 
 }).call(this,require('_process'))
+
 
 },{"_process":65}]},{},[8])
