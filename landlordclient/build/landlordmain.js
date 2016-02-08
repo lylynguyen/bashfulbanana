@@ -67,33 +67,51 @@ var PropertyAdder = _react2['default'].createClass({
       { className: 'message-container' },
       _react2['default'].createElement(
         'form',
-        { ref: 'addProp', onSubmit: this.createHouse },
+        { className: 'propertyAdder-form', ref: 'addProp', onSubmit: this.createHouse },
         _react2['default'].createElement(
-          'h3',
+          'h4',
           null,
-          'Add New Property'
+          'Create / Manage new property'
         ),
-        _react2['default'].createElement('input', { ref: 'houseName', type: 'text', placeholder: 'House Name' }),
-        _react2['default'].createElement('input', { ref: 'address', type: 'text', placeholder: 'Address' }),
         _react2['default'].createElement(
-          'button',
-          { type: 'submit' },
-          'Submit'
+          'div',
+          { className: 'form-group' },
+          _react2['default'].createElement(
+            'label',
+            { htmlFor: 'house-name' },
+            'Property Nickname'
+          ),
+          _react2['default'].createElement('input', { className: 'form-control propertyAdder-input', id: 'house-name', ref: 'houseName', type: 'text', placeholder: 'House Name' }),
+          _react2['default'].createElement(
+            'label',
+            { htmlFor: 'house-address' },
+            'Address'
+          ),
+          _react2['default'].createElement('input', { className: 'form-control propertyAdder-input', id: 'house-address', ref: 'address', type: 'text', placeholder: 'Address' }),
+          _react2['default'].createElement(
+            'button',
+            { className: 'btn btn-info', type: 'submit' },
+            'Submit'
+          )
         )
       ),
       _react2['default'].createElement(
         'form',
-        { ref: 'claimProp', onSubmit: this.addProperty },
+        { className: 'propertyAdder-form', ref: 'claimProp', onSubmit: this.addProperty },
         _react2['default'].createElement(
-          'h3',
+          'h4',
           null,
-          'Manage Existing Property'
+          'Manage existing property'
         ),
-        _react2['default'].createElement('input', { ref: 'houseCode', type: 'text', placeholder: 'Add House With Token' }),
         _react2['default'].createElement(
-          'button',
-          { type: 'submit' },
-          'Submit'
+          'div',
+          { className: 'form-group propertAdder-form' },
+          _react2['default'].createElement('input', { className: 'form-control propertyAdder-input', ref: 'houseCode', type: 'text', placeholder: 'Add House With Token' }),
+          _react2['default'].createElement(
+            'button',
+            { className: 'btn btn-info', type: 'submit' },
+            'Submit'
+          )
         )
       )
     );
@@ -163,7 +181,8 @@ var HouseInfo = _react2['default'].createClass({
       _react2['default'].createElement(
         'h2',
         { className: 'text-center' },
-        this.props.currentHouse.name
+        this.props.currentHouse.name,
+        ' info'
       ),
       _react2['default'].createElement(
         'h4',
