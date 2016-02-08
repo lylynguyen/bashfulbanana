@@ -202,7 +202,7 @@ var HouseInfo = _react2['default'].createClass({
       _react2['default'].createElement(
         'h4',
         { className: 'house-info-header' },
-        'House Code'
+        'Property Code'
       ),
       _react2['default'].createElement(
         'p',
@@ -234,7 +234,7 @@ var HouseInfo = _react2['default'].createClass({
         _react2['default'].createElement(
           'button',
           { className: 'btn btn-danger' },
-          'Remove House'
+          'Remove Property'
         )
       )
     );
