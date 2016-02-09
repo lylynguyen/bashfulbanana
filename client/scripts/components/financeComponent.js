@@ -333,7 +333,7 @@ var BillForm = React.createClass({
       this.props.users[i].selected = true;
     };
     console.log('USERS', this.props.users);
-    this.createBill();
+    this.createBill(null, true);
   },
   customSplit: function(event) {
     event.preventDefault();
@@ -350,14 +350,14 @@ var BillForm = React.createClass({
       splitEvenly: updateSplitEvenly
     });
   },
-  createBill: function(event) {
+  createBill: function(event, splitEvenly) {
     //prevent default event action
-    console.log("CREATE BILL");
+    console.log("CREATE BILL, split evenly: ", splitEvenly);
     if (event) {
       event.preventDefault();
     }
     var totalsArray = this.props.users.map(function(item, i) {
-      return parseInt(item.total); 
+      return parseFloat(item.total); 
     });
     var customTotal = totalsArray.reduce(function(acc, curr) {
       if (!curr) {
@@ -365,6 +365,7 @@ var BillForm = React.createClass({
       }
       return acc += curr; 
     }, 0); 
+    //var userId = localStorage.getItem('userId');
     //create bill object based on user input
     var bill = {
       //on top of these, need access to the userId of
@@ -373,11 +374,12 @@ var BillForm = React.createClass({
       //think about creating separate payment objects
       //in a different payment function for these. 
       //userId: userId,
-      total: roundPrice(this.refs.total.value),
+      total: this.refs.total.value,
       name: this.refs.name.value,
       dueDate: this.refs.dueDate.value
     };
-    if(customTotal !== parseInt(bill.total)) {
+    if(!splitEvenly && customTotal !== parseFloat(bill.total)) {
+      console.log('custom total: ', customTotal);
       // $('<div id="failure" class="alert alert-danger"><strong>Nerd!</strong> Get better at math.</div>').insertBefore('#bill-submit');
       $('#failure').show();
     } else {
