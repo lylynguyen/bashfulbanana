@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import h from '../helpers';
+var socket = io();
 
 var formatPrice = function(cents) {
   return '$' + ( (cents / 100).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
@@ -10,21 +11,19 @@ var formatPrice = function(cents) {
 
 var houseSpecificFinance = React.createClass({
   getInitialState: function() {
-    this.loadBills();
-    this.getUsers(); 
-    this.loadPayments();
-    var userId = localStorage.getItem('userId');
-    this.userId = userId;
     return {
       bills: [],
-      // payments: [],
       paymentsOwed: [], 
       billHistory: [],
       paymentHistory: [],
-      users: [],
-      //eventually need to get real houseId/userId - use Justin's login to query
-      //database with userId to get that user's houseId
+      users: []
     }
+  },
+
+  componentDidMount: function() {
+    this.getUsers(); 
+    this.loadPayments();
+    socket.on('bill', this.loadPayments);
   },
 
   getUsers: function() {
@@ -51,6 +50,7 @@ var houseSpecificFinance = React.createClass({
       success: function(id) {
         this.createPayments(id)
         this.loadBills();
+        socket.emit('bill');
       }.bind(this)
     });
   },
@@ -65,6 +65,7 @@ var houseSpecificFinance = React.createClass({
       contentType: 'application/json',
       success: function(data) {
         // this.loadPayments()
+        socket.emit('bill');
         console.log("payment added");
       }
     });
@@ -105,11 +106,12 @@ var houseSpecificFinance = React.createClass({
   
   loadPayments: function () {
     $.ajax({
-      url: '/payment/owed',
+      url: '/payment/owed/' + this.props.currentHouse.id,
       type: 'GET',
       contentType: 'application/json',
       headers: {'token': localStorage.getItem('obie')},
       success: function(payments) {
+        console.log('found payments: ', payments);
         this.setState({paymentsOwed: payments});
       }.bind(this),
       error: function(err) {
@@ -128,10 +130,10 @@ var houseSpecificFinance = React.createClass({
     });
     return (
       <div className="finance-container">
-        <h2 className="text-center">Pending Charges</h2>
+        <h3 className="text-center">{this.props.currentHouse.name}: Pending Charges</h3>
         <div className="finance-list">
           <div className='bill-list'>
-            {billList}
+            {paymentsOwedList}
           </div>
         </div>
         <BillForm createPayments={this.createPayments} addPayment={this.addPayment} addBill={this.addBill} users={this.state.users}/>
@@ -204,10 +206,17 @@ var BillEntry = React.createClass({
 }); 
 
 var PaymentOwedEntry = React.createClass({
+  getDate: function() {
+    var date = h.getDate(this.props.paymentOwed.dueDate);
+    console.log(date);
+    return `${date.month}/${date.day}/${date.year}`;
+  },
   render: function() {
     return (
-      <div>
-        {this.props.paymentOwed.ower} owes you {this.props.paymentOwed.amount} for {this.props.paymentOwed.billName}
+      <div className="bill-entry-container">
+        <p><span className="glyphicon glyphicon-unchecked"></span><span className="who-is-owed"> {this.props.paymentOwed.ower}</span> owes you
+        <span className="who-is-owed"> {formatPrice(this.props.paymentOwed.amount * 100)}</span> for <span className="who-is-owed">{this.props.paymentOwed.billName}</span></p>
+        <p> by {this.getDate()}</p>
       </div>
     )
   }
@@ -307,8 +316,8 @@ var BillForm = React.createClass({
         <form action="submit" ref='billForm' className="form-group form-bottom" onSubmit=''>
           <div className='input'>
             <div className="input-group full-width-input">
-              <label htmlFor="bill-name">Bill Name</label>
-              <input type="text" id="bill-name" ref='name' className="form-control" />
+              <label htmlFor="bill-name">New Bill Name:</label>
+              <input type="text" id="bill-name" ref='name' placeholder="October Rent" className="form-control" />
             </div>
             <div className="row">
               <div className="col-sm-6">

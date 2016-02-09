@@ -9,7 +9,7 @@ module.exports = {
     // var token = JSON.parse(jwt.decode(req.headers.token, process.env.secret_code));
     var token = jwt.decode(req.headers.token, process.env.secret_code);
     console.log('GET WHAT YOU OWE TOKEN: ', token);
-    var params = [token.userid];
+    var params = [token.userid, token.userid];
     models.getWhatYouOwe(params, function(err, bills) {
       if (err) {
         res.sendStatus(404);
@@ -23,7 +23,7 @@ module.exports = {
     var token = jwt.decode(req.headers.token, process.env.secret_code);
     // var token = JSON.parse(jwt.decode(req.headers.token, process.env.secret_code));
     console.log('GET WHAT IS OWED TO YOU TOKEN: ', token);
-    var params = [token.userid];
+    var params = [token.userid, token.userid];
     models.getWhatIsOwedToYou(params, function(err, paymentOwed) {
       if (err) {
         res.sendStatus(404);
@@ -117,5 +117,19 @@ module.exports = {
     request.post('https://api.venmo.com/v1/payments', {form: obj}, function(e, r, venmo_receipt){
         res.json(venmo_receipt);
     });
+  }, 
+
+  getPaymentsByHouseId: function(req, res) {
+    var token = jwt.decode(req.headers.token, process.env.secret_code);
+    var params = [token.userid, req.params.houseId];
+    console.log('get payments by house id for house specific payments, userId  + houseid:', params);
+    models.getPaymentsByHouseId(params, function (err, payment) {
+      if (err) {
+        res.sendStatus(500);
+      } else {
+        res.json(payment);
+      }
+    });
   }
+
 }

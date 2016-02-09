@@ -56,7 +56,7 @@ var LandlordMessageContainer = React.createClass({
     })
     return (
       <div className="message-container">
-        <h2 className="text-center">Messages</h2>
+        <h2 className="text-center">Landlord Chat</h2>
         <div className="message-list">
           {messageList}
         </div>
@@ -81,11 +81,11 @@ var MessageEntry = React.createClass({
             <div className="profile-image">
               <img src={this.props.message.userImageUrl || "http://www.getparade.com/media/imagic/square3.jpg"} width="50px" alt="user venmo image"/>
             </div>
+          </div>
+          <div className="col-xs-9 message-right-container">
             <div className="username">
               <p>{this.props.message.name}</p>
             </div>
-          </div>
-          <div className="col-xs-9 message-right-container">
             <div className="message-text">
               <p>{this.props.message.text}</p>
             </div>

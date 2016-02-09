@@ -66,7 +66,8 @@ $(document).ready(function() {
       headers: {token: localStorage.getItem('obie')},
       success: function(data) {
         var token = data[0].token; 
-        // alert('Your token is ' + token);
+        $('.join-house-alert').show(); 
+        $('.join-house-info').hide();
         $('#house-code').val(token); 
       },
       error: function(error) {
@@ -83,6 +84,10 @@ $(document).ready(function() {
     if (!$('#create-house-form').valid()) {
       return;
     }
+    if (!localStorage.getItem('obie')) {
+      alert('your session expired, please login again to finish registration');
+      window.location.href = '/login';
+    }
     var house = {
       name: $('#house-name').val(),
       address: $('#house-address').val()
@@ -94,6 +99,10 @@ $(document).ready(function() {
   };
 
   var updateLandlordHouseId = function() {
+    if (!localStorage.getItem('obie')) {
+      alert('your session expired, please login again to finish registration');
+      window.location.href = '/login';
+    }
     $.ajax({
       url: '/property/landlord/house',
       type: 'PUT',
@@ -159,27 +168,6 @@ $(document).ready(function() {
       }
     })  
   };
-
-  // var findHouse = function(event) {
-  //   // event.preventDefault();
-  //   var houseCode = $('#house-code').val();
-  //   //get request for house with provided houseCode
-  //   $.ajax({
-  //     url: '/houses/' + houseCode,
-  //     type: 'GET',
-  //     contentType: 'application/json',
-  //     success: function(houseId) {
-  //       //if successful, want to call updateUserHouseId
-  //       //with appropriate userId, adding the houseId
-  //       //Need somewhere to store that id when it comes back. 
-  //       // updateUserHouseId(houseId[0].id); 
-  //       updateHouseWithLandlordId(houseCode);
-  //     },
-  //     error: function(error) {
-  //       console.log('error: ', error);
-  //     }
-  //   });
-  // };
 
   // store session:
   getSession();

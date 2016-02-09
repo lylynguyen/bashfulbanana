@@ -3,7 +3,7 @@ var db = require('../db');
 module.exports = {
   // money the user owes
   getWhatYouOwe: function (params, callback) {
-    var queryStr = "select Bill.name AS billName, Bill.dueDate, Payment.amount, Bill.total, Users.name AS whoIsOwed, Users.email AS whoIsOwedEmail, Payment.id AS paymentId, Bill.id AS billId from Payment left outer join Bill on (Payment.billid=Bill.id) left outer join Users on (Users.id=Bill.userid) where Payment.paid=0 AND Payment.userId=?"
+    var queryStr = "select Bill.name AS billName, Bill.dueDate, Payment.amount, Bill.total, Users.name AS whoIsOwed, Users.email AS whoIsOwedEmail, Payment.id AS paymentId, Bill.id AS billId from Payment left outer join Bill on (Payment.billid=Bill.id) left outer join Users on (Users.id=Bill.userid) where Payment.paid=0 AND Payment.userId=? AND Bill.userId <> ?"
     
     db.query(queryStr, params, function(err, results) {
       callback(err, results);
@@ -11,7 +11,7 @@ module.exports = {
   },
    // payments from other users
   getWhatIsOwedToYou: function (params, callback) {
-    var queryStr = "select Users.name AS ower, Payment.amount, Bill.name AS billName, Bill.dueDate, Bill.id AS billId, Payment.id AS paymentID from Bill left outer join Payment on (Bill.id=Payment.billid) left outer join Users on(Payment.userid=Users.id) where Bill.userId = ? AND Payment.paid=0";
+    var queryStr = "select Users.name AS ower, Payment.amount, Bill.name AS billName, Bill.dueDate, Bill.id AS billId, Payment.id AS paymentID from Bill left outer join Payment on (Bill.id=Payment.billid) left outer join Users on(Payment.userid=Users.id) where Bill.userId = ? AND Payment.userId <> ? AND Payment.paid=0";
 
     db.query(queryStr, params, function(err, results) {
       callback(err, results);
@@ -52,9 +52,18 @@ module.exports = {
   },
 
   markPaymentAsPaid: function(params, callback) {
-    var queryStr = "update Payment SET paid=1 WHERE id=?";
+    var queryStr = "update Payment SET paid=1, datePaid=NOW() WHERE id=?";
     
     db.query(queryStr, params, function (err, results) {
+      callback(err, results)
+    })
+  },
+
+  getPaymentsByHouseId: function(params, callback) {
+    var queryStr = "select Users.name AS ower, Payment.amount, Bill.name AS billName, Bill.dueDate, Bill.id AS billId, Payment.id AS paymentID from Bill left outer join Payment on (Bill.id=Payment.billid) left outer join Users on(Payment.userid=Users.id) where Bill.userId = ? AND Users.houseId = ? AND Payment.paid=0";
+    console.log('get payments by house id for house specific payments');
+    db.query(queryStr, params, function (err, results) {
+      console.log('found these payments: ', results);
       callback(err, results)
     })
   }

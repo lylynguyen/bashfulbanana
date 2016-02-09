@@ -63,7 +63,7 @@ var Notify = React.createClass({
     })
     return (
       <div className="message-container">
-        <h2 className="text-center">{`Communicate with ${this.props.currentHouse.name}`}</h2>
+        <h2 className="text-center">{`Chat with ${this.props.currentHouse.name}`}</h2>
         <div className="message-list">
           {messageList}
         </div>
@@ -74,19 +74,25 @@ var Notify = React.createClass({
 });
 
 var MessageEntry = React.createClass({
+  decideClassName: function() {
+    if (this.props.message.isLandlord) {
+      return " message-entry-landlord"
+    }
+    return "message-entry";
+  },
   render: function() {
     return (
-      <div className="message-entry">
+      <div className={this.decideClassName()}>
         <div className="row">
           <div className="col-xs-3 message-entry-left-box">
             <div className="profile-image">
               <img src={this.props.message.userImageUrl || "http://www.getparade.com/media/imagic/square3.jpg"} width="50px" alt="user venmo image"/>
             </div>
+          </div>
+          <div className="col-xs-9 message-right-container">
             <div className="username">
               <p>{this.props.message.name}</p>
             </div>
-          </div>
-          <div className="col-xs-9 message-right-container">
             <div className="message-text">
               <p>{this.props.message.text}</p>
             </div>

@@ -2,16 +2,26 @@
   margin: 0;
   padding: 0;
 }
-h2 {
+h2, h3 {
   margin: 0;
   padding: 0;
+}
+body {
+  background-color: rgba(98, 133, 151, 0.15); 
+  background-image: url(images/fallback-gradient.png); 
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(98, 133, 151, 0.15)), to(#F2FFFE));
+  background-image: -webkit-linear-gradient(top, rgba(98, 133, 151, 0.15), #F2FFFE); 
+  background-image: -moz-linear-gradient(top, rgba(98, 133, 151, 0.15), #F2FFFE);
+  background-image: -o-linear-gradient(top, rgba(98, 133, 151, 0.15), #F2FFFE);
+  min-height: 100%;
+  height: auto;
 }
 html, body {
   height: 100%;
 }
-body {
-  background-color: #F5F8FA;
-}
+/*body {
+  background-color: rgba(25, 80, 99, 0.2);
+}*/
 #app {
   height: 100%;
   /* enable margin-top-10px for navbar */
@@ -20,8 +30,20 @@ body {
 #bill-due-date {
   width: 100%;
 }
-.side-bar-filler > {
+.side-bar-filler {
+  width: 90%;
+  padding: 10px;
+  padding-top: 20px;
+  height: 100%;
+  border: 1px solid #E1E8ED;
+  border-radius: 5px;
+  background-color: white;
+}
+.side-bar-filler > img {
+  width: 100%;
   border-radius: 20px;
+  border: 3px solid lightgrey;
+  height: inherit
 }
 .app-container {
   /*margin-top: 30px;*/
@@ -34,19 +56,6 @@ body {
 .side-bar-container {
   padding: 0 0 20px 5px;
   height: inherit;
-}
-.side-bar-filler {
-  width: 90%;
-  padding: 10px;
-  height: 100%;
-  border: 1px solid #E1E8ED;
-  border-radius: 5px;
-  background-color: white;
-}
-.side-bar-filler > img {
-  padding-top: 10px;
-  width: 100%;
-  height: inherit
 }
 .main-bar-container {
   background-color: white;
@@ -75,6 +84,7 @@ body {
   width: 50%;
   height: inherit;
   margin: 0 auto;
+  border-radius: 18%;
 }
 .profile-image > .username {
   /*text-align: left;*/
@@ -109,6 +119,12 @@ body {
   height: calc(100% - 180px);
   margin-top: 15px;
 }
+.finance-list-house-specific {
+  margin-top: 15px;
+  height: calc(100% - 50px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 .message-form, .form-bottom, .bill-form {
   background-color: white;
   position: absolute;
@@ -121,15 +137,22 @@ body {
   padding: 5px;
   margin-bottom: 7px;
   background-color: rgba(138, 138, 138, 0.1);
-}
-.message-entry-landlord {
-  background-color: rgba(229, 0, 0, 0.12);
-  width: 100%;
-  padding: 5px;
-  margin-bottom: 7px;
+  border-radius: 10px;
+  padding-bottom: 11px;
 }
 div.message-entry:hover {
   background-color: rgba(0, 0, 0, 0.1);
+}
+.message-entry-landlord {
+  background-color: rgba(229, 0, 0, 0.09);
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 7px;
+  border-radius: 10px;
+  padding-bottom: 11px;
+}
+.message-entry-landlord:hover {
+  background-color: rgba(229, 0, 0, 0.14);
 }
 .message-username {
   font-weight: bold;
@@ -167,6 +190,7 @@ div.message-entry:hover {
 .username > p {
   font-weight: 600;
   font-size:1.1em;
+  margin-bottom: 0;
 }
 .submit-message-button {
     margin-top: 10px;
@@ -278,7 +302,7 @@ div.chore-entry:hover {
   height: 100%;
 }
 .finance-list {
-  max-height: calc(100% - 225px);
+  max-height: calc(100% - 50px);
 }
 .custom-split-container {
   margin-top: 10px;
@@ -303,11 +327,22 @@ div.chore-entry:hover {
 .bill-entry-container {
   background-color: rgba(138, 138, 138, 0.1);
   margin-bottom: 7px;
-  padding: 5px;
+  padding: 7px 9px 5px 10px;
   min-height: 42px;
+  border-radius: 10px;
 }
 .bill-entry-container:hover {
   background-color: rgba(0, 0, 0, 0.1);
+}
+.completed-payment-container {
+  margin-bottom: 7px;
+  padding: 7px 9px 5px 10px;
+  min-height: 42px;
+  border-radius: 10px;
+  background-color: rgba(107, 255, 72, 0.2);
+}
+.completed-payment-container:hover {
+  background-color: rgba(107, 255, 72, 0.3)
 }
 .pay-button {
   float: right;
@@ -354,7 +389,12 @@ div.chore-entry:hover {
 .add-property-button {
   width: 100%;
 }
-
+.house-info-container {
+  position: relative;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
 .house-name-list {
   margin-bottom: 0;
   font-size: 1.2em;
@@ -362,10 +402,33 @@ div.chore-entry:hover {
 }
 
 .house-name-list:hover {
-  font-weight: 800;
+  background-color: rgba(33,67,92,0.8);
+  border: 1px solid grey;
+  border-radius: 10px;
+  color: white;
 }
 
 .selected-house {
-  font-weight: 800;
-  color: #160098;
+  font-weight: 400;
+  background-color: rgba(33,67,92,0.8);
+  border: 1px solid grey;
+  border-radius: 10px;
+  color: white;
+}
+
+.house-info-header {
+  margin-top: 25px;
+}
+.tenant-list {
+  list-style: none;
+}
+.tenant-image {
+  max-width: 50px;
+  max-height: 50px;
+}
+.propertyAdder-form {
+  margin-top: 25px;
+}
+.propertyAdder-input {
+  margin-bottom: 10px;
 }

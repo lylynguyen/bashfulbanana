@@ -55,8 +55,9 @@ $(document).ready(function() {
       success: function(data) {
         console.log(token);
         var token = data[0].token; 
-        alert('Your token is ' + token);
-        $('#house-code').val(token); 
+        $('#house-code').val(token);
+        $('.join-house-alert').show(); 
+        $('.join-house-info').hide();
       },
       error: function(error) {
         console.log('error: ', error);
@@ -70,7 +71,8 @@ $(document).ready(function() {
       return;
     }
     var house = {
-      name: $('#house-name').val()
+      name: $('#house-name').val(),
+      address: $('#house-address').val()
     };
     $('#create-house-div').hide('slow');
     $('#join-house-div').show('slow');
@@ -86,7 +88,6 @@ $(document).ready(function() {
       contentType: 'application/json',
       headers: {token: localStorage.getItem('obie')},
       success: function(data) {
-        console.log('new house added to the db');
         getHouseToken(data.insertId);
       }
     });
@@ -132,6 +133,11 @@ $(document).ready(function() {
 
   // store session:
   getSession();
+
+  
+  if (!localStorage.getItem('obie')) {
+    window.location.href = '/login';
+  }
 
   // routing to correct form:
   // landlord

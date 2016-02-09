@@ -195,14 +195,10 @@ var pendingBills = React.createClass({
     return (
       <div className="finance-container">
         <h2 className="text-center">Finance</h2>
-        <div className="finance-list">
+        <div className="finance-list-house-specific">
           <div className='payments-owed-list'>
             <h4 className="text-center">Pending Payments</h4>
             {paymentsOwedList}
-          </div>
-          <div className='bill-history-list'>
-            <h4 className="text-center">Bill History</h4>
-            {billHistoryList}
           </div>
           <div className='payment-history-list'>
             <h4 className="text-center">Payment History</h4>
@@ -278,10 +274,17 @@ var BillEntry = React.createClass({
 }); 
 
 var PaymentOwedEntry = React.createClass({
+  getDate: function() {
+    var date = h.getDate(this.props.paymentOwed.dueDate);
+    console.log(date);
+    return `${date.month}/${date.day}/${date.year}`;
+  },
   render: function() {
     return (
-      <div>
-        {this.props.paymentOwed.ower} owes you ${this.props.paymentOwed.amount} for {this.props.paymentOwed.billName}
+      <div className="bill-entry-container">
+        <p><span className="glyphicon glyphicon-unchecked"></span><span className="who-is-owed"> {this.props.paymentOwed.ower}</span> owes you 
+        <span className="who-is-owed"> {formatPrice(this.props.paymentOwed.amount * 100)}</span> for <span className="who-is-owed">{this.props.paymentOwed.billName}</span></p>
+        <p> by {this.getDate()}</p>
       </div>
     )
   }
@@ -298,10 +301,17 @@ var BillHistory = React.createClass({
 })
 
 var PaymentHistory = React.createClass({
+  getDate: function() {
+    var date = h.getDate(this.props.history.dueDate);
+    console.log(date);
+    return `${date.month}/${date.day}/${date.year}`;
+  },
   render: function() {
     return (
-      <div>
-        {this.props.history.ower} paid you ${this.props.history.amount} for {this.props.history.billName}
+      <div className="completed-payment-container">
+        <p><span className="glyphicon glyphicon-check"></span><span className="who-is-owed"> {this.props.history.ower}</span> Paid you  
+        <span className="who-is-owed"> {formatPrice(this.props.history.amount * 100)}</span> for <span className="who-is-owed">{this.props.history.billName}</span> </p>
+        <p> on {this.getDate()}</p>
       </div>
     )
   }

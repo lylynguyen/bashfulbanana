@@ -32,7 +32,7 @@ var App = React.createClass({
       houseName: '',
       isLandlord: false,
       initialLoad: true,
-      landlordHouses: [{name: "Robot House", address:"123 road lane", id:4}, {name: "Real World House", address:"466 road street", id: 8}, {name: "Full House", address: "69 road lane", id:5}]
+      landlordHouses: []
     }
   },
 
@@ -88,9 +88,6 @@ var App = React.createClass({
       success: function(session) {
         console.log('session: ', session);
         console.log('typeof session', session);
-        // if (!session) {
-        //   window.location.href = '/login';
-        // }
         localStorage.setItem('obie', session);
         this.state.initialLoad = false;
         this.setState({initialLoad: this.state.initialLoad});
@@ -99,10 +96,6 @@ var App = React.createClass({
         this.getUsers();
       }.bind(this),
       error: function() {
-        // if (!localStorage.getItem('obie')) {
-        //   console.log('no session:')
-        //   window.location.href = '/login';
-        // }
         console.log('error getting session');
       }
     });
@@ -179,10 +172,14 @@ var App = React.createClass({
             <div className="side-bar-filler">
               <ImageContainer imageUrl={this.state.imageUrl}  />
               <div>
-                <h3>{this.state.houseName}</h3>
+                <h3 className="text-center">{this.state.houseName}</h3>
+                <h4>Roommates:</h4>
                 <ul className="sidebar-roommate-ul">{roommates}</ul>
-                <button className="btn btn-info submit-message-button text-center" onClick={this.toggleHouseCode}>Get House Code</button>
-                <p className="toggle-house-code">Your house code is: {this.state.houseCode}</p>
+                <button className="btn btn-info submit-message-button text-center" onClick={this.toggleHouseCode}>Invite Roommates</button>
+                <div className="toggle-house-code">
+                  <p>Share this house code with your roommates</p>
+                  <p className="house-code">{this.state.houseCode}</p>
+                </div>
               </div>
             </div>
           </div>
@@ -210,7 +207,7 @@ var LandlordHouses = React.createClass({
 
 var ImageContainer = React.createClass({
   render: function() {
-    return <img height="120px" src="./images/buildings/building23.png" />
+    return <img className="userImage" height="120px" src={this.props.imageUrl} />
   }
 });
 
