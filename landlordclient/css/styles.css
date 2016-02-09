@@ -27,6 +27,11 @@ html, body {
   /* enable margin-top-10px for navbar */
   /*margin-top: -10px;*/
 }
+
+.full-width {
+  width: 100%;
+}
+
 #bill-due-date {
   width: 100%;
   padding: 0 0 0 5px;
