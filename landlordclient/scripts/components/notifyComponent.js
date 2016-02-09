@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import h from '../helpers.js';
 
 var socket = io();
 
@@ -97,7 +98,7 @@ var MessageEntry = React.createClass({
               <p>{this.props.message.text}</p>
             </div>
             <div className="time-stamp">
-              <p>{this.props.message.time}</p>
+              <p>{h.getDateTime(this.props.message.time).toString()}</p>
             </div>
           </div>
         </div>

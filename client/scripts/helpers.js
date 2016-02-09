@@ -1,3 +1,8 @@
+var options = {
+    weekday: "long", year: "numeric", month: "short",
+    day: "numeric", hour: "2-digit", minute: "2-digit"
+};
+
 module.exports = {
   getDate: function(dateString) {
     var dateArray = dateString.split('-');
@@ -9,6 +14,7 @@ module.exports = {
     }
   },
   getDateTime: function(dateTimeString) {
-    return 'hi';
+    var utcString=dateTimeString+" UTC";
+    return new Date(utcString).toLocaleTimeString("en-us", options);
   }
 }
