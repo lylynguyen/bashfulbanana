@@ -8,12 +8,13 @@ var socket = io();
 
 var image = {
   kitchen: "./images/chores/kitchen56.svg",
-  bathroom: "./images/chores/bathroom3.svg",
+  bathroom: "./images/chores/toilet1.svg",
   laundryroom: "./images/chores/washing11.svg",
-  pets: "./images/chores/dog56.svg",
+  pets: "./images/chores/dog65.svg",
   yard: "./images/chores/flowers12.svg",
   livingroom: "./images/chores/livingroom8.svg",
-  bedroom: "./images/chores/bedroom3.svg"
+  bedroom: "./images/chores/bedroom3.svg",
+  other: "./images/chores/garage5.svg"
 }
 
 var ChoreContainer = React.createClass({
@@ -162,7 +163,7 @@ var ChoreForm = React.createClass({
     });
     return (
       <div>
-        <form className="message-form form-group" ref='choreForm' onSubmit={this.localSubmit}>
+        <form id="choreform" className="message-form form-group" ref='choreForm' onSubmit={this.localSubmit}>
           <label htmlFor="chore-input">Chore Details</label>
           <input maxLength="29" type="text" name='chore' className="form-control" ref='choreName' placeholder="Chore" required/>
           <div className="chore-div chore-input-left col-xs-4">
