@@ -407,20 +407,20 @@ var BillForm = React.createClass({
           <div className='input'>
             <div className="input-group full-width-input">
               <label htmlFor="bill-name">Bill Name</label>
-              <input type="text" id="bill-name" ref='name' className="form-control" />
+              <input maxLength="29" type="text" id="bill-name" ref='name' className="form-control" required/>
             </div>
             <div className="row">
               <div className="col-sm-6">
                 <label htmlFor="bill-amount">Total</label> 
                 <div className="input-group">
                   <div className="input-group-addon">$</div>
-                  <input type="number" id="bill-amount" ref='total' className="form-control" />
+                  <input type="number" id="bill-amount" ref='total' className="form-control" required/>
                 </div>
               </div>
               <div className="col-sm-6">
                 <div className="input-group">
                   <label htmlFor="bill-due-date">Due Date</label>
-                  <input type="date" id="bill-due-date" ref='dueDate' className="form-control" />
+                  <input type="date" id="bill-due-date" ref='dueDate' className="form-control" required/>
                 </div>
               </div>
             </div>

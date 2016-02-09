@@ -198,5 +198,4 @@ var ChoreForm = React.createClass({
   }
 })
 
-// $("#choreform").validate();
 export default ChoreContainer;
