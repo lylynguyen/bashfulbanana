@@ -329,7 +329,7 @@ var BillForm = React.createClass({
                 </div>
               </div>
               <div className="col-sm-6">
-                <div className="input-group">
+                <div className="input-group full-width">
                   <label htmlFor="bill-due-date">Due Date</label>
                   <input type="date" id="bill-due-date" ref='dueDate' className="form-control" required/>
                 </div>
