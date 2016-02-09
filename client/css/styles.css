@@ -29,6 +29,7 @@ html, body {
 }
 #bill-due-date {
   width: 100%;
+  padding: 0 0 0 5px;
 }
 .side-bar-filler > {
   border-radius: 20px;
