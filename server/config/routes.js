@@ -5,6 +5,9 @@ var userController = require('../controllers/userController.js');
 var houseController = require('../controllers/houseController.js');
 var tokenController = require('../controllers/tokenController.js');
 var landlordController = require('../controllers/landlordController.js');
+var mobileMessageController = require('../controllers/mobileMessageController.js')
+var mobileChoreController = require('../controllers/mobileChoreController.js')
+var mobileUserController = require('../controllers/mobileUserController.js')
 var Auth = require('../auth/Auth.js');
 var passport = require('passport');
 var session = require('express-session');
@@ -42,7 +45,20 @@ module.exports = function(app, express) {
       res.redirect('/saveToken')
     });
   });
+
+  // //mobile messages
+  // app.get('/api/mobile/messages', mobileMessageController.get);
+  // app.post('/api/mobile/messages', mobileMessageController.post);
+
+  // //mobile chores
+  // app.get('/api/mobile/chores', mobileChoreController.get);
+  // app.post('/api/mobile/chores', mobileChoreController.post);
+  // app.put('/api/mobile/chores/:choreId', mobileChoreController.put);
+  // app.delete('/api/mobile/chores/:choreId', mobileChoreController.delete);
+
   
+  //mobile user
+  app.get('/api/mobile/users/:email', mobileUserController.getUserHouseIdWithEmail);
   //Users
   app.get('/users/', userController.getUsersInHouse);
   app.get('/users/venmo/:venmoId', userController.findUserByVenmoId);
