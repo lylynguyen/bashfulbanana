@@ -148,7 +148,7 @@ var App = React.createClass({
     var context = this;
     return (
       <div>
-        <NavBar {...navbar} isLandlord={this.state.isLandlord} changeView={this.renderView} />
+        <NavBar {...navbar} isLandlord={this.state.isLandlord} view={this.state.view} changeView={this.renderView} />
         <div className="app-container col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
           <div className="col-xs-5 col-md-4 col-lg-4 side-bar-container">
             <div className="side-bar-filler">

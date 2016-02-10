@@ -2,15 +2,35 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import h from '../helpers';
+var socket = io();
 
 // create classes
 var NavBar = React.createClass({
+  getInitialState: function() {
+    return {
+      newLandlordMessages: 0
+    }
+  },
+  resetCount: function(view) {
+    if (view === "Notify") {
+      this.setState({newLandlordMessages: 0});
+    }
+  },
+  componentDidMount: function() {
+    var context = this;
+    socket.on('llmessage', function() {
+      if (context.props.view !== "Notify") {
+        context.state.newLandlordMessages++;
+        context.setState({newLandlordMessages: context.state.newLandlordMessages});
+      }  
+    });
+  },
   render: function(){
     return(
       <nav className="navbar navbar-default">
         <div className="container-fluid col-xs-10 col-xs-offset-1 col-md-8 col-md-offset-2 col-lg-6 col-lg-offset-3">
           <div className="navbar-header">
-            <NavMenu changeView={this.props.changeView} links={this.props.isLandlord ? this.props.landlordLinks : this.props.links} />
+            <NavMenu resetCount={this.resetCount} count={this.state.newLandlordMessages} changeView={this.props.changeView} links={this.props.isLandlord ? this.props.landlordLinks : this.props.links} />
           </div>
         </div>
       </nav>
@@ -24,6 +44,7 @@ var NavMenu = React.createClass({
     window.location.href = "/logout";
   },
   render: function(){
+    var context = this;
     var changeView = this.props.changeView;
     var links = this.props.links.map(function(link, i){
       if(link.dropdown) {
@@ -33,7 +54,7 @@ var NavMenu = React.createClass({
       }
       else {
         return (
-          <NavLink changeView={changeView} className="flex-children" linkTo={link.linkTo} key={i} text={link.text} render={link.render} />
+          <NavLink count={context.props.count} resetCount={context.props.resetCount} changeView={changeView} className="flex-children" linkTo={link.linkTo} key={i} text={link.text} render={link.render} />
         );
       }
     });
@@ -54,10 +75,16 @@ var NavMenu = React.createClass({
 var NavLink = React.createClass({
   changeView: function() {
     this.props.changeView(this.props.text);
+    this.props.resetCount(this.props.text);
+  },
+  showCount: function(view) {
+    if (view === "Notify" && this.props.count > 0) {
+      return this.props.count
+    }
   },
   render: function(){
     return(
-      <li className="inner-flex"><a onClick={this.changeView}>{this.props.text}</a></li>
+      <li className="inner-flex"><a onClick={this.changeView}>{this.props.text}<span className="notification-count"> {this.showCount(this.props.text)}</span></a></li>
     );
   }
 });
