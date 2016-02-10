@@ -42,7 +42,7 @@ module.exports = function(app, express) {
       res.redirect('/saveToken')
     });
   });
-
+  
   //Users
   app.get('/users/', userController.getUsersInHouse);
   app.get('/users/venmo/:venmoId', userController.findUserByVenmoId);
