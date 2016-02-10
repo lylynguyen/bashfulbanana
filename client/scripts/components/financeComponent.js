@@ -352,6 +352,7 @@ var BillForm = React.createClass({
   },
   createBill: function(event, splitEvenly) {
     //prevent default event action
+    if (splitEvenly !== true) splitEvenly = false;
     console.log("CREATE BILL, split evenly: ", splitEvenly);
     if (event) {
       event.preventDefault();
@@ -378,6 +379,10 @@ var BillForm = React.createClass({
       name: this.refs.name.value,
       dueDate: this.refs.dueDate.value
     };
+
+    console.log("CUSTOM TOTAL", customTotal);
+    console.log("Bill Total", parseFloat(bill.total))
+    console.log("split", splitEvenly);
     if(!splitEvenly && customTotal !== parseFloat(bill.total)) {
       console.log('custom total: ', customTotal);
       // $('<div id="failure" class="alert alert-danger"><strong>Nerd!</strong> Get better at math.</div>').insertBefore('#bill-submit');
