@@ -64,7 +64,6 @@ module.exports = function(app, express) {
     });
   });
 
-  
   //Users
   app.get('/users/', userController.getUsersInHouse);
   app.get('/users/venmo/:venmoId', userController.findUserByVenmoId);
