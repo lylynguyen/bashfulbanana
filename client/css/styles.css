@@ -380,6 +380,10 @@ div.chore-entry:hover {
 .navbar-header {
   width: 100%;
 }
+.notification-count {
+  color: red;
+  font-weight: 600;
+}
 .flexbox {
   width: 100%;
   display: flex;
