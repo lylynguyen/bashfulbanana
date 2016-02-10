@@ -81,7 +81,7 @@ var ChoreContainer = React.createClass({
   render: function() {
     var context = this;
     var choreList = this.state.chores.map(function(item, i) {
-      return <ChoreEntry loadChores={context.loadChores} key={i} chore={item} />
+      return <ChoreEntry name={context.props.name} loadChores={context.loadChores} key={i} chore={item} />
     })
     return (
       <div className="chore-container">
@@ -116,6 +116,11 @@ var ChoreEntry = React.createClass({
     })
   },
 
+  renderButton: function() {
+    if (this.props.name === this.props.chore.name) {
+      return <button type='button' className='btn btn-info chore-complete' onClick={this.updateChoreStatus}>Complete</button>
+    }
+  },
   render: function () {
     return (
       <div className="chore-entry col-sm-12 col-md-12">
@@ -131,7 +136,7 @@ var ChoreEntry = React.createClass({
               <img className="chore-image" src={image[this.props.chore.category]}></img>
           </div>
           <div className="col-sm-4 col-md-4">
-            <button type='button' className='btn btn-info chore-complete' onClick={this.updateChoreStatus}>Complete</button>
+            {this.renderButton()}
           </div>
       </div>
     )

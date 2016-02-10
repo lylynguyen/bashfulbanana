@@ -32,7 +32,8 @@ var App = React.createClass({
       houseName: '',
       isLandlord: false,
       initialLoad: true,
-      landlordHouses: []
+      name: '',
+      id: 0
     }
   },
 
@@ -72,6 +73,7 @@ var App = React.createClass({
       success: function(url) {
         this.state.imageUrl = url[0].userImageUrl || "https://s-media-cache-ak0.pinimg.com/736x/fb/e1/cd/fbe1cdbc1b728fbb5e157375905d576f.jpg";
         this.state.name = url[0].name;
+        this.state.id = url[0].id;
         this.setState({imageUrl: this.state.imageUrl, name: this.state.name});
       }.bind(this),
       error: function() {
@@ -184,7 +186,7 @@ var App = React.createClass({
             </div>
           </div>
           <div className="col-xs-7 col-md-8 col-lg-8 interface-container main-bar-container">
-            <ContentContainer initialLoad={this.state.initialLoad} isLandlord={this.state.isLandlord} view={this.state.view} />
+            <ContentContainer name={this.state.name} initialLoad={this.state.initialLoad} isLandlord={this.state.isLandlord} view={this.state.view} />
           </div>
         </div>
       </div>
@@ -222,7 +224,7 @@ var ContentContainer = React.createClass({
     } else if (this.props.view === 'Messages') {
       return <MessageContainer />
     } else if (this.props.view === 'Chores') {
-      return <ChoreContainer />
+      return <ChoreContainer name={this.props.name} />
     } else if (this.props.view === 'Finances') {
       return <FinanceContainer initialLoad={this.props.initialLoad} />
     } else if (this.props.view === 'Contact Landlord') {
