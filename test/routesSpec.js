@@ -28,32 +28,20 @@ describe('API Routes', function() {
            expect(res).to.have.status(200);
            done();
         });
+    });
+    it('should be able to find a user by their venmoid', function(done) {
+      chai.request(app)
+        .get('/users/venmo/4444444')
+        .end(function(err, res) {
+          expect(err).to.be.null;
+          expect(res.body[0].venmoName).to.equal('Joey');
+          done();
+        })
     })
   })
 })
 
 
-
-// require('dotenv').load({path: '../../.env'});
-// require('dotenv').load();
-// var request = require('supertest');
-// var app = require('../../server/server.js');
-// var jwt = require('jwt-simple');
-
-// var sampleUser = { userid: 1, houseId: 1, access_token: 'sdfadgainglfuern324789hsfduia'};
-// var encodedUser = jwt.encode(sampleUser, process.env.secret_code);
-
-
-// describe('GET /users', function(){
-//   it('respond with json', function(done){
-//     request(app)
-//       .get('/users')
-//       // .set({token:encodedUser})
-//       .set('Accept', 'application/json')
-//       .expect('Content-Type', /json/)
-//       .expect(200, done);
-//   })
-// })
 
 
 
