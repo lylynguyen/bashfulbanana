@@ -35,6 +35,9 @@ io.sockets.on('connection', function(socket){
   socket.on('message', function(data) {
     io.sockets.emit('message', data); // broadcast to all but the sender
   });
+  socket.on('llmessage', function(data) {
+    io.sockets.emit('llmessage', data); // broadcast to all but the sender
+  });
   socket.on('chore', function(data) {
     io.sockets.emit('chore', data); // broadcast to all but the sender
   });

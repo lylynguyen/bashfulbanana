@@ -18,7 +18,7 @@ var Notify = React.createClass({
 
   componentDidMount: function () {
     var context=this;
-    socket.on('message', context.loadMessages);
+    socket.on('llmessage', context.loadMessages);
   },
 
   componentWillMount: function () {
@@ -53,7 +53,7 @@ var Notify = React.createClass({
       headers: {'token': localStorage.getItem('obie')},
       success: function(data) {
         this.loadMessages();
-        socket.emit('message', message);
+        socket.emit('llmessage', message);
       }.bind(this)
     });
   },

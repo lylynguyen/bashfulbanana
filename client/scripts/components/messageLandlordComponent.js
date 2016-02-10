@@ -17,7 +17,7 @@ var LandlordMessageContainer = React.createClass({
 
   componentDidMount: function () {
     var context=this;
-    socket.on('message', context.loadMessages);
+    socket.on('llmessage', context.loadMessages);
   },
 
   loadMessages: function() {
@@ -45,7 +45,7 @@ var LandlordMessageContainer = React.createClass({
       headers: {'token': localStorage.getItem('obie')},
       success: function(data) {
         this.loadMessages();
-        socket.emit('message', message);
+        socket.emit('llmessage', message);
       }.bind(this)
     });
 
