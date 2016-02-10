@@ -263,6 +263,7 @@ var BillForm = React.createClass({
   },
   createBill: function(event, splitEvenly) {
     //prevent default event action
+    if (splitEvenly !== true) splitEvenly = false;
     console.log("CREATE BILL, split evenly: ", splitEvenly);
     if (event) {
       event.preventDefault();
