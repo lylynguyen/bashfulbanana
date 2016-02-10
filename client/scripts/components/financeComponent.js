@@ -383,7 +383,7 @@ var BillForm = React.createClass({
     console.log("CUSTOM TOTAL", customTotal);
     console.log("Bill Total", parseFloat(bill.total))
     console.log("split", splitEvenly);
-    if(!splitEvenly && customTotal !== parseFloat(bill.total)) {
+    if(!splitEvenly && customTotal >= parseFloat(bill.total)) {
       console.log('custom total: ', customTotal);
       // $('<div id="failure" class="alert alert-danger"><strong>Nerd!</strong> Get better at math.</div>').insertBefore('#bill-submit');
       $('#failure').show();
