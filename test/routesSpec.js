@@ -37,8 +37,40 @@ describe('API Routes', function() {
           expect(res.body[0].venmoName).to.equal('Joey');
           done();
         })
+    });
+    it('should update a user', function(done) {
+      var updateData = {
+        balance: 10.88,
+        venmo: '{status: "updated"}',
+        venmoid: 4444444
+      };
+      chai.request(app)
+        .put('/users')
+        .send(updateData)
+        .end(function(err, res) {
+          expect(err).to.be.null;
+          expect(res).to.have.status(200);
+          done();
+        })
     })
-  })
+  });
+  describe('house controller', function() {
+    it('should create a new house', function(done) {
+      var newHouse = {
+        name: "Test House",
+        address: "101 First St. Oakland, CA"
+      };
+      chai.request(app)
+        .post('/houses')
+        .send(newHouse)
+        .end(function (err, res) {
+           expect(err).to.be.null;
+           expect(res).to.have.status(200);
+           done();
+        });
+    });
+    
+  });
 })
 
 
