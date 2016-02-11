@@ -1,36 +1,38 @@
-![alt tag](http://i.imgur.com/58PgMBj.png)
+<p align="center">
+  <a href="http://obie.herokuapp.com">
+    <img width="200" src="http://i.imgur.com/58PgMBj.png">
+  </a>
+  <p align="center">Simplifying the Household</p>
+</p>
+
+## What is Obie?
+Obie is an all in one roommate and landlord management application.
+**Communication** Utilizes sockets to allow for real time communication within a household or with a landlord.
+**Finances** Tenants easily manage, split and pay their bills and household expenses and landlords receive rent payments and maintain a log of activity.
+**Accountability** Roommates are held accountable for managing their responsibilities or chores as well as paying each other on time.
+**Management** Landlords can easily manage multiple properties while maintaining a simple interface to juggle each property's finances separately or all at once.
 
 ## Deploy Link / Splash Page
 http://obie.herokuapp.com/
 
-## Synopsis
-
-At the top of the file there should be a short introduction and/ or overview that explains **what** the project is. This description should match descriptions added for package managers (Gemspec, package.json, etc.)
-
-## Code Example
-
-Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
-
 ## Motivation
-
-A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists.
+Everyone who has had roommates has had issues and our app aims to minimize problems in your household. 
 
 ## Installation
-
-Provide code examples and explanations of how to get the project.
-
-## API Reference
-
-Depending on the size of the project, if it is small and simple enough the reference docs can be added to the README. For medium size to larger projects it is important to at least provide a link to where the API reference docs live.
+1. Fork and Clone the repo
+2. npm install
+3. cd client
+4. gulp
+5. close tab in browser
+6. cd ../landlordclient
+7. gulp
+8. close tab in browser
+9. cd ..
+10. nodemon server/server.js
+11. open http://localhost:8080/
 
 ## Tests
-
 Describe and show how to run the tests with code examples.
 
-## Contributors
-
-Let people know how they can dive into the project, include important links to things like issue trackers, irc, twitter accounts if applicable.
-
 ## License
-
-A short snippet describing the license (MIT, Apache, etc.)
+MIT
