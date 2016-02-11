@@ -18,7 +18,23 @@ var request = require('request');
 
 module.exports = function(app, express) {
 
+  //mobile user
+
+  app.get('/api/mobile/users/:email', mobileUserController.getUserHouseIdWithEmail);
+  app.get('/api/mobile/messages/:houseId', mobileMessageController.get);
   
+
+// //mobile messages
+  
+  // app.post('/api/mobile/messages', mobileMessageController.post);
+
+  // //mobile chores
+  // app.get('/api/mobile/chores', mobileChoreController.get);
+  // app.post('/api/mobile/chores', mobileChoreController.post);
+  // app.put('/api/mobile/chores/:choreId', mobileChoreController.put);
+  // app.delete('/api/mobile/chores/:choreId', mobileChoreController.delete);
+
+
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(session({
@@ -46,19 +62,7 @@ module.exports = function(app, express) {
     });
   });
 
-  // //mobile messages
-  // app.get('/api/mobile/messages', mobileMessageController.get);
-  // app.post('/api/mobile/messages', mobileMessageController.post);
-
-  // //mobile chores
-  // app.get('/api/mobile/chores', mobileChoreController.get);
-  // app.post('/api/mobile/chores', mobileChoreController.post);
-  // app.put('/api/mobile/chores/:choreId', mobileChoreController.put);
-  // app.delete('/api/mobile/chores/:choreId', mobileChoreController.delete);
-
   
-  //mobile user
-  app.get('/api/mobile/users/:email', mobileUserController.getUserHouseIdWithEmail);
   //Users
   app.get('/users/', userController.getUsersInHouse);
   app.get('/users/venmo/:venmoId', userController.findUserByVenmoId);
