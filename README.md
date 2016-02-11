@@ -7,10 +7,10 @@
 
 ## What is Obie?
 Obie is an all in one roommate and landlord management application.
-**Communication** Utilizes sockets to allow for real time communication within a household or with a landlord.
-**Finances** Tenants easily manage, split and pay their bills and household expenses and landlords receive rent payments and maintain a log of activity.
-**Accountability** Roommates are held accountable for managing their responsibilities or chores as well as paying each other on time.
-**Management** Landlords can easily manage multiple properties while maintaining a simple interface to juggle each property's finances separately or all at once.
+- **Communication** - Utilizes sockets to allow for real time communication within a household or with a landlord.
+- **Finances** - Tenants easily manage, split and pay their bills and household expenses and landlords receive rent payments and maintain a log of activity.
+- **Accountability** - Roommates are held accountable for managing their responsibilities or chores as well as paying each other on time.
+- **Management** - Landlords can easily manage multiple properties while maintaining a simple interface to juggle each property's finances separately or all at once.
 
 ## Deploy Link / Splash Page
 http://obie.herokuapp.com/
