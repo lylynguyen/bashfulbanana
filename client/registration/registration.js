@@ -135,9 +135,9 @@ $(document).ready(function() {
   getSession();
 
   
-  if (!localStorage.getItem('obie')) {
-    window.location.href = '/login';
-  }
+  // if (!localStorage.getItem('obie')) {
+  //   window.location.href = '/login';
+  // }
 
   // routing to correct form:
   // landlord

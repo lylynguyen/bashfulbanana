@@ -10,21 +10,21 @@ console.log("1 ", process.env.DBHOST,
 // if (!process.env.deployCheck)
 
 
-if (!process.env.deployCheck){
-  var connection = mysql.createConnection({
-    user: "root",
-    password: "",
-    database: "bananas"
-  });
-  // var connection = mysql.createConnection({
-  //   host: process.env.DBHOST,
-  //   user: process.env.DBUSER,
-  //   password: process.env.DBPASS,
-  //   database: process.env.DATABASE 
-  // });
-} else {
+// if (!process.env.deployCheck){
+//   var connection = mysql.createConnection({
+//     user: "root",
+//     password: "",
+//     database: "bananas"
+//   });
+//   // var connection = mysql.createConnection({
+//   //   host: process.env.DBHOST,
+//   //   user: process.env.DBUSER,
+//   //   password: process.env.DBPASS,
+//   //   database: process.env.DATABASE 
+//   // });
+// } else {
   var connection = mysql.createConnection(process.env.JAWSDB_URL);
-}
+//}
 
 
 connection.connect();
