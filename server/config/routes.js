@@ -20,13 +20,15 @@ module.exports = function(app, express) {
 
   //mobile user
 
+  app.post('/api/mobile/messages', mobileMessageController.post);
   app.get('/api/mobile/users/:email', mobileUserController.getUserHouseIdWithEmail);
   app.get('/api/mobile/messages/:houseId', mobileMessageController.get);
-  
+  app.get('/api/mobile/bills/:userId', mobileMessageController.getBills)
+  app.get('/api/mobile/payments/:userId', mobileMessageController.getPayments)
+  app.get('/api/mobile/users/:houseId', mobileMessageController.getUsers)
 
 // //mobile messages
   
-  // app.post('/api/mobile/messages', mobileMessageController.post);
 
   // //mobile chores
   // app.get('/api/mobile/chores', mobileChoreController.get);
